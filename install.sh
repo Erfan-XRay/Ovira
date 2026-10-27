@@ -234,7 +234,7 @@ else
   else
     c_err "OpenSSL 3 is not available here, so only the checksum is checked."
   fi
-  (cd "$TMP" && grep " burrow-linux-$GOARCH\$" SHA256SUMS | sha256sum -c --status) ||
+  (cd "$TMP" && grep -E "[ *]burrow-linux-$GOARCH\$" SHA256SUMS | sha256sum -c --status) ||
     { c_err "The download does not match its checksum. Refusing to install."; exit 1; }
   install -m 0755 "$TMP/burrow-linux-$GOARCH" "$BIN.new"
 fi
