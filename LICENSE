@@ -1,0 +1,26 @@
+Burrow End User License
+
+Copyright (c) 2026 Erfan-XRay. All rights reserved.
+
+1. Use. You may install and run the Burrow binaries published in this
+   repository on servers you operate. Without a license key, use is limited
+   to the free plan's limits. Paid plans require a valid license key bought
+   from the author, and are limited to the number of panels, clients and
+   nodes of that plan.
+
+2. Restrictions. You may not reverse engineer, decompile, disassemble or
+   modify the binaries, remove or circumvent the license checks, or
+   redistribute, resell or sublicense the software or license keys, except
+   where applicable law expressly permits it.
+
+3. Updates. Updates are provided for licensed users during their license
+   period and for free-plan users at the author's discretion.
+
+4. No warranty. The software is provided "as is", without warranty of any
+   kind. The author is not liable for any damages arising from its use.
+
+5. Termination. This license ends automatically if you breach it. Keys
+   issued for breached licenses may be suspended.
+
+The documentation in this repository (the docs folder and README) may be
+shared freely with attribution.

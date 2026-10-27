@@ -1,0 +1,14 @@
+{
+  "name": "burrow-docs",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vitepress dev",
+    "build": "vitepress build",
+    "preview": "vitepress preview"
+  },
+  "devDependencies": {
+    "@fontsource-variable/vazirmatn": "5.3.0",
+    "vitepress": "1.6.4"
+  }
+}

@@ -1,0 +1,38 @@
+/* Burrow's palette: asphalt grounds and one sodium-lamp amber. */
+:root {
+  --vp-c-brand-1: #b4700f;
+  --vp-c-brand-2: #c97e14;
+  --vp-c-brand-3: #f0a33a;
+  --vp-c-brand-soft: rgba(240, 163, 58, 0.14);
+  --vp-button-brand-text: #1d1407;
+  --vp-button-brand-bg: #f0a33a;
+  --vp-button-brand-hover-bg: #f7b75c;
+  --vp-button-brand-hover-text: #1d1407;
+  --vp-button-brand-active-bg: #e0952c;
+  --vp-home-hero-name-color: transparent;
+  --vp-home-hero-name-background: linear-gradient(120deg, #f0a33a 20%, #f7c27a);
+}
+
+.dark {
+  --vp-c-bg: #131312;
+  --vp-c-bg-alt: #1a1a18;
+  --vp-c-bg-soft: #21211f;
+  --vp-c-divider: #2b2b28;
+  --vp-c-brand-1: #f0a33a;
+  --vp-c-brand-2: #f7b75c;
+}
+
+:lang(fa),
+[dir="rtl"] {
+  --vp-font-family-base: "Vazirmatn Variable", "Inter", system-ui, sans-serif;
+}
+
+[dir="rtl"] .vp-doc code,
+[dir="rtl"] .vp-doc pre {
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
+[dir="rtl"] .vp-doc div[class*="language-"] {
+  direction: ltr;
+}
