@@ -18,5 +18,3 @@ A **group** decides which OpenVPN servers its clients get. Instead of ticking se
 - A **disabled** group gives nothing. A client whose groups are all disabled has no servers until one is switched back on.
 - A client in **no group** keeps the servers it was created with (every server, unless the list was narrowed). Groups are optional and existing clients are unaffected until you use them.
 - Deleting a group takes its servers away from the clients that only had them through it. Tunnels already open on a server a client lost are closed within seconds.
-
-Hosts add one more layer: a host can be limited to chosen groups, see [Hosts](/guide/hosts).

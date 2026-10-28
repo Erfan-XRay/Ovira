@@ -14,7 +14,6 @@ const enGuide = [
     items: [
       { text: "OpenVPN servers", link: "/guide/servers" },
       { text: "Nodes and relays", link: "/guide/nodes" },
-      { text: "Hosts", link: "/guide/hosts" },
       { text: "Groups", link: "/guide/groups" },
       { text: "Updates", link: "/guide/updates" },
       { text: "Plans and licenses", link: "/guide/plans" },
@@ -43,7 +42,6 @@ const faGuide = [
     items: [
       { text: "سرورهای OpenVPN", link: "/fa/guide/servers" },
       { text: "نودها و سرورهای واسط", link: "/fa/guide/nodes" },
-      { text: "هاست‌ها", link: "/fa/guide/hosts" },
       { text: "گروه‌ها", link: "/fa/guide/groups" },
       { text: "به‌روزرسانی", link: "/fa/guide/updates" },
       { text: "پلن‌ها و لایسنس", link: "/fa/guide/plans" },
