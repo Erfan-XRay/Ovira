@@ -29,7 +29,7 @@ Every download is checked against the release signature.
   password sign-in, tls-crypt, cipher control, split or full tunnel, IPv6.
 - **Nodes**: connect more servers to one panel. A client works on all of
   them, its device limit counts across them, each node has its own traffic
-  multiplier and its own connect addresses (relays or tunnels in front of it).
+  multiplier; hosts give each server its own name, relay addresses and client settings, and groups decide which servers each client gets.
 - **Subscription page**: remaining traffic, days left, usage chart and
   one-tap import, in English and Persian.
 - **Updates from the panel**: stable and beta channels, release notes,

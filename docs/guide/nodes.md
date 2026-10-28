@@ -35,22 +35,9 @@ Each node (and the main server) has a multiplier for quota accounting:
 
 The traffic shown on the node's card is always the real amount. Subscription pages show the multiplier next to each server.
 
-## Connect addresses (relays and tunnels)
+## Relays and tunnels
 
-By default clients connect to the node's own address. If you put **relay servers** in front of a node (for example servers inside the country tunneled to a node abroad), add their addresses in the node's editor under **Connect addresses**:
-
-| Field | Example |
-|---|---|
-| Label | `Tehran relay` |
-| Host | `ir1.example.com` |
-| Port | empty = the server's own port, or the relay's port |
-| For | All servers, or one OpenVPN server on the node |
-
-Every address becomes **its own profile** on the subscription page, and a failover `remote` line in the all-in-one profile. Four relays in front of two nodes give clients four profiles to choose from.
-
-::: warning
-When a node has connect addresses, profiles use only those. Add the node's own address too if clients may also connect directly.
-:::
+To put **relay servers** in front of a node (for example servers inside the country tunneled to a node abroad), give the node's OpenVPN server a **host** with the relays' addresses: see [Hosts](/guide/hosts). Every address becomes its own profile on the subscription page.
 
 ## When a node goes offline
 
