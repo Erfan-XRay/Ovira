@@ -31,7 +31,7 @@
 
 ## از خط فرمان
 
-اجرای دوبارهٔ نصب‌کننده پنل یا نود را در جا به‌روز می‌کند:
+`ovira update` پنل یا نود را در جا به‌روز می‌کند (برای کانال بتا `--beta` اضافه کنید). اجرای دوبارهٔ دستور نصب هم همین کار را می‌کند:
 
 ```bash
 bash <(curl -fsSL https://raw.githubusercontent.com/Erfan-XRay/Ovira/main/install.sh)

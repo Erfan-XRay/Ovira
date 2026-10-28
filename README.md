@@ -16,10 +16,18 @@ On a fresh Debian 11+, Ubuntu 20.04+ or AlmaLinux/Rocky 8+ server, as root:
 bash <(curl -fsSL https://raw.githubusercontent.com/Erfan-XRay/Ovira/main/install.sh)
 ```
 
-The installer asks for the panel port, the OpenVPN UDP and TCP ports and how
-the panel gets HTTPS (a Let's Encrypt certificate for your domain, one for
-the server's IP, or none), then prints the panel address and password.
+The script downloads Ovira itself and asks what to install: the **panel**, or
+a **node** (an extra OpenVPN server for a panel on another server). For the
+panel it asks the port, whether this server runs OpenVPN too (or stays an
+empty panel that only manages nodes), the OpenVPN ports, and how the panel
+gets HTTPS (a Let's Encrypt certificate for your domain, one for the
+server's IP, or none), then prints the panel address and password.
 Every download is checked against the release signature.
+
+Afterwards `ovira` on the server opens a menu: status, update, change an
+admin password, license and machine ID, HTTPS, OpenVPN on this server, logs,
+backup and uninstall, each also available as a command (`ovira update`,
+`ovira password`...).
 
 ## What you get
 

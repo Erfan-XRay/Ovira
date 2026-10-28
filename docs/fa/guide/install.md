@@ -12,14 +12,31 @@
 bash <(curl -fsSL https://raw.githubusercontent.com/Erfan-XRay/Ovira/main/install.sh)
 ```
 
-نصب‌کننده چهار سؤال می‌پرسد؛ برای پیش‌فرض Enter بزنید:
+اسکریپت اویرا را خودش از گیت‌هاب می‌گیرد، پس لازم نیست چیزی از قبل روی سرور کپی کنید. روی سرور تازه می‌پرسد چه چیزی نصب شود:
+
+| انتخاب | چیست |
+|---|---|
+| **پنل** (پیشنهادی) | پنل وب که همه‌چیز را مدیریت می‌کند |
+| **نود** | یک سرور OpenVPN اضافه که پنلی روی سرور دیگر کنترلش می‌کند؛ [نودها](./nodes) را ببینید |
+
+## نصب پنل
+
+برای پیش‌فرض Enter بزنید:
 
 | سؤال | پیش‌فرض | توضیح |
 |---|---|---|
 | پورت پنل | `2053` | هر پورت TCP آزاد |
-| پورت UDP اوپن‌وی‌پی‌ان | `1194` | سرور اصلی OpenVPN |
+| OpenVPN روی همین سرور هم اجرا شود؟ | بله | پایین‌تر توضیح داده شده |
+| پورت UDP اوپن‌وی‌پی‌ان | `1194` | فقط اگر OpenVPN اینجا اجرا شود |
 | OpenVPN روی TCP هم اجرا شود؟ | نه | برای شبکه‌هایی که UDP را می‌بندند؛ پورتش را می‌پرسد (پیش‌فرض `443`) |
 | HTTPS پنل | آی‌پی سرور | دامنه، آی‌پی سرور یا بدون SSL؛ [HTTPS](./https) را ببینید |
+
+### پنل با OpenVPN، یا پنل خالی
+
+- **بله**: همین یک سرور هم پنل است و هم سرور OpenVPN. برای یک VPS تنها مناسب است.
+- **نه**: یک *پنل خالی* که فقط نودها را مدیریت می‌کند. هیچ چیزِ مربوط به OpenVPN روی آن نصب نمی‌شود؛ سرورها را از بخش **نودها** اضافه کنید.
+
+هر وقت نظرتان عوض شد می‌شود برگشت. روی سرور فقط‌پنل، `ovira openvpn enable` اوپن‌وی‌پی‌ان را نصب می‌کند و سرور خود پنل را هم نود می‌کند. `ovira openvpn disable` دوباره خاموشش می‌کند و سرورهایش را برای بعد نگه می‌دارد.
 
 در پایان آدرس پنل، نام کاربری و رمز چاپ می‌شود:
 
@@ -27,7 +44,7 @@ bash <(curl -fsSL https://raw.githubusercontent.com/Erfan-XRay/Ovira/main/instal
 Panel      https://203.0.113.10:2053/k3x9qa7bd1/
 Username   admin
 Password   Zp8...
-OpenVPN    udp/1194
+OpenVPN    udp/1194 on this server
 ```
 
 ::: tip مسیر پنل را مخفی نگه دارید
@@ -39,38 +56,71 @@ OpenVPN    udp/1194
 هر جواب را می‌شود به‌صورت گزینه داد؛ برای اسکریپت‌ها مناسب است:
 
 ```bash
-bash install.sh --yes --port 8443 --udp-port 1194 --tcp --tcp-port 443 \
+bash <(curl -fsSL https://raw.githubusercontent.com/Erfan-XRay/Ovira/main/install.sh) panel --yes \
+  --port 8443 --udp-port 1194 --tcp --tcp-port 443 \
   --ssl domain --domain panel.example.com --email you@example.com
 ```
 
 | گزینه | معنی |
 |---|---|
-| `--port N` | پورت پنل |
+| `panel` / `node` | چه چیزی نصب شود (پیش‌فرض: پنل) |
+| `--panel-only` | پنل خالی: بدون OpenVPN روی این سرور |
+| `--with-openvpn` | سرور پنل OpenVPN هم اجرا کند (پیش‌فرض) |
+| `--port N` | پورت پنل (نود: پورت API، پیش‌فرض `62060`) |
 | `--udp-port N` | پورت UDP اوپن‌وی‌پی‌ان |
 | `--tcp` / `--tcp-port N` | سرور TCP هم روی این پورت اجرا شود |
 | `--ssl domain\|ip\|none` | روش HTTPS پنل |
 | `--domain`، `--email` | برای `--ssl domain` |
+| `--user NAME` | نام اولین ادمین (پیش‌فرض `admin`) |
+| `--panel-ip IP` | فقط نود: فقط به درخواست‌های این آی‌پیِ پنل جواب بدهد |
 | `--beta` | نصب جدیدترین نسخهٔ بتا به‌جای نسخهٔ پایدار |
 | `--binary FILE` | استفاده از فایل دانلودشده به‌جای دانلود |
 | `--yes` | هیچ سؤالی نپرسد |
 
-## نصب‌کننده چه می‌کند
+## اسکریپت چه می‌کند
 
-1. OpenVPN (نسخهٔ ۲٫۵ یا جدیدتر)، iptables و curl را نصب می‌کند.
+1. بسته‌های لازم را نصب می‌کند (OpenVPN نسخهٔ ۲٫۵ یا جدیدتر و iptables فقط وقتی این سرور OpenVPN اجرا می‌کند).
 2. نسخه را دانلود می‌کند، با `SHA256SUMS` و **امضای نسخه** بررسی می‌کند و هر چیزی را که مطابقت نداشته باشد رد می‌کند.
-3. سرویس `ovira` و برای هر سرور OpenVPN یک سرویس `ovira-ovpn@NAME` می‌سازد.
-4. IPv4 forwarding و NAT را فعال می‌کند و اگر ufw یا firewalld فعال باشد پورت‌ها را باز می‌کند.
+3. سرویس `ovira` و، با OpenVPN، برای هر سرور OpenVPN یک سرویس `ovira-ovpn@NAME` می‌سازد.
+4. IPv4 forwarding را فعال می‌کند و اگر ufw یا firewalld فعال باشد پورت‌ها را باز می‌کند.
 5. اگر HTTPS انتخاب کرده باشید، گواهی Let's Encrypt می‌گیرد.
+6. خودش را به‌صورت **دستور `ovira`** روی سرور می‌گذارد.
 
 اگر گیت‌هاب روی سرور شما کند یا مسدود باشد، دانلود خودکار از میرور اویرا انجام می‌شود.
 
+## دستور `ovira`
+
+بعد از نصب، `ovira` را بنویسید تا منو باز شود:
+
+```
+  OVIRA  OpenVPN panel
+  ──────────────────────────────────────────────
+  ●  Ovira 0.4.2 panel   running
+
+     1  Status and address
+     2  Update
+     3  Restart the panel
+     4  Show the log
+     5  Change an admin password
+     6  License and machine ID
+     7  HTTPS certificate
+     8  OpenVPN on this server: on  (turn off)
+     9  Back up the database
+    10  Uninstall
+     0  Exit
+```
+
+هر گزینه یک دستور هم هست (`ovira status`، `ovira update`، `ovira password`...). [خط فرمان](./cli) را ببینید.
+
+اجرای دوبارهٔ دستور نصب روی سروری که اویرا دارد، همین منو را باز می‌کند.
+
 ## به‌روزرسانی
 
-همان دستور را دوباره اجرا کنید یا از بخش **به‌روزرسانی** داخل پنل استفاده کنید. [به‌روزرسانی](./updates) را ببینید.
+`ovira update`، یا اجرای دوبارهٔ دستور نصب، یا بخش **به‌روزرسانی** داخل پنل. [به‌روزرسانی](./updates) را ببینید.
 
 ## حذف
 
 ```bash
-bash install.sh --uninstall           # /var/lib/ovira و /etc/ovira می‌مانند
-bash install.sh --uninstall --purge   # همه‌چیز پاک می‌شود
+ovira uninstall            # /var/lib/ovira و /etc/ovira می‌مانند
+ovira uninstall --purge    # همه‌چیز، از جمله داده‌ها، پاک می‌شود
 ```

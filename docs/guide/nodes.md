@@ -4,19 +4,29 @@ A **node** is another server that runs OpenVPN for your panel. Clients are creat
 
 ## Add a node
 
-**1. On the new server**, as root:
+**1. In the panel**, open **Nodes → Connect a node**. It shows the install command with your panel's address already filled in; press the copy button and run it as root on the new server:
 
 ```bash
-bash <(curl -fsSL https://raw.githubusercontent.com/Erfan-XRay/Ovira/main/install.sh) --node --panel-ip PANEL_IP
+bash <(curl -fsSL https://raw.githubusercontent.com/Erfan-XRay/Ovira/main/install.sh) node --panel-ip PANEL_IP
 ```
 
-`--panel-ip` makes the node answer only your panel. The installer prints a **node key** (`BNK1-…`). The node listens on TCP port **62060**; use `--port` for another one.
+The script downloads Ovira from GitHub itself, so nothing is copied to the new server first. `--panel-ip` makes the node answer only your panel. When it finishes it prints a **node key** (`BNK1-…`). The node listens on TCP port **62060**; use `--port` for another one.
 
-**2. In the panel**, **Nodes → Connect a node**, paste the key, give it a name and save. The panel connects within seconds.
+**2. Back in the dialog**, paste the key, give the node a name and save. The panel connects within seconds.
 
 **3. Add an OpenVPN server on it**: on the node's card, **Add a server here**. Pick its port and protocol like on the main server.
 
-The node key contains the node's API key and its certificate fingerprint, so the panel talks only to that node. If you reinstall a node, paste its new key in the node's editor. `ovira node key` prints the key again.
+The node key contains the node's API key and its certificate fingerprint, so the panel talks only to that node. If you reinstall a node, paste its new key in the node's editor. `ovira key` on the node prints the key again.
+
+## The panel's own server
+
+A panel can be installed **on its own** (an empty panel that only manages nodes) or together with OpenVPN on the same server, see [Install](./install#panel-with-openvpn-or-an-empty-panel). On an empty panel the main server's card says *Panel only*. To make that server a node too, run on it:
+
+```bash
+ovira openvpn enable
+```
+
+It installs OpenVPN if needed and creates the first servers. `ovira openvpn disable` stops them again; the panel and its other nodes keep working.
 
 ## Devices at once
 

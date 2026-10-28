@@ -31,11 +31,11 @@ Update to the latest version: Ovira lets one profile run on several devices and 
 
 - The node's port (62060 by default) must be reachable from the panel's server.
 - If the node was installed with `--panel-ip`, the panel must connect from that IP.
-- After reinstalling a node, paste its new key (`ovira node key` on the node).
+- After reinstalling a node, paste its new key (`ovira key` on the node).
 
 ### Port 62060 is already in use on the node
 
-Another panel's node may use it. Install with another port: `--node --port 62070`, and use the same port in the panel.
+Another panel's node may use it. Install with another port: `node --port 62070`, and use the same port in the panel.
 
 ### No HTTPS certificate
 

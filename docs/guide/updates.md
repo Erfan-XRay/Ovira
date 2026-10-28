@@ -31,7 +31,7 @@ The Updates page also lists node versions with an **Update** button for any node
 
 ## From the command line
 
-Running the installer again updates the panel or node in place:
+`ovira update` updates the panel or node in place (add `--beta` for the beta channel). Running the install command again does the same:
 
 ```bash
 bash <(curl -fsSL https://raw.githubusercontent.com/Erfan-XRay/Ovira/main/install.sh)
