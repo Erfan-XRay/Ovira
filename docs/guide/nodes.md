@@ -7,7 +7,7 @@ A **node** is another server that runs OpenVPN for your panel. Clients are creat
 **1. On the new server**, as root:
 
 ```bash
-bash <(curl -fsSL https://raw.githubusercontent.com/Erfan-XRay/Burrow/main/install.sh) --node --panel-ip PANEL_IP
+bash <(curl -fsSL https://raw.githubusercontent.com/Erfan-XRay/Ovira/main/install.sh) --node --panel-ip PANEL_IP
 ```
 
 `--panel-ip` makes the node answer only your panel. The installer prints a **node key** (`BNK1-…`). The node listens on TCP port **62060**; use `--port` for another one.
@@ -16,7 +16,7 @@ bash <(curl -fsSL https://raw.githubusercontent.com/Erfan-XRay/Burrow/main/insta
 
 **3. Add an OpenVPN server on it**: on the node's card, **Add a server here**. Pick its port and protocol like on the main server.
 
-The node key contains the node's API key and its certificate fingerprint, so the panel talks only to that node. If you reinstall a node, paste its new key in the node's editor. `burrow node key` prints the key again.
+The node key contains the node's API key and its certificate fingerprint, so the panel talks only to that node. If you reinstall a node, paste its new key in the node's editor. `ovira node key` prints the key again.
 
 ## Devices at once
 

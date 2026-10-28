@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-# Burrow installer for Debian, Ubuntu, AlmaLinux, Rocky and CentOS Stream.
+# Ovira installer for Debian, Ubuntu, AlmaLinux, Rocky and CentOS Stream.
 #
-#   bash <(curl -fsSL https://raw.githubusercontent.com/Erfan-XRay/Burrow/main/install.sh)
+#   bash <(curl -fsSL https://raw.githubusercontent.com/Erfan-XRay/Ovira/main/install.sh)
 #
 # Run without options it asks for the panel port, the OpenVPN ports and how
 # the panel gets HTTPS. Everything can be given as options instead:
@@ -14,9 +14,9 @@
 #                           or for the server's IP, or plain HTTP
 #   --domain panel.example.com   --email you@example.com
 #   --beta                  install the latest beta instead of the stable release
-#   --binary ./burrow-linux-amd64   use a local build instead of downloading
+#   --binary ./ovira-linux-amd64   use a local build instead of downloading
 #   --yes                   do not ask; use the options and defaults
-#   --uninstall [--purge]   remove Burrow (data is kept unless --purge)
+#   --uninstall [--purge]   remove Ovira (data is kept unless --purge)
 #
 # Node mode (an extra server run by a panel elsewhere):
 #   --node [--port 62060] [--panel-ip PANEL_IP]
@@ -25,7 +25,7 @@
 # Rerunning the script updates an existing installation; tunnels on nodes stay up.
 set -euo pipefail
 
-REPO="Erfan-XRay/Burrow"
+REPO="Erfan-XRay/Ovira"
 MIRROR="https://ovpn.rapcity.shop/api/v1/releases"
 # Release signing key (Ed25519, SPKI DER in base64): every download is checked against it.
 RELEASE_PUB="MCowBQYDK2VwAyEAO10TTvbUiBU7HOoYjVzZZzs76CjNFul7HkdkhWFSFgw="
@@ -45,11 +45,15 @@ YES=0
 UNINSTALL=0
 PURGE=0
 ADMIN_USER="admin"
-CONFIG=/etc/burrow/config.json
-DATA=/var/lib/burrow
-NCONFIG=/etc/burrow-node/node.json
-NDATA=/var/lib/burrow-node
-BIN=/usr/local/bin/burrow
+# Installations from before the product was renamed keep their old file and
+# unit names, so an update never moves anything; new ones use "ovira".
+SLUG=ovira
+if [[ -e /usr/local/bin/burrow || -d /etc/burrow || -d /etc/burrow-node ]]; then SLUG=burrow; fi
+CONFIG=/etc/$SLUG/config.json
+DATA=/var/lib/$SLUG
+NCONFIG=/etc/$SLUG-node/node.json
+NDATA=/var/lib/$SLUG-node
+BIN=/usr/local/bin/$SLUG
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
@@ -99,26 +103,26 @@ valid_port() { [[ "$1" =~ ^[0-9]+$ ]] && (( $1 >= 1 && $1 <= 65535 )); }
 if [[ $UNINSTALL -eq 1 ]]; then
   if [[ $NODE -eq 1 ]]; then
     step "stopping node services"
-    for unit in $(systemctl list-units --all --plain --no-legend 'burrow-node-ovpn@*' | awk '{print $1}'); do
+    for unit in $(systemctl list-units --all --plain --no-legend "${SLUG}-node-ovpn@*" | awk '{print $1}'); do
       systemctl disable --now "$unit" || true
     done
-    systemctl disable --now burrow-node.service 2>/dev/null || true
-    rm -f /etc/systemd/system/burrow-node.service /etc/systemd/system/burrow-node-ovpn@.service
-    [[ -f /etc/systemd/system/burrow.service ]] || rm -f "$BIN" /etc/sysctl.d/99-burrow.conf
+    systemctl disable --now ${SLUG}-node.service 2>/dev/null || true
+    rm -f /etc/systemd/system/${SLUG}-node.service /etc/systemd/system/${SLUG}-node-ovpn@.service
+    [[ -f /etc/systemd/system/${SLUG}.service ]] || rm -f "$BIN" /usr/local/bin/ovira /etc/sysctl.d/99-$SLUG.conf
     systemctl daemon-reload
-    if [[ $PURGE -eq 1 ]]; then rm -rf /etc/burrow-node "$NDATA"; c_ok "Burrow node removed, including its data and key."
-    else c_ok "Burrow node removed. Data kept in $NDATA and /etc/burrow-node (use --purge to delete)."; fi
+    if [[ $PURGE -eq 1 ]]; then rm -rf /etc/$SLUG-node "$NDATA"; c_ok "Ovira node removed, including its data and key."
+    else c_ok "Ovira node removed. Data kept in $NDATA and /etc/$SLUG-node (use --purge to delete)."; fi
   else
     step "stopping services"
-    for unit in $(systemctl list-units --all --plain --no-legend 'burrow-ovpn@*' | awk '{print $1}'); do
+    for unit in $(systemctl list-units --all --plain --no-legend "${SLUG}-ovpn@*" | awk '{print $1}'); do
       systemctl disable --now "$unit" || true
     done
-    systemctl disable --now burrow.service 2>/dev/null || true
-    rm -f /etc/systemd/system/burrow.service /etc/systemd/system/burrow-ovpn@.service
-    [[ -f /etc/systemd/system/burrow-node.service ]] || rm -f "$BIN" /etc/sysctl.d/99-burrow.conf
+    systemctl disable --now ${SLUG}.service 2>/dev/null || true
+    rm -f /etc/systemd/system/${SLUG}.service /etc/systemd/system/${SLUG}-ovpn@.service
+    [[ -f /etc/systemd/system/${SLUG}-node.service ]] || rm -f "$BIN" /usr/local/bin/ovira /etc/sysctl.d/99-$SLUG.conf
     systemctl daemon-reload
-    if [[ $PURGE -eq 1 ]]; then rm -rf /etc/burrow "$DATA"; c_ok "Burrow removed, including all data."
-    else c_ok "Burrow removed. Data kept in $DATA and /etc/burrow (use --purge to delete)."; fi
+    if [[ $PURGE -eq 1 ]]; then rm -rf /etc/$SLUG "$DATA"; c_ok "Ovira removed, including all data."
+    else c_ok "Ovira removed. Data kept in $DATA and /etc/$SLUG (use --purge to delete)."; fi
   fi
   exit 0
 fi
@@ -128,7 +132,7 @@ if [[ $NODE -eq 1 ]]; then [[ -f $NCONFIG ]] && UPDATE=1; else [[ -f $CONFIG ]] 
 
 # ---- questions (first install only) ----
 if [[ $UPDATE -eq 0 && $NODE -eq 0 ]]; then
-  [[ -n "$TTY" ]] && { echo > "$TTY"; c_ok "Burrow setup" > "$TTY"; echo "Press Enter to keep a default." > "$TTY"; }
+  [[ -n "$TTY" ]] && { echo > "$TTY"; c_ok "Ovira setup" > "$TTY"; echo "Press Enter to keep a default." > "$TTY"; }
   [[ -n "$PORT" ]] || ask PORT "Panel port" 2053
   [[ -n "$UDP_PORT" ]] || ask UDP_PORT "OpenVPN UDP port" 1194
   if [[ -z "$TCP_ON" ]]; then
@@ -190,11 +194,11 @@ if (( MAJOR < 2 || (MAJOR == 2 && MINOR < 5) )); then
     apt-get update -qq && apt-get install -y -qq openvpn >/dev/null
     VER=$($OVPN --version | head -1 | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' | head -1)
   else
-    c_err "OpenVPN $VER found; Burrow needs 2.5 or newer."; exit 1
+    c_err "OpenVPN $VER found; Ovira needs 2.5 or newer."; exit 1
   fi
 fi
 step "OpenVPN $VER at $OVPN"
-# The distribution's own unit is not used; Burrow runs its instances itself.
+# The distribution's own unit is not used; Ovira runs its instances itself.
 systemctl disable --now openvpn.service openvpn-server@server.service 2>/dev/null || true
 
 # ---- binary ----
@@ -212,8 +216,8 @@ fetch() {
 
 if [[ -n "$BINARY" ]]; then
   install -m 0755 "$BINARY" "$BIN.new"
-elif [[ -f "$(dirname "$0")/burrow-linux-$GOARCH" ]]; then
-  install -m 0755 "$(dirname "$0")/burrow-linux-$GOARCH" "$BIN.new"
+elif [[ -f "$(dirname "$0")/ovira-linux-$GOARCH" ]]; then
+  install -m 0755 "$(dirname "$0")/ovira-linux-$GOARCH" "$BIN.new"
 else
   if [[ $BETA -eq 1 ]]; then
     TAG=$(curl -fsSL --max-time 20 "https://api.github.com/repos/$REPO/releases?per_page=10" 2>/dev/null | grep -m1 '"tag_name"' | cut -d'"' -f4 || true)
@@ -222,8 +226,8 @@ else
   else
     GH_BASE="https://github.com/$REPO/releases/latest/download"; MIRROR_BASE="$MIRROR/latest"
   fi
-  step "downloading burrow-linux-$GOARCH"
-  fetch "burrow-linux-$GOARCH" || { c_err "Download failed from GitHub and from the mirror."; exit 1; }
+  step "downloading ovira-linux-$GOARCH"
+  fetch "ovira-linux-$GOARCH" || { c_err "Download failed from GitHub and from the mirror."; exit 1; }
   fetch SHA256SUMS && fetch SHA256SUMS.sig || { c_err "Could not download the release checksums."; exit 1; }
   if openssl version 2>/dev/null | grep -qE "^OpenSSL [3-9]" && echo "$RELEASE_PUB" | base64 -d > "$TMP/pub.der" 2>/dev/null &&
      openssl pkey -pubin -inform DER -in "$TMP/pub.der" -out "$TMP/pub.pem" 2>/dev/null; then
@@ -234,19 +238,21 @@ else
   else
     c_err "OpenSSL 3 is not available here, so only the checksum is checked."
   fi
-  (cd "$TMP" && grep -E "[ *]burrow-linux-$GOARCH\$" SHA256SUMS | sha256sum -c --status) ||
+  (cd "$TMP" && grep -E "[ *]ovira-linux-$GOARCH\$" SHA256SUMS | sha256sum -c --status) ||
     { c_err "The download does not match its checksum. Refusing to install."; exit 1; }
-  install -m 0755 "$TMP/burrow-linux-$GOARCH" "$BIN.new"
+  install -m 0755 "$TMP/ovira-linux-$GOARCH" "$BIN.new"
 fi
 "$BIN.new" version >/dev/null || { c_err "The binary does not run on this machine."; rm -f "$BIN.new"; exit 1; }
 mv -f "$BIN.new" "$BIN"
+# The docs call the command "ovira"; an older installation answers to both names.
+if [[ "$SLUG" == burrow ]]; then ln -sfn "$BIN" /usr/local/bin/ovira; fi
 step "installed $($BIN version)"
 
 # IPv4 only: turning on IPv6 forwarding globally disables router
-# advertisements and can drop the server's own IPv6 address. Burrow enables
+# advertisements and can drop the server's own IPv6 address. Ovira enables
 # it at runtime only for instances that use IPv6.
-echo "net.ipv4.ip_forward=1" > /etc/sysctl.d/99-burrow.conf
-sysctl -q -p /etc/sysctl.d/99-burrow.conf || true
+echo "net.ipv4.ip_forward=1" > /etc/sysctl.d/99-$SLUG.conf
+sysctl -q -p /etc/sysctl.d/99-$SLUG.conf || true
 
 open_port() { # port/proto
   if command -v ufw >/dev/null && ufw status | grep -q "Status: active"; then
@@ -265,9 +271,9 @@ public_ip() {
 
 # ---- node mode ----
 if [[ $NODE -eq 1 ]]; then
-  cat > /etc/systemd/system/burrow-node.service <<UNIT
+  cat > /etc/systemd/system/${SLUG}-node.service <<UNIT
 [Unit]
-Description=Burrow node agent
+Description=Ovira node agent
 After=network-online.target
 Wants=network-online.target
 
@@ -276,20 +282,20 @@ ExecStart=$BIN node serve -config $NCONFIG
 Restart=always
 RestartSec=2
 LimitNOFILE=65535
-Environment=BURROW_NODE_CONFIG=$NCONFIG
+Environment=OVIRA_NODE_CONFIG=$NCONFIG
 
 [Install]
 WantedBy=multi-user.target
 UNIT
-  cat > /etc/systemd/system/burrow-node-ovpn@.service <<UNIT
+  cat > /etc/systemd/system/${SLUG}-node-ovpn@.service <<UNIT
 [Unit]
-Description=Burrow node OpenVPN instance %i
+Description=Ovira node OpenVPN instance %i
 After=network-online.target
 Wants=network-online.target
 
 [Service]
 Type=simple
-Environment=BURROW_NODE_CONFIG=$NCONFIG
+Environment=OVIRA_NODE_CONFIG=$NCONFIG
 ExecStartPre=-$BIN node nat up %i
 ExecStart=$OVPN --suppress-timestamps --config $NDATA/openvpn/%i.conf
 ExecStopPost=-$BIN node nat down %i
@@ -304,8 +310,8 @@ UNIT
   systemctl daemon-reload
   if [[ $UPDATE -eq 1 ]]; then
     # OpenVPN instances keep running; only the agent restarts.
-    systemctl restart burrow-node.service
-    c_ok "Burrow node updated. Tunnels stayed up."
+    systemctl restart ${SLUG}-node.service
+    c_ok "Ovira node updated. Tunnels stayed up."
     echo
     echo "  Node key   $($BIN node key -config $NCONFIG)"
     exit 0
@@ -319,10 +325,10 @@ UNIT
   mkdir -p "$NDATA"
   chmod 711 "$NDATA"
   KEY=$($BIN node init -config "$NCONFIG" -data "$NDATA" -port "$PORT" -public-host "$PUBLIC" -allow "$PANEL_IP")
-  systemctl enable --now burrow-node.service
+  systemctl enable --now ${SLUG}-node.service
   open_port "$PORT/tcp"
   echo
-  c_ok "Burrow node is running."
+  c_ok "Ovira node is running."
   echo
   echo "  In the panel, open Nodes -> Connect a node and paste this key:"
   echo
@@ -332,14 +338,14 @@ UNIT
   if [[ -z "$PANEL_IP" ]]; then
     echo "  Tip: on a fresh install, --panel-ip PANEL_IP makes the node accept only your panel."
   fi
-  echo "  Show the key again: burrow node key"
+  echo "  Show the key again: ovira node key"
   exit 0
 fi
 
 # ---- panel ----
-cat > /etc/systemd/system/burrow.service <<UNIT
+cat > /etc/systemd/system/${SLUG}.service <<UNIT
 [Unit]
-Description=Burrow OpenVPN panel
+Description=Ovira OpenVPN panel
 After=network-online.target
 Wants=network-online.target
 
@@ -348,21 +354,21 @@ ExecStart=$BIN serve -config $CONFIG
 Restart=always
 RestartSec=2
 LimitNOFILE=65535
-Environment=BURROW_CONFIG=$CONFIG
+Environment=OVIRA_CONFIG=$CONFIG
 
 [Install]
 WantedBy=multi-user.target
 UNIT
 
-cat > /etc/systemd/system/burrow-ovpn@.service <<UNIT
+cat > /etc/systemd/system/${SLUG}-ovpn@.service <<UNIT
 [Unit]
-Description=Burrow OpenVPN instance %i
-After=network-online.target burrow.service
+Description=Ovira OpenVPN instance %i
+After=network-online.target ${SLUG}.service
 Wants=network-online.target
 
 [Service]
 Type=simple
-Environment=BURROW_CONFIG=$CONFIG
+Environment=OVIRA_CONFIG=$CONFIG
 ExecStartPre=-$BIN nat up %i
 ExecStart=$OVPN --suppress-timestamps --config $DATA/openvpn/%i.conf
 ExecStopPost=-$BIN nat down %i
@@ -379,20 +385,20 @@ systemctl daemon-reload
 if [[ $UPDATE -eq 1 ]]; then
   # The panel restarts OpenVPN servers whose config the new version changes.
   step "updating"
-  systemctl restart burrow.service
-  c_ok "Burrow updated."
-  BURROW_CONFIG=$CONFIG $BIN info
+  systemctl restart ${SLUG}.service
+  c_ok "Ovira updated."
+  OVIRA_CONFIG=$CONFIG $BIN info
   exit 0
 fi
 
 # ---- first install ----
 PUBLIC=$(public_ip)
 step "public address: $PUBLIC"
-mkdir -p /etc/burrow "$DATA"
+mkdir -p /etc/$SLUG "$DATA"
 chmod 711 "$DATA"  # OpenVPN (as nobody) must reach pki/crl.pem
 TCP_FLAG=""; [[ $TCP_ON -eq 1 ]] && TCP_FLAG="-tcp"
 PUBHOST=$PUBLIC; [[ "$SSL" == domain ]] && PUBHOST=$DOMAIN
-OUT=$(BURROW_CONFIG=$CONFIG $BIN init -config "$CONFIG" -data "$DATA" -port "$PORT" -public-host "$PUBHOST" -username "$ADMIN_USER" \
+OUT=$(OVIRA_CONFIG=$CONFIG $BIN init -config "$CONFIG" -data "$DATA" -port "$PORT" -public-host "$PUBHOST" -username "$ADMIN_USER" \
   -udp-port "$UDP_PORT" -tcp-port "$TCP_PORT" $TCP_FLAG)
 PASS=$(echo "$OUT" | awk -F': *' '/^password/ {print $2}')
 BASE=$(echo "$OUT" | awk -F': *' '/^panel path/ {print $2}')
@@ -402,23 +408,23 @@ HOST=$PUBLIC
 if [[ "$SSL" == domain || "$SSL" == ip ]]; then
   NAME=$PUBLIC; [[ "$SSL" == domain ]] && NAME=$DOMAIN
   step "getting a Let's Encrypt certificate for $NAME"
-  if BURROW_CONFIG=$CONFIG $BIN ssl issue -mode "$SSL" -domain "$NAME" -email "$EMAIL"; then
+  if OVIRA_CONFIG=$CONFIG $BIN ssl issue -mode "$SSL" -domain "$NAME" -email "$EMAIL"; then
     SCHEME=https; HOST=$NAME
   else
     c_err "No certificate yet; the panel starts on plain HTTP. Retry later under Settings -> HTTPS."
   fi
 fi
 
-systemctl enable --now burrow.service
-systemctl enable --now "burrow-ovpn@udp$UDP_PORT.service" || c_err "OpenVPN did not start; check: journalctl -u burrow-ovpn@udp$UDP_PORT"
-[[ $TCP_ON -eq 1 ]] && { systemctl enable --now "burrow-ovpn@tcp$TCP_PORT.service" || true; }
+systemctl enable --now ${SLUG}.service
+systemctl enable --now "${SLUG}-ovpn@udp$UDP_PORT.service" || c_err "OpenVPN did not start; check: journalctl -u ${SLUG}-ovpn@udp$UDP_PORT"
+[[ $TCP_ON -eq 1 ]] && { systemctl enable --now "${SLUG}-ovpn@tcp$TCP_PORT.service" || true; }
 
 open_port "$PORT/tcp"
 open_port "$UDP_PORT/udp"
 [[ $TCP_ON -eq 1 ]] && open_port "$TCP_PORT/tcp"
 
 echo
-c_ok "Burrow is running."
+c_ok "Ovira is running."
 echo
 echo "  Panel      $SCHEME://$HOST:$PORT$BASE"
 echo "  Username   $ADMIN_USER"
@@ -428,4 +434,4 @@ echo
 echo "  Keep the panel path secret: everything else on that port answers 404."
 echo "  Change the password and turn on two-factor sign-in under Settings -> My account."
 echo "  Free plan: 5 active clients and 2 nodes. Upgrade any time under License."
-echo "  Lost the address later?  burrow info"
+echo "  Lost the address later?  ovira info"

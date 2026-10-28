@@ -3,21 +3,21 @@
 ### I lost the panel address
 
 ```bash
-burrow info
+ovira info
 ```
 
 ### I forgot the password or lost my authenticator
 
 ```bash
-burrow admin passwd -username admin
-burrow admin reset-2fa -username admin
+ovira admin passwd -username admin
+ovira admin reset-2fa -username admin
 ```
 
 ### A client connects but has no internet
 
 - Check that **NAT** is on for that server (**Servers → server → Network**).
 - Another firewall (for example a cloud provider's security group) must allow the OpenVPN port.
-- On servers where nftables manages the firewall, Burrow keeps its rules in its own `burrow` table: `nft list table ip burrow`.
+- On servers where nftables manages the firewall, Ovira keeps its rules in its own `ovira` table: `nft list table ip ovira`.
 
 ### "device limit reached"
 
@@ -25,13 +25,13 @@ The client already has as many tunnels open as allowed, counted across all serve
 
 ### Two devices on one profile kick each other off
 
-Update to the latest version: Burrow lets one profile run on several devices and enforces the device limit itself.
+Update to the latest version: Ovira lets one profile run on several devices and enforces the device limit itself.
 
 ### A node shows "Unreachable"
 
 - The node's port (62060 by default) must be reachable from the panel's server.
 - If the node was installed with `--panel-ip`, the panel must connect from that IP.
-- After reinstalling a node, paste its new key (`burrow node key` on the node).
+- After reinstalling a node, paste its new key (`ovira node key` on the node).
 
 ### Port 62060 is already in use on the node
 

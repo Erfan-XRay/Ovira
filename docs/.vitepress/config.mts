@@ -55,9 +55,10 @@ const faGuide = [
 ];
 
 export default defineConfig({
-  base: "/Burrow/",
-  title: "Burrow",
-  description: "An OpenVPN panel for Linux servers",
+  base: "/Ovira/",
+  title: "Ovira",
+  description: "OpenVPN panel for Linux servers",
+  appearance: "dark",
   cleanUrls: true,
   lastUpdated: true,
   head: [
@@ -66,13 +67,14 @@ export default defineConfig({
       {
         rel: "icon",
         type: "image/svg+xml",
-        href: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%23f0a33a'/%3E%3Cpath d='M7 26V16a9 9 0 0 1 18 0v10' fill='none' stroke='%231d1407' stroke-width='3.2'/%3E%3Ccircle cx='16' cy='15.5' r='2.6' fill='%231d1407'/%3E%3C/svg%3E",
+        href: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%23c4f82a'/%3E%3Ccircle cx='16' cy='16' r='8.4' fill='none' stroke='%230b1300' stroke-width='2.6'/%3E%3Cpath d='M11.9 13.4 16 19.2l4.1-5.8' fill='none' stroke='%230b1300' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E",
       },
     ],
   ],
   themeConfig: {
     logo: { src: "/logo.svg", alt: "" },
-    socialLinks: [{ icon: "github", link: "https://github.com/Erfan-XRay/Burrow" }],
+    siteTitle: "Ovira",
+    socialLinks: [{ icon: "github", link: "https://github.com/Erfan-XRay/Ovira" }],
     search: { provider: "local" },
   },
   locales: {
@@ -83,23 +85,23 @@ export default defineConfig({
         nav: [
           { text: "Guide", link: "/guide/install" },
           { text: "Plans", link: "/guide/plans" },
-          { text: "Releases", link: "https://github.com/Erfan-XRay/Burrow/releases" },
+          { text: "Releases", link: "https://github.com/Erfan-XRay/Ovira/releases" },
         ],
         sidebar: { "/guide/": enGuide },
-        footer: { message: "Proprietary software · documentation free to share", copyright: "© 2026 Burrow" },
+        footer: { message: "Proprietary software · documentation free to share", copyright: "© 2026 Ovira" },
       },
     },
     fa: {
       label: "فارسی",
       lang: "fa",
       dir: "rtl",
-      title: "بارو",
+      title: "اویرا",
       description: "پنل OpenVPN برای سرورهای لینوکس",
       themeConfig: {
         nav: [
           { text: "راهنما", link: "/fa/guide/install" },
           { text: "پلن‌ها", link: "/fa/guide/plans" },
-          { text: "نسخه‌ها", link: "https://github.com/Erfan-XRay/Burrow/releases" },
+          { text: "نسخه‌ها", link: "https://github.com/Erfan-XRay/Ovira/releases" },
         ],
         sidebar: { "/fa/guide/": faGuide },
         outline: { label: "در این صفحه" },
@@ -108,7 +110,7 @@ export default defineConfig({
         returnToTopLabel: "بازگشت به بالا",
         sidebarMenuLabel: "فهرست",
         darkModeSwitchLabel: "حالت تیره",
-        footer: { message: "نرم‌افزار انحصاری · مستندات آزاد برای اشتراک", copyright: "© ۲۰۲۶ بارو" },
+        footer: { message: "نرم‌افزار انحصاری · مستندات آزاد برای اشتراک", copyright: "© ۲۰۲۶ اویرا" },
       },
     },
   },

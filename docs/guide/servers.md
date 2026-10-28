@@ -4,7 +4,7 @@
 
 ## Ports
 
-Change a server's port in its editor (**Servers → server → Port**) and save: Burrow rewrites the config, moves the firewall rules and restarts that server. Clients get the new port in their profile the next time they download it.
+Change a server's port in its editor (**Servers → server → Port**) and save: Ovira rewrites the config, moves the firewall rules and restarts that server. Clients get the new port in their profile the next time they download it.
 
 To run another protocol or port side by side, **Servers → New server**:
 
@@ -24,7 +24,7 @@ Clients see their user name and password on the subscription page when a server 
 
 ## Network and routing
 
-- **Tunnel network**: a private range like `10.8.0.0/24`. Burrow refuses ranges that overlap a route already on the server (WireGuard, docker, other VPNs).
+- **Tunnel network**: a private range like `10.8.0.0/24`. Ovira refuses ranges that overlap a route already on the server (WireGuard, docker, other VPNs).
 - **Full tunnel** sends all traffic through the VPN; turn it off and list routes for split tunnel.
 - **NAT** lets clients reach the internet through the server.
 - **Fixed IPs**: the last quarter of the range is kept for fixed client addresses.

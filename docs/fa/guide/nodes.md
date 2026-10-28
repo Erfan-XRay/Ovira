@@ -7,7 +7,7 @@
 **۱. روی سرور جدید** با root:
 
 ```bash
-bash <(curl -fsSL https://raw.githubusercontent.com/Erfan-XRay/Burrow/main/install.sh) --node --panel-ip PANEL_IP
+bash <(curl -fsSL https://raw.githubusercontent.com/Erfan-XRay/Ovira/main/install.sh) --node --panel-ip PANEL_IP
 ```
 
 `--panel-ip` باعث می‌شود نود فقط به پنل شما جواب بدهد. نصب‌کننده یک **کلید نود** (`BNK1-…`) چاپ می‌کند. نود روی پورت TCP **62060** گوش می‌دهد؛ برای پورت دیگر از `--port` استفاده کنید.
@@ -16,7 +16,7 @@ bash <(curl -fsSL https://raw.githubusercontent.com/Erfan-XRay/Burrow/main/insta
 
 **۳. یک سرور OpenVPN روی آن بسازید**: در کارت نود، **افزودن سرور اینجا**. پورت و پروتکل را مثل سرور اصلی انتخاب کنید.
 
-کلید نود شامل کلید API و اثر انگشت گواهی نود است، پس پنل فقط با همان نود حرف می‌زند. اگر نود را دوباره نصب کردید، کلید جدیدش را در ویرایش نود وارد کنید. `burrow node key` کلید را دوباره چاپ می‌کند.
+کلید نود شامل کلید API و اثر انگشت گواهی نود است، پس پنل فقط با همان نود حرف می‌زند. اگر نود را دوباره نصب کردید، کلید جدیدش را در ویرایش نود وارد کنید. `ovira node key` کلید را دوباره چاپ می‌کند.
 
 ## دستگاه هم‌زمان
 

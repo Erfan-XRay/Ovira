@@ -1,6 +1,6 @@
 # Plans and licenses
 
-Burrow is free for small setups. Every feature works on every plan; plans differ only in size.
+Ovira is free for small setups. Every feature works on every plan; plans differ only in size.
 
 | Plan | Active clients | Nodes | Panels at once | Panel accounts | 1 month | 3 months | 12 months |
 |---|---|---|---|---|---|---|---|

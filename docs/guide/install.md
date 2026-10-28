@@ -9,7 +9,7 @@
 ## One command
 
 ```bash
-bash <(curl -fsSL https://raw.githubusercontent.com/Erfan-XRay/Burrow/main/install.sh)
+bash <(curl -fsSL https://raw.githubusercontent.com/Erfan-XRay/Ovira/main/install.sh)
 ```
 
 The installer asks four things; press Enter to keep a default:
@@ -58,11 +58,11 @@ bash install.sh --yes --port 8443 --udp-port 1194 --tcp --tcp-port 443 \
 
 1. Installs OpenVPN (2.5 or newer), iptables and curl.
 2. Downloads the release, checks it against `SHA256SUMS` and the **release signature**, and refuses anything that does not match.
-3. Creates the `burrow` service and one `burrow-ovpn@NAME` service per OpenVPN server.
+3. Creates the `ovira` service and one `ovira-ovpn@NAME` service per OpenVPN server.
 4. Turns on IPv4 forwarding and NAT, opens the ports in ufw or firewalld when they are active.
 5. Gets a Let's Encrypt certificate when you chose HTTPS.
 
-If GitHub is slow or blocked from your server, downloads fall back to the Burrow mirror automatically.
+If GitHub is slow or blocked from your server, downloads fall back to the Ovira mirror automatically.
 
 ## Update
 
@@ -71,6 +71,6 @@ Run the same command again, or use **Updates** inside the panel. See [Updates](.
 ## Uninstall
 
 ```bash
-bash install.sh --uninstall           # keeps /var/lib/burrow and /etc/burrow
+bash install.sh --uninstall           # keeps /var/lib/ovira and /etc/ovira
 bash install.sh --uninstall --purge   # removes everything
 ```

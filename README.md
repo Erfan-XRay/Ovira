@@ -1,19 +1,19 @@
-# Burrow
+# Ovira
 
 **An OpenVPN panel for Linux servers.** One binary with the web UI built in:
 create clients with traffic and time limits, give each one a subscription
 link, and run OpenVPN on as many servers as you like from one panel.
 
-[Documentation](https://erfan-xray.github.io/Burrow/) ·
-[مستندات فارسی](https://erfan-xray.github.io/Burrow/fa/) ·
-[Releases](https://github.com/Erfan-XRay/Burrow/releases)
+[Documentation](https://erfan-xray.github.io/Ovira/) ·
+[مستندات فارسی](https://erfan-xray.github.io/Ovira/fa/) ·
+[Releases](https://github.com/Erfan-XRay/Ovira/releases)
 
 ## Install
 
 On a fresh Debian 11+, Ubuntu 20.04+ or AlmaLinux/Rocky 8+ server, as root:
 
 ```bash
-bash <(curl -fsSL https://raw.githubusercontent.com/Erfan-XRay/Burrow/main/install.sh)
+bash <(curl -fsSL https://raw.githubusercontent.com/Erfan-XRay/Ovira/main/install.sh)
 ```
 
 The installer asks for the panel port, the OpenVPN UDP and TCP ports and how
@@ -54,5 +54,5 @@ Three months save about 10%, a year about 25%.
 
 ## License
 
-Burrow is proprietary software: the binaries are free to use under the free
+Ovira is proprietary software: the binaries are free to use under the free
 plan, paid plans need a license key. See [LICENSE](LICENSE).
