@@ -476,11 +476,12 @@ body {
 }
 
 .vp-doc table {
-  display: table;
+  display: block;
   width: 100%;
+  max-width: 100%;
   border-collapse: separate;
   border-spacing: 0;
-  overflow: hidden;
+  overflow-x: auto;
   border: 1px solid var(--o-line);
   border-radius: 14px;
 }
@@ -585,6 +586,127 @@ body {
 
 [dir="rtl"] .vp-doc div[class*="language-"] {
   direction: ltr;
+}
+
+/* Keep long links and inline commands inside the reading column. Code blocks
+   and tables retain their own horizontal scrolling instead of widening it. */
+.vp-doc {
+  overflow-wrap: anywhere;
+}
+
+.vp-doc pre {
+  overflow-wrap: normal;
+}
+
+/* The default hero reserves a square for a logo and overlaps it with the
+   headline. Our dashboard needs its natural height and its own row. */
+@media (max-width: 959px) {
+  .VPHero.has-image .main {
+    order: 1;
+    min-width: 0;
+  }
+
+  .VPHero.has-image .image {
+    order: 2;
+    margin: 32px 0 0;
+  }
+
+  .VPHero.has-image .image-container {
+    width: 100%;
+    max-width: 560px;
+    height: auto;
+  }
+
+  .VPHero .install {
+    margin-inline: auto;
+    text-align: start;
+  }
+
+  /* Mobile navigation is an overlay, so it needs an opaque surface. */
+  .VPSidebar {
+    background: var(--vp-c-bg-alt);
+    padding-bottom: calc(32px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .VPSidebarItem .link {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+
+  [dir="rtl"] .VPSidebar {
+    left: auto;
+    right: 0;
+    transform: translateX(100%);
+  }
+
+  [dir="rtl"] .VPSidebar.open {
+    transform: translateX(0);
+  }
+}
+
+@media (max-width: 639px) {
+  .VPHero .text {
+    line-height: 1.35;
+    text-wrap: balance;
+  }
+
+  .VPHero .tagline {
+    font-size: 16px;
+  }
+
+  .vp-doc h1 {
+    font-size: 32px;
+    line-height: 1.4;
+  }
+
+  .vp-doc h2 {
+    margin-top: 36px;
+    line-height: 1.5;
+  }
+
+  .vp-doc :is(h1, h2, h3, h4, h5, h6) {
+    padding-inline-start: 24px;
+  }
+
+  .vp-doc .header-anchor,
+  [dir="rtl"] .vp-doc .header-anchor {
+    left: auto;
+    right: auto;
+    inset-inline-start: 0;
+    margin: 0;
+  }
+
+  .VPNavBarSearch .DocSearch-Button,
+  .VPLocalNav .menu,
+  .VPLocalNav .VPOutlineDropdown > button {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .vp-doc div[class*="language-"] > button.copy {
+    width: 44px;
+    height: 44px;
+    opacity: 1;
+  }
+}
+
+[dir="rtl"] .VPHero .text {
+  line-height: 1.5;
+}
+
+[dir="rtl"] .vp-doc .header-anchor {
+  left: auto;
+  right: 0;
+  margin-left: 0;
+  margin-right: -0.87em;
+}
+
+/* Align header flyouts with the controls on the left in Persian. Even a
+   closed flyout must stay inside the viewport at the tablet breakpoint. */
+[dir="rtl"] .VPNavBar .VPFlyout .menu {
+  right: auto;
+  left: 0;
 }
 
 @media (prefers-reduced-motion: reduce) {

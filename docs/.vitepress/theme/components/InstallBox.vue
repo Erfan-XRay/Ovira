@@ -63,7 +63,7 @@ async function copy() {
 .cmd {
   flex: 1;
   min-width: 0;
-  overflow: hidden;
+  overflow-x: auto;
   white-space: nowrap;
   background: none;
   color: var(--vp-c-text-1);
@@ -74,7 +74,7 @@ async function copy() {
 /* typed out once, with a caret */
 .type {
   display: inline-block;
-  max-width: 100%;
+  max-width: 100ch;
   overflow: hidden;
   vertical-align: bottom;
   white-space: nowrap;
@@ -86,7 +86,9 @@ async function copy() {
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  height: 34px;
+  flex-shrink: 0;
+  min-width: 44px;
+  height: 44px;
   padding: 0 14px;
   border: 1px solid var(--o-line-strong);
   border-radius: 10px;
@@ -165,6 +167,11 @@ async function copy() {
 }
 
 @media (max-width: 640px) {
+  .type {
+    animation: none;
+    border: 0;
+  }
+
   .copy span {
     display: none;
   }

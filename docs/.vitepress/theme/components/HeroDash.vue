@@ -450,6 +450,44 @@ onUnmounted(() => {
 }
 
 @media (max-width: 640px) {
+  .dash-wrap {
+    padding: 18px 0 26px;
+  }
+
+  .dash {
+    padding: 12px;
+    transform: none;
+  }
+
+  .kpi {
+    padding: 10px 8px;
+  }
+
+  .kpi small {
+    font-family: var(--vp-font-family-base);
+    font-size: 11px;
+    letter-spacing: 0;
+  }
+
+  .rows li {
+    gap: 8px;
+    padding: 9px 8px;
+  }
+
+  .who {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .lamps {
+    gap: 2px;
+  }
+
+  .lamps i {
+    width: 3px;
+  }
+
   .chip.three {
     display: none;
   }
