@@ -44,7 +44,6 @@ export OVIRA_MANAGE=1
 
 REPO="Erfan-XRay/Ovira"
 MIRROR="https://ovpn.rapcity.shop/api/v1/releases"
-RAW="https://raw.githubusercontent.com/$REPO/main/install.sh"
 # Release signing key (Ed25519, SPKI DER in base64): every download is checked against it.
 RELEASE_PUB="MCowBQYDK2VwAyEAO10TTvbUiBU7HOoYjVzZZzs76CjNFul7HkdkhWFSFgw="
 
@@ -256,18 +255,19 @@ fetch() { # fetch NAME: an asset of the chosen release, from GitHub or the mirro
 
 verify_sums() { # the release signature, then the checksum of each given asset
   fetch SHA256SUMS && fetch SHA256SUMS.sig || return 1
-  if openssl version 2>/dev/null | grep -qE "^OpenSSL [3-9]" && echo "$RELEASE_PUB" | base64 -d > "$TMP/pub.der" 2>/dev/null &&
-     openssl pkey -pubin -inform DER -in "$TMP/pub.der" -out "$TMP/pub.pem" 2>/dev/null; then
-    base64 -d "$TMP/SHA256SUMS.sig" > "$TMP/sig.bin"
+  SIGNED=0
+  openssl version 2>/dev/null | grep -qE "^OpenSSL ([3-9]|[1-9][0-9]+)\." || {
+    err "OpenSSL 3 or newer is required to verify releases. Upgrade OpenSSL before installing."; return 1; }
+  echo "$RELEASE_PUB" | base64 -d > "$TMP/pub.der" 2>/dev/null &&
+    openssl pkey -pubin -inform DER -in "$TMP/pub.der" -out "$TMP/pub.pem" 2>/dev/null &&
+    base64 -d "$TMP/SHA256SUMS.sig" > "$TMP/sig.bin" 2>/dev/null &&
     openssl pkeyutl -verify -pubin -inkey "$TMP/pub.pem" -rawin -in "$TMP/SHA256SUMS" -sigfile "$TMP/sig.bin" >/dev/null 2>&1 || {
-      err "The release signature is not valid. Refusing to install."; return 1; }
-    SIGNED=1
-  else
-    SIGNED=0
-  fi
+      err "The release signature could not be verified. Refusing to install."; return 1; }
+  SIGNED=1
   local a
   for a in "$@"; do
-    (cd "$TMP" && grep -E "[ *]$a\$" SHA256SUMS | sha256sum -c --status) || { err "$a does not match its checksum. Refusing to install."; return 1; }
+    (cd "$TMP" && awk -v name="$a" 'length($1) == 64 && ($2 == name || $2 == "*" name) { print; found++ } END { if (found != 1) exit 1 }' SHA256SUMS > asset.sum &&
+      test -s asset.sum && sha256sum -c --status asset.sum) || { err "$a does not match its checksum. Refusing to install."; return 1; }
   done
 }
 
@@ -295,7 +295,7 @@ get_binary() {
     set_release_base "$TAG"
     run "Downloading Ovira ${TAG:-latest} for $goarch" fetch "ovira-linux-$goarch" || die "Download failed from GitHub and from the mirror."
     verify_sums "ovira-linux-$goarch" || die "Could not verify the download."
-    if [[ "${SIGNED:-0}" == 1 ]]; then ok "Signature verified"; else warn "OpenSSL 3 is not available here, so only the checksum was checked."; fi
+    ok "Signature verified"
     install -m 0755 "$TMP/ovira-linux-$goarch" "$BIN.new"
   fi
   "$BIN.new" version >/dev/null || { rm -f "$BIN.new"; die "The binary does not run on this machine."; }
@@ -315,8 +315,6 @@ install_manager() {
     install -m 0755 "$0" "$new"
   elif [[ -n "${TMP:-}" && -n "${GH_BASE:-}" ]] && fetch install.sh 2>/dev/null && verify_sums install.sh 2>/dev/null; then
     install -m 0755 "$TMP/install.sh" "$new"
-  elif curl -fsSL --max-time 30 -o "$new" "$RAW" 2>/dev/null; then
-    chmod 0755 "$new"
   else
     warn "Could not save the management menu; the ovira command will still work without it."
     return 0
