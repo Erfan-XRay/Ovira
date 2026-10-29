@@ -1,6 +1,6 @@
 # Nodes and relays
 
-A **node** is another server that runs OpenVPN or OpenConnect servers for your panel. Clients are created once, in the panel, and work on every node.
+A **node** is another server that runs OpenVPN, OpenConnect or WireGuard servers for your panel. Clients are created once, in the panel, and work on every node.
 
 ## Add a node
 

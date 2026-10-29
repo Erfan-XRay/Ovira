@@ -12,7 +12,7 @@
 
 <br>
 
-**Ovira** is a VPN panel (OpenVPN and OpenConnect) for Linux servers: one binary with the web UI built in. Create clients with traffic and time limits, hand each one a subscription link, and manage local and remote servers within your plan limits from a single place. No Docker, no database to set up, no config files to edit.
+**Ovira** is a VPN panel (OpenVPN, OpenConnect and WireGuard) for Linux servers: one binary with the web UI built in. Create clients with traffic and time limits, hand each one a subscription link, and manage local and remote servers within your plan limits from a single place. No Docker, no database to set up, no config files to edit.
 
 <table>
 <tr>
@@ -108,6 +108,9 @@ UDP and TCP servers side by side, certificate and/or password sign-in, tls-crypt
 
 ### 🌐 OpenConnect (Cisco)
 Run OpenConnect servers next to OpenVPN, on the panel or on nodes. Clients use Cisco Secure Client or OpenConnect apps with the same name and password; camouflage hides the server from scanners.
+
+### ⚡ WireGuard
+WireGuard servers on the panel or on nodes, in plain mode or Amnezia mode for networks that block WireGuard. Each device gets its own configuration and QR code, ready on every server the client may use.
 
 </td>
 </tr>

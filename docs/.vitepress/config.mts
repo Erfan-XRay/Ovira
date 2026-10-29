@@ -14,6 +14,7 @@ const enGuide = [
     items: [
       { text: "OpenVPN servers", link: "/guide/servers" },
       { text: "OpenConnect (Cisco)", link: "/guide/openconnect" },
+      { text: "WireGuard", link: "/guide/wireguard" },
       { text: "Nodes and relays", link: "/guide/nodes" },
       { text: "Groups", link: "/guide/groups" },
       { text: "Updates", link: "/guide/updates" },
@@ -43,6 +44,7 @@ const faGuide = [
     items: [
       { text: "سرورهای OpenVPN", link: "/fa/guide/servers" },
       { text: "OpenConnect (سیسکو)", link: "/fa/guide/openconnect" },
+      { text: "وایرگارد (WireGuard)", link: "/fa/guide/wireguard" },
       { text: "نودها و سرورهای واسط", link: "/fa/guide/nodes" },
       { text: "گروه‌ها", link: "/fa/guide/groups" },
       { text: "به‌روزرسانی", link: "/fa/guide/updates" },

@@ -3,7 +3,7 @@ layout: home
 hero:
   name: Ovira
   text: A VPN panel for your servers
-  tagline: Manage OpenVPN and OpenConnect servers, client traffic and time limits, and subscription links from one self-hosted panel.
+  tagline: Manage OpenVPN, OpenConnect and WireGuard servers, client traffic and time limits, and subscription links from one self-hosted panel.
   image:
     src: /logo.svg
     alt: Ovira

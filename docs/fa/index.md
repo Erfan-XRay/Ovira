@@ -3,7 +3,7 @@ layout: home
 hero:
   name: اویرا
   text: پنل VPN برای سرورهای شما
-  tagline: مدیریت سرورهای OpenVPN و OpenConnect، حجم و زمان کاربران و لینک‌های اشتراک از یک پنل روی زیرساخت خودتان.
+  tagline: مدیریت سرورهای OpenVPN، OpenConnect و WireGuard، حجم و زمان کاربران و لینک‌های اشتراک از یک پنل روی زیرساخت خودتان.
   image:
     src: /logo.svg
     alt: اویرا

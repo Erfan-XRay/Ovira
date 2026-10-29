@@ -2,7 +2,7 @@
 
 ### Which VPN protocols are available?
 
-Ovira serves **OpenVPN** and **OpenConnect** (Cisco Secure Client / AnyConnect). Each client works on both with the same name and password; OpenVPN profiles do not work in Cisco apps, so use the OpenConnect server for those. See [OpenConnect (Cisco)](./openconnect).
+Ovira serves **OpenVPN** and **OpenConnect** (Cisco Secure Client / AnyConnect). Each client works on both with the same name and password; OpenVPN profiles do not work in Cisco apps, so use the OpenConnect server for those. See [OpenConnect (Cisco)](./openconnect). It also serves **WireGuard** (plain, or Amnezia mode for networks that block WireGuard), with one configuration per device; see [WireGuard](./wireguard).
 
 ### Does Ovira provide Telegram support?
 
