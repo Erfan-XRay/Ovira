@@ -43,4 +43,4 @@ Ports 80 and 443 are both used by another program. See [HTTPS](./https).
 
 ### The panel says the license server is unreachable
 
-The panel needs outbound HTTPS to `ovpn.rapcity.shop` twice a day. It keeps working for 10 days without it.
+The panel needs outbound HTTPS to `ovpn.rapcity.shop` to renew its license.

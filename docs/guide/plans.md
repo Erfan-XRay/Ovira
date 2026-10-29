@@ -25,14 +25,13 @@ Renewing adds the paid time to what is left. Switching plans applies the new lim
 
 ## Panels at once
 
-A license runs on as many panels at the same time as its plan allows. Each panel checks in with the license server twice a day.
+A license runs on as many panels at the same time as its plan allows. Panels renew their license automatically.
 
-- To move a license to another server, open **License → Remove license** on the old one (this frees its slot), then paste the key on the new one.
-- A slot also frees itself if a panel has not checked in for 10 days.
+To move a license to another server, open **License → Remove license** on the old one, then paste the key on the new one. Contact support if the new server needs approval.
 
-## Offline grace
+## Offline
 
-If a panel cannot reach the license server, it keeps working normally for **10 days**. After that, management is paused (tunnels keep running) until it can check in again.
+If a panel cannot reach the license server for a long time, management is paused (tunnels keep running) until it can check in again.
 
 ## When a license ends
 
@@ -40,4 +39,4 @@ Tunnels keep running, but clients cannot be created or changed until you renew. 
 
 ## Keys bought elsewhere
 
-Paste a key (`BRW2-…`) under **License → License key**. Older offline keys (`BRW1-…`) tied to one server still work.
+Paste a key (`BRW2-…`) under **License → License key**.

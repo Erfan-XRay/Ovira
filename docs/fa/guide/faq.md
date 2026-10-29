@@ -43,4 +43,4 @@ ovira admin reset-2fa -username admin
 
 ### پنل می‌گوید سرور لایسنس در دسترس نیست
 
-پنل روزی دو بار به HTTPS خروجی به `ovpn.rapcity.shop` نیاز دارد. بدون آن تا ۱۰ روز کار می‌کند.
+پنل برای تمدید لایسنس به HTTPS خروجی به `ovpn.rapcity.shop` نیاز دارد.
