@@ -797,7 +797,7 @@ cmd_license() {
     esac
   done < <(panel_cmd info 2>/dev/null || true)
   echo
-  info "Activate or change the license in the panel under License; it asks for the machine ID above."
+  info "Activate or change the license under License in the panel. Manual activation may need owner approval using the request ID shown there."
 }
 
 cmd_ssl() {
