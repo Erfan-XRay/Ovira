@@ -106,6 +106,9 @@ Traffic allowance, an end date or a clock that starts at first use, devices at o
 ### 🔐 OpenVPN, fully
 UDP and TCP servers side by side, certificate and/or password sign-in, tls-crypt, cipher control, split or full tunnel, IPv6.
 
+### 🌐 OpenConnect (Cisco)
+Run OpenConnect servers next to OpenVPN, on the panel or on nodes. Clients use Cisco Secure Client or OpenConnect apps with the same name and password; camouflage hides the server from scanners.
+
 </td>
 </tr>
 <tr>

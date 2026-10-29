@@ -1,5 +1,9 @@
 # Troubleshooting
 
+### The Cisco app says "untrusted server" (OpenConnect)
+
+Turn off **Block untrusted servers** in Cisco Secure Client's settings, or use the panel certificate for that server. See [OpenConnect (Cisco)](./openconnect#certificate).
+
 ### I lost the panel address
 
 ```bash

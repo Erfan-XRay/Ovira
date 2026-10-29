@@ -1,6 +1,6 @@
 # Nodes and relays
 
-A **node** is another server that runs OpenVPN for your panel. Clients are created once, in the panel, and work on every node.
+A **node** is another server that runs OpenVPN or OpenConnect servers for your panel. Clients are created once, in the panel, and work on every node.
 
 ## Add a node
 
@@ -14,7 +14,7 @@ The script downloads Ovira from GitHub itself, so nothing is copied to the new s
 
 **2. Back in the dialog**, paste the key, give the node a name and save. The panel connects within seconds.
 
-**3. Add an OpenVPN server on it**: on the node's card, **Add a server here**. Pick its port and protocol like on the main server.
+**3. Add a server on it**: on the node's card, **Add a server here**. Pick OpenVPN or OpenConnect, then its port, like on the main server. The first OpenConnect server installs OpenConnect on the node automatically; until then the node's card says *OpenConnect not installed*. A node that runs an older Ovira shows *Update this node to use OpenConnect*: update it first.
 
 The node key contains the node's API key and its certificate fingerprint, so the panel talks only to that node. If you reinstall a node, paste its new key in the node's editor. `ovira key` on the node prints the key again.
 

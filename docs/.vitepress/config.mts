@@ -13,6 +13,7 @@ const enGuide = [
     text: "Running it",
     items: [
       { text: "OpenVPN servers", link: "/guide/servers" },
+      { text: "OpenConnect (Cisco)", link: "/guide/openconnect" },
       { text: "Nodes and relays", link: "/guide/nodes" },
       { text: "Groups", link: "/guide/groups" },
       { text: "Updates", link: "/guide/updates" },
@@ -41,6 +42,7 @@ const faGuide = [
     text: "کار با پنل",
     items: [
       { text: "سرورهای OpenVPN", link: "/fa/guide/servers" },
+      { text: "OpenConnect (سیسکو)", link: "/fa/guide/openconnect" },
       { text: "نودها و سرورهای واسط", link: "/fa/guide/nodes" },
       { text: "گروه‌ها", link: "/fa/guide/groups" },
       { text: "به‌روزرسانی", link: "/fa/guide/updates" },
@@ -59,7 +61,7 @@ const faGuide = [
 export default defineConfig({
   base: "/Ovira/",
   title: "Ovira",
-  description: "OpenVPN panel for Linux servers",
+  description: "OpenVPN and OpenConnect panel for Linux servers",
   appearance: "dark",
   cleanUrls: true,
   lastUpdated: true,
@@ -98,7 +100,7 @@ export default defineConfig({
       lang: "fa",
       dir: "rtl",
       title: "اویرا",
-      description: "پنل OpenVPN برای سرورهای لینوکس",
+      description: "پنل OpenVPN و OpenConnect برای سرورهای لینوکس",
       themeConfig: {
         nav: [
           { text: "راهنما", link: "/fa/guide/install" },

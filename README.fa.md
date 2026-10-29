@@ -120,6 +120,9 @@ bash <(curl -fsSL https://raw.githubusercontent.com/Erfan-XRay/Ovira/main/instal
 ### 🔐 OpenVPN کامل
 سرورهای UDP و TCP کنار هم، ورود با گواهی و/یا رمز، tls-crypt، انتخاب رمزنگاری، تونل کامل یا تقسیم‌شده، IPv6.
 
+### 🌐 OpenConnect (سیسکو)
+سرورهای OpenConnect کنار OpenVPN، روی پنل یا نودها. کاربران با Cisco Secure Client یا برنامه‌های OpenConnect و همان نام و رمز وصل می‌شوند؛ استتار سرور را از اسکنرها پنهان می‌کند.
+
 </td>
 </tr>
 <tr>

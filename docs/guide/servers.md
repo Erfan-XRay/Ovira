@@ -1,6 +1,8 @@
 # OpenVPN servers
 
-**Servers** lists every OpenVPN server the panel runs, grouped by node. Each one is a separate OpenVPN process with its own port, protocol and tunnel network.
+**Servers** lists every server the panel runs, grouped by node. Each one is a separate process with its own port, protocol and tunnel network, and a badge shows whether it is **OpenVPN** or **OpenConnect**. This page covers OpenVPN; see [OpenConnect (Cisco)](./openconnect) for the other kind.
+
+In **Servers → New server**, the first choice is the **Protocol**. It cannot be changed later.
 
 ## Ports
 
