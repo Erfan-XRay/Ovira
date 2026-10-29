@@ -1,21 +1,26 @@
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import { computed, onUnmounted, ref } from "vue";
 import { useData } from "vitepress";
 
 const { lang } = useData();
 const fa = computed(() => lang.value === "fa");
 const cmd = "bash <(curl -fsSL https://raw.githubusercontent.com/Erfan-XRay/Ovira/main/install.sh)";
 const done = ref(false);
+const failed = ref(false);
+let timer: ReturnType<typeof setTimeout> | undefined;
 
 async function copy() {
+  if (timer) clearTimeout(timer);
+  failed.value = false;
   try {
     await navigator.clipboard.writeText(cmd);
     done.value = true;
-    setTimeout(() => (done.value = false), 1600);
+    timer = setTimeout(() => (done.value = false), 1600);
   } catch {
-    /* clipboard blocked */
+    failed.value = true;
   }
 }
+onUnmounted(() => { if (timer) clearTimeout(timer); });
 </script>
 
 <template>
@@ -29,7 +34,8 @@ async function copy() {
         <span>{{ done ? (fa ? "کپی شد" : "Copied") : fa ? "کپی" : "Copy" }}</span>
       </button>
     </div>
-    <p class="hint">{{ fa ? "روی Debian، Ubuntu، AlmaLinux و Rocky، با دسترسی root. تا یک دقیقه." : "Debian, Ubuntu, AlmaLinux and Rocky, as root. Takes about a minute." }}</p>
+    <p class="hint">{{ fa ? "برای سرور لینوکس، با دسترسی root. پیش‌نیازها را در راهنمای نصب ببینید." : "For a Linux server, as root. See the installation guide for requirements." }}</p>
+    <p v-if="failed || done" class="hint" role="status">{{ failed ? (fa ? "کپی انجام نشد؛ دستور را انتخاب و دستی کپی کنید." : "Copy failed. Select the command and copy it manually.") : (fa ? "دستور کپی شد." : "Command copied.") }}</p>
   </div>
 </template>
 

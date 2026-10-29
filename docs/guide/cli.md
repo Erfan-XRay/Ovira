@@ -58,7 +58,7 @@ journalctl -u ovira -u 'ovira-ovpn@*' -f    # follow the logs
 | `/usr/local/lib/ovira/manage.sh` | The script behind the `ovira` menu |
 | `/var/log/ovira-install.log` | Output of the installer and updater |
 
-Back up from **Settings → Backup**, with `ovira backup`, or by copying `/var/lib/ovira/ovira.db`.
+Back up from **Settings → Backup** or with `ovira backup`. Do not copy only the live SQLite database file while the service is running: recent writes can be in its WAL. Use the supported backup flow, or stop the service before making a complete filesystem backup. Keep backups private; they contain credentials and client data.
 
 ## Installed before the rename?
 

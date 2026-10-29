@@ -3,8 +3,7 @@ import DefaultTheme from "vitepress/theme";
 import { useRoute } from "vitepress";
 import { nextTick, onMounted, onUnmounted, ref, watch } from "vue";
 import Ambient from "./components/Ambient.vue";
-import HeroDash from "./components/HeroDash.vue";
-import InstallBox from "./components/InstallBox.vue";
+import NetworkStory from "./components/NetworkStory.vue";
 import Steps from "./components/Steps.vue";
 
 const { Layout } = DefaultTheme;
@@ -87,11 +86,8 @@ watch(() => route.path, observe);
       <Ambient />
       <div class="progress" :style="{ transform: `scaleX(${progress})` }" aria-hidden="true" />
     </template>
-    <template #home-hero-image>
-      <HeroDash />
-    </template>
-    <template #home-hero-actions-after>
-      <InstallBox />
+    <template #home-hero-before>
+      <NetworkStory />
     </template>
     <template #home-features-after>
       <Steps />

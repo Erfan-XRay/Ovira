@@ -1,5 +1,13 @@
 # Troubleshooting
 
+### Which VPN protocols are available?
+
+Ovira serves **OpenVPN** and **OpenConnect** (Cisco Secure Client / AnyConnect). Each client works on both with the same name and password; OpenVPN profiles do not work in Cisco apps, so use the OpenConnect server for those. See [OpenConnect (Cisco)](./openconnect).
+
+### Does Ovira provide Telegram support?
+
+There is no official Telegram support service for this project. A support link configured by a panel owner belongs to that owner, not to Ovira. Use this guide and the [project repository](https://github.com/Erfan-XRay/Ovira) for project information.
+
 ### The Cisco app says "untrusted server" (OpenConnect)
 
 Turn off **Block untrusted servers** in Cisco Secure Client's settings, or use the panel certificate for that server. See [OpenConnect (Cisco)](./openconnect#certificate).
@@ -43,7 +51,7 @@ Another panel's node may use it. Install with another port: `node --port 62070`,
 
 ### No HTTPS certificate
 
-Ports 80 and 443 are both used by another program. See [HTTPS](./https).
+Check the error shown by the panel or installer. Common causes include both validation ports being occupied, blocked inbound ports, a domain pointing at another host, or certificate-authority limits. See [HTTPS](./https).
 
 ### The panel says the license server is unreachable
 

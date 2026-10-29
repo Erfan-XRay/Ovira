@@ -56,7 +56,7 @@ By default clients connect to the node's own address. If you put **relay servers
 | Port | empty = the server's own port, or the relay's port |
 | For | All servers, or one OpenVPN server on the node |
 
-Every address becomes **its own profile** on the subscription page, and a failover `remote` line in the all-in-one profile. Four relays in front of two nodes give clients four profiles to choose from.
+Each enabled address becomes an endpoint profile on the subscription page. The all-in-one profile includes failover `remote` lines only for servers compatible with its first server's OpenVPN settings; it does not combine every protocol and authentication mode. Set up the actual relay or tunnel separately: adding a connect address only changes the endpoints advertised to clients.
 
 ::: warning
 When a node has connect addresses, profiles use only those. Add the node's own address too if clients may also connect directly.
@@ -64,12 +64,12 @@ When a node has connect addresses, profiles use only those. Add the node's own a
 
 ## When a node goes offline
 
-Tunnels on it keep running. The panel reconnects when the node is back, sends anything that changed while it was away, and counts traffic without counting anything twice.
+If only the management connection is lost, existing OpenVPN processes may keep their tunnels running, but new authentication and live quota enforcement depend on the panel connection. A host or VPN service outage interrupts tunnels. After reconnection, the panel reconciles surviving sessions and their counters; it cannot recover counters lost when the VPN process itself restarted.
 
 ## Remove a node
 
 **Nodes → ⋯ → Remove node** stops its OpenVPN servers and takes them out of every profile. To remove the software from the node itself:
 
 ```bash
-bash install.sh --node --uninstall --purge
+ovira --node --uninstall --purge
 ```

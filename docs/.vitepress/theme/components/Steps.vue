@@ -11,7 +11,7 @@ const copy = computed(() =>
         title: "در سه قدم راه می‌افتد",
         steps: [
           { h: "نصب", p: "یک دستور روی سرور. پورت‌ها و HTTPS را همان لحظه انتخاب می‌کنید و رمز اولیه چاپ می‌شود.", to: "/fa/guide/install" },
-          { h: "ورود و تنظیم", p: "آدرس پنل را باز کنید، سرورهای OpenVPN را ببینید و هر نود را که خواستید اضافه کنید.", to: "/fa/guide/first-steps" },
+          { h: "ورود و تنظیم", p: "آدرس پنل را باز کنید، سرورهای VPN را ببینید و هر نود را که خواستید اضافه کنید.", to: "/fa/guide/first-steps" },
           { h: "ساخت کاربر", p: "حجم و زمان تعیین کنید و لینک اشتراک را بدهید. بقیه‌اش با پنل است.", to: "/fa/guide/servers" },
         ],
         cta: "شروع کنید",
@@ -23,7 +23,7 @@ const copy = computed(() =>
         title: "Running in three steps",
         steps: [
           { h: "Install", p: "One command on the server. Pick the ports and HTTPS as it goes; the first password is printed at the end.", to: "/guide/install" },
-          { h: "Sign in and set up", p: "Open the panel address, look over the OpenVPN servers and add nodes whenever you like.", to: "/guide/first-steps" },
+          { h: "Sign in and set up", p: "Open the panel address, look over the VPN servers and add nodes whenever you like.", to: "/guide/first-steps" },
           { h: "Create clients", p: "Set traffic and time, hand out the subscription link. The panel does the rest.", to: "/guide/servers" },
         ],
         cta: "Get started",
@@ -35,8 +35,10 @@ const copy = computed(() =>
 
 const root = ref<HTMLElement>();
 const seen = ref(false);
+const mounted = ref(false);
 let io: IntersectionObserver | undefined;
 onMounted(() => {
+  mounted.value = true;
   io = new IntersectionObserver(([e]) => {
     if (e.isIntersecting) {
       seen.value = true;
@@ -49,7 +51,7 @@ onUnmounted(() => io?.disconnect());
 </script>
 
 <template>
-  <section ref="root" class="steps" :class="{ seen }">
+  <section ref="root" class="steps" :class="{ seen, mounted }">
     <h2>{{ copy.title }}</h2>
     <ol>
       <li v-for="(s, i) in copy.steps" :key="s.h" :style="{ '--i': i }">
@@ -83,10 +85,10 @@ h2 {
   font-weight: 650;
   letter-spacing: -0.035em;
   text-align: center;
-  opacity: 0;
-  transform: translateY(18px);
   transition: opacity 0.8s var(--o-out), transform 0.8s var(--o-out);
 }
+
+.mounted:not(.seen) h2 { opacity: 0; transform: translateY(18px); }
 
 ol {
   position: relative;
@@ -112,11 +114,11 @@ ol::before {
 }
 
 li {
-  opacity: 0;
-  transform: translateY(30px);
   transition: opacity 0.8s var(--o-out), transform 0.9s var(--o-spring);
   transition-delay: calc(var(--i) * 140ms + 200ms);
 }
+
+.mounted:not(.seen) li { opacity: 0; transform: translateY(30px); }
 
 .seen h2,
 .seen li {
@@ -220,8 +222,8 @@ p {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  h2,
-  li {
+  .mounted:not(.seen) h2,
+  .mounted:not(.seen) li {
     opacity: 1;
     transform: none;
     transition: none;

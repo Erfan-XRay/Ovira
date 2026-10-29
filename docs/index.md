@@ -2,8 +2,8 @@
 layout: home
 hero:
   name: Ovira
-  text: An OpenVPN panel for your servers
-  tagline: Clients with traffic and time limits, subscription links, many servers from one panel. One binary, installed in a minute.
+  text: A VPN panel for your servers
+  tagline: Manage OpenVPN and OpenConnect servers, client traffic and time limits, and subscription links from one self-hosted panel.
   image:
     src: /logo.svg
     alt: Ovira
