@@ -404,7 +404,12 @@ enable_forwarding() {
 
 # ----------------------------------------------------------------- unit files
 
+warn_tun() {
+  [[ -c /dev/net/tun ]] || warn "WireGuard requires /dev/net/tun. Enable TUN on this host or container before adding a WireGuard server."
+}
+
 write_panel_units() {
+  warn_tun
   local ovpn; ovpn=$(command -v openvpn || echo /usr/sbin/openvpn)
   cat > "/etc/systemd/system/${SLUG}.service" <<UNIT
 [Unit]
@@ -466,10 +471,35 @@ DeviceAllow=/dev/net/tun rw
 [Install]
 WantedBy=multi-user.target
 UNIT
+  # WireGuard uses the embedded engine; no host package is needed.
+  cat > "/etc/systemd/system/${SLUG}-wg@.service" <<UNIT
+[Unit]
+Description=Ovira WireGuard instance %i
+After=network-online.target ${SLUG}.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+Environment=OVIRA_CONFIG=$CONFIG
+ExecStartPre=-$BIN nat up %i
+ExecStart=$BIN wg run %i
+ExecStopPost=-$BIN nat down %i
+Restart=on-failure
+RestartSec=3
+TimeoutStopSec=20
+LimitNPROC=infinity
+LimitNOFILE=65535
+CapabilityBoundingSet=CAP_NET_ADMIN CAP_NET_BIND_SERVICE
+DeviceAllow=/dev/net/tun rw
+
+[Install]
+WantedBy=multi-user.target
+UNIT
   systemctl daemon-reload
 }
 
 write_node_units() {
+  warn_tun
   local ovpn; ovpn=$(command -v openvpn || echo /usr/sbin/openvpn)
   cat > "/etc/systemd/system/${SLUG}-node.service" <<UNIT
 [Unit]
@@ -525,6 +555,30 @@ RestartSec=3
 TimeoutStopSec=20
 LimitNPROC=infinity
 LimitNOFILE=65535
+DeviceAllow=/dev/net/tun rw
+
+[Install]
+WantedBy=multi-user.target
+UNIT
+  # WireGuard uses the embedded engine; no host package is needed.
+  cat > "/etc/systemd/system/${SLUG}-node-wg@.service" <<UNIT
+[Unit]
+Description=Ovira node WireGuard instance %i
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+Environment=OVIRA_NODE_CONFIG=$NCONFIG
+ExecStartPre=-$BIN node nat up %i
+ExecStart=$BIN node wg run %i
+ExecStopPost=-$BIN node nat down %i
+Restart=on-failure
+RestartSec=3
+TimeoutStopSec=20
+LimitNPROC=infinity
+LimitNOFILE=65535
+CapabilityBoundingSet=CAP_NET_ADMIN CAP_NET_BIND_SERVICE
 DeviceAllow=/dev/net/tun rw
 
 [Install]
@@ -733,15 +787,15 @@ do_uninstall() {
     yesno "Remove $what?" n || { info "Nothing was changed."; return 0; }
   fi
   if [[ $node -eq 1 ]]; then
-    run "Stopping node services" bash -c "for u in \$(systemctl list-units --all --plain --no-legend '${SLUG}-node-ovpn@*' | awk '{print \$1}'); do systemctl disable --now \"\$u\" || true; done; for u in \$(systemctl list-units --all --plain --no-legend '${SLUG}-node-oc@*' | awk '{print \$1}'); do systemctl disable --now \"\$u\" || true; done; systemctl disable --now ${SLUG}-node.service 2>/dev/null || true"
-    rm -f "/etc/systemd/system/${SLUG}-node.service" "/etc/systemd/system/${SLUG}-node-ovpn@.service" "/etc/systemd/system/${SLUG}-node-oc@.service"
+    run "Stopping node services" bash -c "for u in \$(systemctl list-units --all --plain --no-legend '${SLUG}-node-ovpn@*' | awk '{print \$1}'); do systemctl disable --now \"\$u\" || true; done; for u in \$(systemctl list-units --all --plain --no-legend '${SLUG}-node-oc@*' '${SLUG}-node-wg@*' | awk '{print \$1}'); do systemctl disable --now \"\$u\" || true; done; systemctl disable --now ${SLUG}-node.service 2>/dev/null || true"
+    rm -f "/etc/systemd/system/${SLUG}-node.service" "/etc/systemd/system/${SLUG}-node-ovpn@.service" "/etc/systemd/system/${SLUG}-node-oc@.service" "/etc/systemd/system/${SLUG}-node-wg@.service"
     if [[ ! -f /etc/systemd/system/${SLUG}.service ]]; then rm -f "$BIN" /usr/local/bin/ovira "/etc/sysctl.d/99-$SLUG.conf"; rm -rf "$LIBDIR"; fi
     systemctl daemon-reload
     if [[ $PURGE -eq 1 ]]; then rm -rf "/etc/${SLUG:?}-node" "${NDATA:?}"; ok "Ovira node removed, including its data and key."
     else ok "Ovira node removed. Data kept in $NDATA and /etc/$SLUG-node (use --purge to delete)."; fi
   else
-    run "Stopping services" bash -c "for u in \$(systemctl list-units --all --plain --no-legend '${SLUG}-ovpn@*' | awk '{print \$1}'); do systemctl disable --now \"\$u\" || true; done; for u in \$(systemctl list-units --all --plain --no-legend '${SLUG}-oc@*' | awk '{print \$1}'); do systemctl disable --now \"\$u\" || true; done; systemctl disable --now ${SLUG}.service 2>/dev/null || true"
-    rm -f "/etc/systemd/system/${SLUG}.service" "/etc/systemd/system/${SLUG}-ovpn@.service" "/etc/systemd/system/${SLUG}-oc@.service"
+    run "Stopping services" bash -c "for u in \$(systemctl list-units --all --plain --no-legend '${SLUG}-ovpn@*' | awk '{print \$1}'); do systemctl disable --now \"\$u\" || true; done; for u in \$(systemctl list-units --all --plain --no-legend '${SLUG}-oc@*' '${SLUG}-wg@*' | awk '{print \$1}'); do systemctl disable --now \"\$u\" || true; done; systemctl disable --now ${SLUG}.service 2>/dev/null || true"
+    rm -f "/etc/systemd/system/${SLUG}.service" "/etc/systemd/system/${SLUG}-ovpn@.service" "/etc/systemd/system/${SLUG}-oc@.service" "/etc/systemd/system/${SLUG}-wg@.service"
     if [[ ! -f /etc/systemd/system/${SLUG}-node.service ]]; then rm -f "$BIN" /usr/local/bin/ovira "/etc/sysctl.d/99-$SLUG.conf"; rm -rf "$LIBDIR"; fi
     systemctl daemon-reload
     if [[ $PURGE -eq 1 ]]; then rm -rf "/etc/${SLUG:?}" "${DATA:?}"; ok "Ovira removed, including all data."
@@ -776,14 +830,15 @@ cmd_status() {
     done < <(panel_cmd info 2>/dev/null || true)
     if local_on; then
       printf '  %-10s on this server\n' "OpenVPN"
-      local u
-      while read -r u; do [[ -n "$u" ]] && printf '  %-10s %s %s\n' "" "${u%.service}" "$(svc_state "$u")"; done < <(systemctl list-units --all --plain --no-legend "${SLUG}-ovpn@*" "${SLUG}-oc@*" | awk '{print $1}')
     else
       printf '  %-10s %spanel only; add servers under Nodes, or: ovira openvpn enable%s\n' "OpenVPN" "$DIM" "$RST"
     fi
   else
     printf '  %-10s %s\n' "Node key" "$(node_cmd node key -config "$NCONFIG" 2>/dev/null || echo unknown)"
   fi
+  local u prefix="$SLUG"
+  [[ $IS_PANEL -eq 1 ]] || prefix="$SLUG-node"
+  while read -r u; do [[ -n "$u" ]] && printf '  %-10s %s %s\n' "" "${u%.service}" "$(svc_state "$u")"; done < <(systemctl list-units --all --plain --no-legend "${prefix}-ovpn@*" "${prefix}-oc@*" "${prefix}-wg@*" | awk '{print $1}')
   local latest; latest=$(TAG="" latest_tag 2>/dev/null || true)
   if [[ -n "$latest" && -n "$v" && "$latest" != "v$v" ]]; then
     echo; printf '  %sUpdate available: %s%s   (run: ovira update)\n' "$ACC" "$latest" "$RST"
@@ -825,7 +880,16 @@ cmd_update() {
     mktmp; [[ -f "$MANAGE" ]] || install_manager
     return 0
   fi
-  [[ -n "$latest" ]] && info "Installed $cur → $latest"
+  local target=$latest
+  if [[ -n "$BINARY" ]]; then
+    # A copied or downloaded build is often not executable yet.
+    local local_version
+    mktmp; install -m 0755 "$BINARY" "$TMP/version-check"
+    local_version=$("$TMP/version-check" version 2>/dev/null | awk '{print $2}' || true)
+    rm -f "$TMP/version-check"
+    [[ -n "$local_version" ]] && target=$local_version
+  fi
+  [[ -n "$target" ]] && info "Installed $cur → $target"
   TAG=$latest
   if [[ $IS_PANEL -eq 1 ]]; then do_install_panel; else do_install_node; fi
 }
