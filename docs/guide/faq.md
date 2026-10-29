@@ -1,5 +1,13 @@
 # Troubleshooting
 
+### Which VPN protocols are available?
+
+The current documented release supports **OpenVPN**. OpenConnect / ocserv support is in development and is not yet available in this release. Do not use OpenVPN profiles with Cisco Secure Client / AnyConnect.
+
+### Does Ovira provide Telegram support?
+
+There is no official Telegram support service for this project. A support link configured by a panel owner belongs to that owner, not to Ovira. Use this guide and the [project repository](https://github.com/Erfan-XRay/Ovira) for project information.
+
 ### I lost the panel address
 
 ```bash
@@ -39,7 +47,7 @@ Another panel's node may use it. Install with another port: `node --port 62070`,
 
 ### No HTTPS certificate
 
-Ports 80 and 443 are both used by another program. See [HTTPS](./https).
+Check the error shown by the panel or installer. Common causes include both validation ports being occupied, blocked inbound ports, a domain pointing at another host, or certificate-authority limits. See [HTTPS](./https).
 
 ### The panel says the license server is unreachable
 

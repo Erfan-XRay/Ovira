@@ -4,7 +4,8 @@
 
 - A server with **Debian 11+**, **Ubuntu 20.04+** or **AlmaLinux / Rocky 8+**, amd64 or arm64
 - Root access and a public IPv4 address
-- 512 MB of RAM is enough for a few hundred clients
+- Size RAM, CPU and bandwidth for your simultaneous connections and encryption workload; there is no guaranteed client capacity for a fixed RAM size
+- Outbound HTTPS for downloads and paid online license renewal; inbound access to the selected panel, VPN and certificate-validation ports
 
 ## One command
 
@@ -48,7 +49,7 @@ OpenVPN    udp/1194 on this server
 ```
 
 ::: tip Keep the panel path secret
-Everything on the panel port except that path answers *404*, so scanners do not even see a login page.
+Everything on the panel port except that path answers *404*, so the normal login page is not exposed at arbitrary paths. This is an extra layer; keep HTTPS and two-factor sign-in enabled.
 :::
 
 ## Without questions
@@ -86,7 +87,7 @@ bash <(curl -fsSL https://raw.githubusercontent.com/Erfan-XRay/Ovira/main/instal
 5. Gets a Let's Encrypt certificate when you chose HTTPS.
 6. Leaves itself on the server as the **`ovira` command**.
 
-If GitHub is slow or blocked from your server, downloads fall back to the Ovira mirror automatically.
+If GitHub is slow or blocked from your server, downloads fall back to the Ovira mirror automatically. Downloaded releases require OpenSSL 3 or newer to verify their signature; installation stops if verification cannot be completed. An explicitly supplied `--binary` file is local input rather than a verified release download.
 
 ## The `ovira` command
 
@@ -95,7 +96,7 @@ After installing, type `ovira` for a menu:
 ```
   OVIRA  OpenVPN panel
   ──────────────────────────────────────────────
-  ●  Ovira 0.4.2 panel   running
+  ●  Ovira VERSION panel   running
 
      1  Status and address
      2  Update

@@ -12,7 +12,7 @@
 
 <br>
 
-**Ovira** is an OpenVPN panel for Linux servers: one binary with the web UI built in. Create clients with traffic and time limits, hand each one a subscription link, and run OpenVPN on as many servers as you like from a single place. No Docker, no database to set up, no config files to edit.
+**Ovira** is an OpenVPN panel for Linux servers: one binary with the web UI built in. Create clients with traffic and time limits, hand each one a subscription link, and manage local and remote OpenVPN servers within your plan limits from a single place. No Docker, no database to set up, no config files to edit.
 
 <table>
 <tr>
@@ -140,6 +140,8 @@ Argon2id passwords, two-factor sign-in, a secret panel path (everything else ans
 
 ## See it
 
+These screenshots are examples of the interface. Client data and owner-configured branding or support links are illustrative; Ovira does not provide an official Telegram support service.
+
 <p align="center">
   <img src="assets/clients.webp" alt="Clients list with traffic, status and expiry" width="100%">
 </p>
@@ -184,7 +186,7 @@ The panel never carries your clients' traffic unless you let its own server run 
 
 ## Plans
 
-The free plan runs **5 active clients and 2 nodes** with every feature. Paid plans start at **$3 a month** and are bought inside the panel with crypto (USDT TRC20 and other coins); the license activates by itself.
+The free plan allows **5 active clients, 2 remote nodes and 1 panel account**. Reseller accounts are included in Pro and Business. Default paid plans start at **$3 a month**. Buy inside the panel using a currently enabled payment method; activation follows confirmed payment. Payment networks and currencies depend on the checkout provider.
 
 | Plan | Active clients | Nodes | Panels at once | Monthly |
 |---|---|---|---|---|
@@ -193,7 +195,7 @@ The free plan runs **5 active clients and 2 nodes** with every feature. Paid pla
 | **Pro** | 800 | 10 | 2 | $7 |
 | **Business** | unlimited | unlimited | 3 | $15 |
 
-Three months save about 10%, a year about 25%.
+These are default plan prices; check **License** in the panel for current offers, payment methods and limits. See the [license guide](https://erfan-xray.github.io/Ovira/guide/plans) for activation approval, renewal deadlines and server transfers.
 
 ## Documentation
 

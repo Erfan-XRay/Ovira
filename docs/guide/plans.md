@@ -1,6 +1,8 @@
 # Plans and licenses
 
-Ovira is free for small setups. Every feature works on every plan; plans differ only in size.
+Ovira has a free plan for small setups. Plans set client, node, panel and administrator limits; reseller accounts are available on Pro and Business.
+
+The table below lists the default plans. The **License** page shows the current offers, prices and payment methods before you buy.
 
 | Plan | Active clients | Nodes | Panels at once | Panel accounts | 1 month | 3 months | 12 months |
 |---|---|---|---|---|---|---|---|
@@ -11,15 +13,13 @@ Ovira is free for small setups. Every feature works on every plan; plans differ 
 
 Pro and Business include **reseller accounts** (panel users who manage only their own clients, with a client cap).
 
-*Active clients* are enabled and not past their end date. Disabled or expired clients you keep for records do not count.
+*Active clients* are enabled and not past their end date, including clients waiting for their first connection. Disabled or expired clients kept for records do not count. A client that has used its traffic allowance still counts until disabled or expired. The node limit counts remote nodes; the panel's local server is separate.
 
 ## Buy or renew inside the panel
 
 1. Open **License**, choose the period and press **Buy** (or **Renew**).
-2. Pick a payment method:
-   - **USDT on TRON (TRC20)**: send the exact amount shown to the address shown. The decimals identify your payment.
-   - **Other cryptocurrencies**: a NOWPayments page with Bitcoin, Ethereum, TON, USDT on other networks and more.
-3. Keep the window open or close it; the license activates by itself once the payment confirms.
+2. Choose one of the payment methods currently offered. When direct **USDT TRC20** is enabled, use the exact amount, address and network shown. When **NOWPayments** is enabled, follow its checkout for the supported currency and network. Availability depends on the license service.
+3. Wait for payment confirmation and activation. Closing the payment dialog does not cancel the order. The purchase history on **License** shows pending, paid, expired and failed orders; you can reopen pending payments and retry applying a paid order when activation failed.
 
 Renewing adds the paid time to what is left. Switching plans applies the new limits right away.
 
@@ -27,16 +27,20 @@ Renewing adds the paid time to what is left. Switching plans applies the new lim
 
 A license runs on as many panels at the same time as its plan allows. Panels renew their license automatically.
 
-To move a license to another server, open **License → Remove license** on the old one, then paste the key on the new one. Contact support if the new server needs approval.
+To move a license, remove it from the old panel while that panel can reach the license service, then enter the key on the new panel. A released installation's slot can remain reserved until its last signed lease expires, so removal does not guarantee an immediate free slot. Manual activation on a new installation requires the license owner's approval. Purchases inside the panel approve the purchasing installation after payment confirmation.
 
 ## Offline
 
-If a panel cannot reach the license server for a long time, management is paused (tunnels keep running) until it can check in again.
+Paid online licenses need periodic HTTPS access to the license service. Current installation-bound leases last at most 72 hours and normally renew every six hours. Check the deadline and any renewal error on **License**; do not rely on a fixed multi-day grace period beyond the displayed deadline.
+
+When a previously valid signed lease passes its renewal deadline, management becomes read-only until renewal succeeds. This does not itself stop OpenVPN processes; client expiry, traffic allowance, device and access limits continue to apply. A missing, invalid or pending license can instead use the free limits, so these states are not equivalent to a temporary renewal outage.
 
 ## When a license ends
 
-Tunnels keep running, but clients cannot be created or changed until you renew. Renewing from the **License** page restores everything immediately.
+A previously valid license that expires or is suspended makes management read-only. The **License** page remains available for recovery and renewal. Tunnels remain subject to their client limits; renewal restores paid management after the new license evidence is accepted.
 
 ## Keys bought elsewhere
 
 Paste a key (`BRW2-…`) under **License → License key**.
+
+Do not copy a panel database or installation identity to make another licensed panel. Activate the new installation separately, within the plan's panel limit. New offline activation is not supported; already installed legacy offline licenses retain their compatibility path.

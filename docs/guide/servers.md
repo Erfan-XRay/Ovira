@@ -8,8 +8,8 @@ Change a server's port in its editor (**Servers → server → Port**) and save:
 
 To run another protocol or port side by side, **Servers → New server**:
 
-- **UDP** is fastest; use it first.
-- **TCP** passes networks that block UDP. On port 443 it can share the port with a web server (*port share*).
+- **UDP** avoids TCP-over-TCP overhead and is a usual starting point; actual performance depends on the network.
+- **TCP** is an option where UDP is blocked, when that network allows OpenVPN over TCP. Port 443 alone does not guarantee access. OpenVPN's *port share* needs explicit configuration and a compatible web backend; it does not automatically share a listener owned by another service.
 - On a node, pick the node in the **Node** field; ports only need to be free on that machine.
 
 ## Sign-in modes

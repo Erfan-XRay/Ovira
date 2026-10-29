@@ -5,8 +5,10 @@ Ovira gets free certificates from Let's Encrypt and renews them itself. Pick a m
 | Mode | When to use | Certificate life |
 |---|---|---|
 | **Domain** | You have a domain whose A record points at the server | 90 days, renewed at 30 days left |
-| **Server IP** | No domain | about 6 days, renewed every 2 days |
+| **Server IP** | No domain | Short-lived certificate; renewal starts when one third of its lifetime remains |
 | **None** | Behind your own TLS proxy, or for testing | — |
+
+Ovira checks renewal hourly and attempts it when one third of the certificate lifetime remains. Issuance and lifetime depend on the certificate authority; inspect the actual expiry in the panel. Keep the validation port reachable for renewals.
 
 ## How it works
 
