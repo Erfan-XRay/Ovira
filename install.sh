@@ -83,7 +83,7 @@ LOGFILE=/var/log/ovira-install.log
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
-    panel|node|install|update|upgrade|uninstall|status|info|start|stop|restart|logs|password|passwd|license|ssl|openvpn|key|backup|menu|version|help)
+    panel|node|install|update|upgrade|uninstall|status|info|start|stop|restart|logs|password|passwd|license|ssl|openvpn|ocserv|key|backup|menu|version|help)
       if [[ -z "$CMD" ]]; then CMD="$1"; else ARGS+=("$1"); fi; shift ;;
     --node) CMD=node; shift ;;
     --uninstall) UNINSTALL_FLAG=1; shift ;;
@@ -373,6 +373,22 @@ ensure_openvpn() {
   systemctl disable --now openvpn.service openvpn-server@server.service 2>/dev/null || true
 }
 
+ensure_ocserv() {
+  if ! command -v ocserv >/dev/null; then
+    run "Installing the OpenConnect server, ocserv ($OS_NAME)" pkg_install ocserv || die "Could not install ocserv. Your distribution may not offer it."
+  fi
+  local ver; ver=$(ocserv --version 2>&1 | grep -oE '[0-9]+\.[0-9]+(\.[0-9]+)?' | head -1)
+  ok "ocserv ${ver:-?}"
+  # The distribution's own units would start a second server on port 443; Ovira runs its instances itself.
+  # Unit by unit: some distributions (Ubuntu 24.04) ship no ocserv.socket, and one missing unit must not block the other.
+  local u
+  for u in ocserv.service ocserv.socket; do
+    if systemctl disable --now "$u" >/dev/null 2>&1; then
+      systemctl reset-failed "$u" >/dev/null 2>&1 || true
+    fi
+  done
+}
+
 ensure_base_tools() {
   command -v curl >/dev/null && command -v openssl >/dev/null && return 0
   run "Installing tools ($OS_NAME)" pkg_install curl ca-certificates openssl || die "Package installation failed."
@@ -426,6 +442,30 @@ DeviceAllow=/dev/net/tun rw
 [Install]
 WantedBy=multi-user.target
 UNIT
+  # OpenConnect instances run under their own template; it costs nothing when unused.
+  cat > "/etc/systemd/system/${SLUG}-oc@.service" <<UNIT
+[Unit]
+Description=Ovira OpenConnect instance %i
+After=network-online.target ${SLUG}.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+Environment=OVIRA_CONFIG=$CONFIG
+ExecStartPre=-$BIN nat up %i
+ExecStart=$BIN oc run %i
+ExecReload=/bin/kill -HUP \$MAINPID
+ExecStopPost=-$BIN nat down %i
+Restart=on-failure
+RestartSec=3
+TimeoutStopSec=20
+LimitNPROC=infinity
+LimitNOFILE=65535
+DeviceAllow=/dev/net/tun rw
+
+[Install]
+WantedBy=multi-user.target
+UNIT
   systemctl daemon-reload
 }
 
@@ -462,6 +502,29 @@ ExecStopPost=-$BIN node nat down %i
 Restart=on-failure
 RestartSec=3
 LimitNPROC=infinity
+DeviceAllow=/dev/net/tun rw
+
+[Install]
+WantedBy=multi-user.target
+UNIT
+  cat > "/etc/systemd/system/${SLUG}-node-oc@.service" <<UNIT
+[Unit]
+Description=Ovira node OpenConnect instance %i
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+Environment=OVIRA_NODE_CONFIG=$NCONFIG
+ExecStartPre=-$BIN node nat up %i
+ExecStart=$BIN node oc run %i
+ExecReload=/bin/kill -HUP \$MAINPID
+ExecStopPost=-$BIN node nat down %i
+Restart=on-failure
+RestartSec=3
+TimeoutStopSec=20
+LimitNPROC=infinity
+LimitNOFILE=65535
 DeviceAllow=/dev/net/tun rw
 
 [Install]
@@ -670,15 +733,15 @@ do_uninstall() {
     yesno "Remove $what?" n || { info "Nothing was changed."; return 0; }
   fi
   if [[ $node -eq 1 ]]; then
-    run "Stopping node services" bash -c "for u in \$(systemctl list-units --all --plain --no-legend '${SLUG}-node-ovpn@*' | awk '{print \$1}'); do systemctl disable --now \"\$u\" || true; done; systemctl disable --now ${SLUG}-node.service 2>/dev/null || true"
-    rm -f "/etc/systemd/system/${SLUG}-node.service" "/etc/systemd/system/${SLUG}-node-ovpn@.service"
+    run "Stopping node services" bash -c "for u in \$(systemctl list-units --all --plain --no-legend '${SLUG}-node-ovpn@*' | awk '{print \$1}'); do systemctl disable --now \"\$u\" || true; done; for u in \$(systemctl list-units --all --plain --no-legend '${SLUG}-node-oc@*' | awk '{print \$1}'); do systemctl disable --now \"\$u\" || true; done; systemctl disable --now ${SLUG}-node.service 2>/dev/null || true"
+    rm -f "/etc/systemd/system/${SLUG}-node.service" "/etc/systemd/system/${SLUG}-node-ovpn@.service" "/etc/systemd/system/${SLUG}-node-oc@.service"
     if [[ ! -f /etc/systemd/system/${SLUG}.service ]]; then rm -f "$BIN" /usr/local/bin/ovira "/etc/sysctl.d/99-$SLUG.conf"; rm -rf "$LIBDIR"; fi
     systemctl daemon-reload
     if [[ $PURGE -eq 1 ]]; then rm -rf "/etc/${SLUG:?}-node" "${NDATA:?}"; ok "Ovira node removed, including its data and key."
     else ok "Ovira node removed. Data kept in $NDATA and /etc/$SLUG-node (use --purge to delete)."; fi
   else
-    run "Stopping services" bash -c "for u in \$(systemctl list-units --all --plain --no-legend '${SLUG}-ovpn@*' | awk '{print \$1}'); do systemctl disable --now \"\$u\" || true; done; systemctl disable --now ${SLUG}.service 2>/dev/null || true"
-    rm -f "/etc/systemd/system/${SLUG}.service" "/etc/systemd/system/${SLUG}-ovpn@.service"
+    run "Stopping services" bash -c "for u in \$(systemctl list-units --all --plain --no-legend '${SLUG}-ovpn@*' | awk '{print \$1}'); do systemctl disable --now \"\$u\" || true; done; for u in \$(systemctl list-units --all --plain --no-legend '${SLUG}-oc@*' | awk '{print \$1}'); do systemctl disable --now \"\$u\" || true; done; systemctl disable --now ${SLUG}.service 2>/dev/null || true"
+    rm -f "/etc/systemd/system/${SLUG}.service" "/etc/systemd/system/${SLUG}-ovpn@.service" "/etc/systemd/system/${SLUG}-oc@.service"
     if [[ ! -f /etc/systemd/system/${SLUG}-node.service ]]; then rm -f "$BIN" /usr/local/bin/ovira "/etc/sysctl.d/99-$SLUG.conf"; rm -rf "$LIBDIR"; fi
     systemctl daemon-reload
     if [[ $PURGE -eq 1 ]]; then rm -rf "/etc/${SLUG:?}" "${DATA:?}"; ok "Ovira removed, including all data."
@@ -714,7 +777,7 @@ cmd_status() {
     if local_on; then
       printf '  %-10s on this server\n' "OpenVPN"
       local u
-      while read -r u; do [[ -n "$u" ]] && printf '  %-10s %s %s\n' "" "${u%.service}" "$(svc_state "$u")"; done < <(systemctl list-units --all --plain --no-legend "${SLUG}-ovpn@*" | awk '{print $1}')
+      while read -r u; do [[ -n "$u" ]] && printf '  %-10s %s %s\n' "" "${u%.service}" "$(svc_state "$u")"; done < <(systemctl list-units --all --plain --no-legend "${SLUG}-ovpn@*" "${SLUG}-oc@*" | awk '{print $1}')
     else
       printf '  %-10s %spanel only; add servers under Nodes, or: ovira openvpn enable%s\n' "OpenVPN" "$DIM" "$RST"
     fi
@@ -744,7 +807,11 @@ cmd_logs() {
   require_installed
   local unit; unit=$(main_unit)
   local target=${ARGS[0]:-}
-  if [[ -n "$target" ]]; then unit="$SLUG-ovpn@$target.service"; fi
+  if [[ -n "$target" ]]; then
+    unit="$SLUG-ovpn@$target.service"
+    # OpenConnect instances have their own unit template.
+    if systemctl cat "$SLUG-oc@$target.service" >/dev/null 2>&1 && ! systemctl cat "$unit" >/dev/null 2>&1; then unit="$SLUG-oc@$target.service"; fi
+  fi
   if [[ $FOLLOW -eq 1 ]]; then journalctl -u "$unit" -n 50 -f --no-pager; else journalctl -u "$unit" -n 100 --no-pager; fi
 }
 
@@ -863,6 +930,21 @@ cmd_openvpn() {
   esac
 }
 
+cmd_ocserv() {
+  require_installed; need_root
+  [[ $IS_PANEL -eq 1 ]] || die "Run this on the panel; nodes install OpenConnect when the panel asks for it."
+  local sub=${ARGS[0]:-status}
+  case "$sub" in
+    status) panel_cmd ocserv status ;;
+    install)
+      detect_os
+      ensure_ocserv
+      write_panel_units
+      ok "OpenConnect is ready. Add an OpenConnect server under Servers in the panel." ;;
+    *) die "Use: ovira ocserv install|status" ;;
+  esac
+}
+
 cmd_key() {
   require_installed
   [[ $IS_NODE -eq 1 ]] || die "Only a node has a key."
@@ -905,6 +987,8 @@ cmd_help() {
     ovira ssl             HTTPS certificate for the panel
     ovira openvpn enable  also run OpenVPN servers on the panel's own server
     ovira openvpn disable | status
+    ovira ocserv install  install the OpenConnect (Cisco AnyConnect) server software
+    ovira ocserv status
     ovira logs [-f]       show (or follow) the log
     ovira backup [FILE]   save the database and settings to one file
     ovira key             show a node's key
@@ -1022,6 +1106,7 @@ case "$CMD" in
   license) cmd_license ;;
   ssl) cmd_ssl ;;
   openvpn) cmd_openvpn ;;
+  ocserv) cmd_ocserv ;;
   key) cmd_key ;;
   backup) cmd_backup ;;
   uninstall) do_uninstall ;;
