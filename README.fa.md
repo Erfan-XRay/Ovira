@@ -55,7 +55,7 @@ bash <(curl -fsSL https://raw.githubusercontent.com/Erfan-XRay/Ovira/main/instal
 
 | انتخاب | چیست |
 |---|---|
-| **پنل** | پنل وب. پورت را می‌پرسد، اینکه این سرور OpenVPN هم اجرا کند یا یک *پنل خالی* بماند که فقط نودها را مدیریت می‌کند، پورت‌های OpenVPN و روش HTTPS: گواهی Let's Encrypt برای دامنه، برای آی‌پی سرور، یا هیچ. بعد آدرس و رمز را چاپ می‌کند. |
+| **پنل** | پنل وب. پورت را می‌پرسد، اینکه این سرور خودش هم نود باشد یا فقط پنل بماند و نودهای دیگر را مدیریت کند، و روش HTTPS: گواهی Let's Encrypt برای دامنه، برای آی‌پی سرور، یا هیچ. بعد آدرس و رمز را چاپ می‌کند. |
 | **نود** | یک سرور OpenVPN اضافه برای پنلی که جای دیگر اجرا می‌شود. در پنل، **نودها ← اتصال نود** دستور دقیق را آمادهٔ کپی نشان می‌دهد. |
 
 هر دانلود قبل از نصب با **امضای نسخه** بررسی می‌شود. سؤال نمی‌خواهید؟ همه‌چیز را می‌شود به‌صورت گزینه داد؛ [راهنمای نصب](https://erfan-xray.github.io/Ovira/fa/guide/install) را ببینید.
@@ -81,7 +81,7 @@ bash <(curl -fsSL https://raw.githubusercontent.com/Erfan-XRay/Ovira/main/instal
 
 <div dir="rtl">
 
-پنل خالی را بعداً با `ovira openvpn enable` می‌شود به سرور OpenVPN هم تبدیل کرد.
+نصب‌کننده هیچ اینباندی نمی‌سازد؛ اینباندها را در پنل، بخش «اینباندها»، بسازید. سرور فقط‌پنل را بعداً با `ovira local-node enable` می‌شود نود هم کرد.
 
 </div>
 
@@ -102,7 +102,7 @@ bash <(curl -fsSL https://raw.githubusercontent.com/Erfan-XRay/Ovira/main/instal
 | `ovira password` | رمز جدید برای یک ادمین: خودتان بنویسید یا یک رمز تصادفی قوی |
 | `ovira license` | لایسنس و شناسهٔ دستگاه |
 | `ovira ssl` | گواهی HTTPS برای دامنه یا آی‌پی |
-| `ovira openvpn enable` | سرور خود پنل را هم سرور OpenVPN کنید (`disable` برای برگشت) |
+| `ovira local-node enable` | سرور خود پنل را هم نود کنید (`disable` برای برگشت؛ `ovira openvpn` هم کار می‌کند) |
 | `ovira logs` · `restart` · `backup` · `uninstall` | همان‌طور که اسمشان می‌گوید |
 
 ## چه چیزی می‌گیرید

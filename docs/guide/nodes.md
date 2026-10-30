@@ -20,13 +20,13 @@ The node key contains the node's API key and its certificate fingerprint, so the
 
 ## The panel's own server
 
-A panel can be installed **on its own** (an empty panel that only manages nodes) or together with OpenVPN on the same server, see [Install](./install#panel-with-openvpn-or-an-empty-panel). On an empty panel the card of **This server** says *Panel only*. To make that server a node too, run on it:
+The installer asks whether the panel's own server is a node too, see [Install](./install#local-node). If not, the card of **This server** says *Panel only*. To make that server a node too, run on it:
 
 ```bash
-ovira openvpn enable
+ovira local-node enable
 ```
 
-It installs OpenVPN if needed and creates the first inbounds. `ovira openvpn disable` stops them again; the panel and its other nodes keep working.
+It installs OpenVPN if needed; create inbounds under **Inbounds**. `ovira local-node disable` stops them again; the panel and its other nodes keep working.
 
 ## Devices at once
 

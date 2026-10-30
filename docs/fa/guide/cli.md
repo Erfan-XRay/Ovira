@@ -14,7 +14,7 @@
 | `ovira password [USER]` | رمز جدید برای یک ادمین پنل: خودتان بنویسید یا Enter بزنید تا رمز تصادفی قوی ساخته شود. نشست‌های دیگر آن ادمین بسته می‌شوند |
 | `ovira license` | لایسنس و شناسهٔ دستگاه (لایسنس در پنل، بخش **لایسنس** فعال می‌شود) |
 | `ovira ssl [status\|domain\|ip\|off]` | گواهی HTTPS پنل؛ [HTTPS](./https) را ببینید |
-| `ovira openvpn enable\|disable\|status` | روی سرور خود پنل هم OpenVPN اجرا کنید، یا متوقفش کنید. [نصب](./install#پنل-با-openvpn-یا-پنل-خالی) را ببینید |
+| `ovira local-node enable\|disable\|status` | سرور خود پنل را نود هم کنید، یا فقط‌پنل (`ovira openvpn` هم کار می‌کند). [نصب](./install#local-node) را ببینید |
 | `ovira backup [FILE]` | دیتابیس و تنظیمات را در یک فایل `.tar.gz` خصوصی ذخیره می‌کند (پیش‌فرض `/root/ovira-backup-DATE.tar.gz`) |
 | `ovira key` | روی نود: کلید نود را دوباره چاپ می‌کند |
 | `ovira uninstall [--purge]` | حذف اویرا؛ `--purge` داده‌ها را هم پاک می‌کند |

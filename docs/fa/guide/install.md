@@ -27,17 +27,17 @@ bash <(curl -fsSL https://raw.githubusercontent.com/Erfan-XRay/Ovira/main/instal
 | سؤال | پیش‌فرض | توضیح |
 |---|---|---|
 | پورت پنل | `2053` | هر پورت TCP آزاد |
-| OpenVPN روی همین سرور هم اجرا شود؟ | بله | پایین‌تر توضیح داده شده |
-| پورت UDP اوپن‌وی‌پی‌ان | `1194` | فقط اگر OpenVPN اینجا اجرا شود |
-| OpenVPN روی TCP هم اجرا شود؟ | نه | برای شبکه‌هایی که UDP را می‌بندند؛ پورتش را می‌پرسد (پیش‌فرض `443`) |
+| این سرور نود هم باشد؟ | بله | پایین‌تر توضیح داده شده |
 | HTTPS پنل | آی‌پی سرور | دامنه، آی‌پی سرور یا بدون SSL؛ [HTTPS](./https) را ببینید |
 
-### پنل با OpenVPN، یا پنل خالی
+### این سرور به‌عنوان نود {#local-node}
 
-- **بله**: همین یک سرور هم پنل است و هم سرور OpenVPN. برای یک VPS تنها مناسب است.
-- **نه**: یک *پنل خالی* که فقط نودها را مدیریت می‌کند. هیچ چیزِ مربوط به OpenVPN روی آن نصب نمی‌شود؛ سرورها را از بخش **نودها** اضافه کنید.
+- **بله**: این سرور خودش هم اینباند اجرا می‌کند و در بخش **نودها** به‌عنوان نودِ خود پنل دیده می‌شود. برای یک VPS تنها مناسب است.
+- **نه**: فقط پنل؛ نودهای دیگر را مدیریت می‌کند. آن‌ها را از بخش **نودها** وصل کنید.
 
-هر وقت نظرتان عوض شد می‌شود برگشت. روی سرور فقط‌پنل، `ovira openvpn enable` اوپن‌وی‌پی‌ان را نصب می‌کند و سرور خود پنل را هم نود می‌کند. `ovira openvpn disable` دوباره خاموشش می‌کند و سرورهایش را برای بعد نگه می‌دارد.
+نصب‌کننده هیچ اینباندی نمی‌سازد. اینباندها را در پنل، بخش **اینباندها**، بسازید.
+
+هر وقت نظرتان عوض شد می‌شود برگشت: `ovira local-node enable` سرور پنل را نود هم می‌کند و `ovira local-node disable` دوباره خاموشش می‌کند و اینباندهایش را برای بعد نگه می‌دارد.
 
 در پایان آدرس پنل، نام کاربری و رمز چاپ می‌شود:
 
@@ -45,7 +45,7 @@ bash <(curl -fsSL https://raw.githubusercontent.com/Erfan-XRay/Ovira/main/instal
 Panel      https://203.0.113.10:2053/k3x9qa7bd1/
 Username   admin
 Password   Zp8...
-OpenVPN    udp/1194 on this server
+Node       this server is a node of this panel
 ```
 
 ::: tip مسیر پنل را مخفی نگه دارید
@@ -58,18 +58,16 @@ OpenVPN    udp/1194 on this server
 
 ```bash
 bash <(curl -fsSL https://raw.githubusercontent.com/Erfan-XRay/Ovira/main/install.sh) panel --yes \
-  --port 8443 --udp-port 1194 --tcp --tcp-port 443 \
+  --port 8443 \
   --ssl domain --domain panel.example.com --email you@example.com
 ```
 
 | گزینه | معنی |
 |---|---|
 | `panel` / `node` | چه چیزی نصب شود (پیش‌فرض: پنل) |
-| `--panel-only` | پنل خالی: بدون OpenVPN روی این سرور |
-| `--with-openvpn` | سرور پنل OpenVPN هم اجرا کند (پیش‌فرض) |
+| `--no-local-node` (`--panel-only`) | فقط پنل: این سرور نود نیست |
+| `--local-node` (`--with-openvpn`) | این سرور نود هم باشد (پیش‌فرض) |
 | `--port N` | پورت پنل (نود: پورت API، پیش‌فرض `62060`) |
-| `--udp-port N` | پورت UDP اوپن‌وی‌پی‌ان |
-| `--tcp` / `--tcp-port N` | سرور TCP هم روی این پورت اجرا شود |
 | `--ssl domain\|ip\|none` | روش HTTPS پنل |
 | `--domain`، `--email` | برای `--ssl domain` |
 | `--user NAME` | نام اولین ادمین (پیش‌فرض `admin`) |

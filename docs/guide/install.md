@@ -27,17 +27,17 @@ Press Enter to keep a default:
 | Question | Default | Notes |
 |---|---|---|
 | Panel port | `2053` | Any free TCP port |
-| Run OpenVPN on this server too? | yes | See below |
-| OpenVPN UDP port | `1194` | Only if OpenVPN runs here |
-| Also run OpenVPN over TCP? | no | For networks that block UDP; asks for the port (default `443`) |
+| Use this server as a node too? | yes | See below |
 | HTTPS for the panel | server IP | Domain, server IP or none, see [HTTPS](./https) |
 
-### Panel with OpenVPN, or an empty panel
+### This server as a node {#local-node}
 
-- **Yes**: this one server is both the panel and an OpenVPN server. Right for a single VPS.
-- **No**: an *empty panel* that only manages nodes. Nothing OpenVPN-related is installed on it; add servers under **Nodes**.
+- **Yes**: this server also runs inbounds and shows up under **Nodes** as the panel's own node. Right for a single VPS.
+- **No**: panel only; it manages other nodes. Connect them under **Nodes**.
 
-You can change your mind at any time. On a panel-only server, `ovira openvpn enable` installs OpenVPN and makes the panel's own server a node too. `ovira openvpn disable` turns it off again and keeps its inbounds for later.
+The installer creates no inbounds. Create them in the panel under **Inbounds**.
+
+You can change your mind at any time: `ovira local-node enable` makes the panel's server a node too, `ovira local-node disable` turns it off again and keeps its inbounds for later.
 
 At the end the script prints the panel address, user name and password:
 
@@ -45,7 +45,7 @@ At the end the script prints the panel address, user name and password:
 Panel      https://203.0.113.10:2053/k3x9qa7bd1/
 Username   admin
 Password   Zp8...
-OpenVPN    udp/1194 on this server
+Node       this server is a node of this panel
 ```
 
 ::: tip Keep the panel path secret
@@ -58,18 +58,16 @@ Every answer can be passed as an option, which is handy for scripts:
 
 ```bash
 bash <(curl -fsSL https://raw.githubusercontent.com/Erfan-XRay/Ovira/main/install.sh) panel --yes \
-  --port 8443 --udp-port 1194 --tcp --tcp-port 443 \
+  --port 8443 \
   --ssl domain --domain panel.example.com --email you@example.com
 ```
 
 | Option | Meaning |
 |---|---|
 | `panel` / `node` | What to install (default: panel) |
-| `--panel-only` | Empty panel: no OpenVPN on this server |
-| `--with-openvpn` | The panel's server runs OpenVPN too (default) |
+| `--no-local-node` (`--panel-only`) | Panel only: this server is not a node |
+| `--local-node` (`--with-openvpn`) | This server is a node too (default) |
 | `--port N` | Panel port (node: API port, default `62060`) |
-| `--udp-port N` | OpenVPN UDP port |
-| `--tcp` / `--tcp-port N` | Start the TCP server too, on this port |
 | `--ssl domain\|ip\|none` | How the panel gets HTTPS |
 | `--domain`, `--email` | For `--ssl domain` |
 | `--user NAME` | Name of the first admin (default `admin`) |

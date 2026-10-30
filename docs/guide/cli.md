@@ -14,7 +14,7 @@ All commands run as root on the server. Type `ovira` alone for a menu; every men
 | `ovira password [USER]` | New password for a panel admin: type one or press Enter for a strong random one. Other sessions of that admin are signed out |
 | `ovira license` | License and machine ID (the license is activated in the panel under **License**) |
 | `ovira ssl [status\|domain\|ip\|off]` | HTTPS certificate for the panel, see [HTTPS](./https) |
-| `ovira openvpn enable\|disable\|status` | Run OpenVPN on the panel's own server too, or stop. See [Install](./install#panel-with-openvpn-or-an-empty-panel) |
+| `ovira local-node enable\|disable\|status` | Make the panel's own server a node too, or panel only (`ovira openvpn` still works). See [Install](./install#local-node) |
 | `ovira backup [FILE]` | Save the database and settings into one private `.tar.gz` (default `/root/ovira-backup-DATE.tar.gz`) |
 | `ovira key` | On a node: print the node key again |
 | `ovira uninstall [--purge]` | Remove Ovira; `--purge` deletes the data too |

@@ -14,7 +14,7 @@
 #   ovira password        set a new password for a panel admin
 #   ovira license         license and machine ID
 #   ovira ssl             HTTPS certificate for the panel
-#   ovira openvpn enable  also run OpenVPN servers on the panel's own server
+#   ovira local-node enable|disable   make this server a node of its own panel (or panel only)
 #   ovira logs [-f]       show (or follow) the log
 #   ovira backup          save the database and settings to one file
 #   ovira restart|start|stop
@@ -22,12 +22,9 @@
 #
 # Everything the questions ask can be given as options instead:
 #
-#   --panel-only            the panel only manages nodes; no OpenVPN on this server
-#   --with-openvpn          the panel's own server runs OpenVPN too (default)
+#   --local-node            this server is also a node of the panel (default; same as --with-openvpn)
+#   --no-local-node         panel only, it manages other nodes (same as --panel-only)
 #   --port 2053             panel port
-#   --udp-port 1194         OpenVPN UDP port
-#   --tcp-port 443          OpenVPN TCP port (started only with --tcp)
-#   --tcp                   start the TCP server too
 #   --ssl domain|ip|none    HTTPS with a Let's Encrypt certificate, or plain HTTP
 #   --domain panel.example.com   --email you@example.com
 #   --user admin            name of the first admin
@@ -36,6 +33,9 @@
 #   --yes                   do not ask; use the options and defaults
 #   --fresh                 after a removal that kept its data: start empty instead
 #   --purge                 with uninstall: delete data too
+#
+# The installer creates no inbounds: create them in the panel under Inbounds.
+# --udp-port, --tcp-port and --tcp are still accepted but ignored.
 #
 # Nodes have their own installer, node.sh. The old forms "install.sh node ...",
 # --node and --uninstall --node still work: they hand over to node.sh.
@@ -1109,9 +1109,7 @@ brand_init() {
 
 CMD=""
 PORT=""
-UDP_PORT=""
-TCP_PORT=""
-TCP_ON=""
+IGNORED_OPT=0
 SSL=""
 DOMAIN=""
 EMAIL=""
@@ -1157,15 +1155,14 @@ fi
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
-    panel|install|update|upgrade|uninstall|status|info|start|stop|restart|logs|password|passwd|license|ssl|openvpn|ocserv|key|backup|menu|version|help)
+    panel|install|update|upgrade|uninstall|status|info|start|stop|restart|logs|password|passwd|license|ssl|openvpn|local-node|ocserv|key|backup|menu|version|help)
       if [[ -z "$CMD" ]]; then CMD="$1"; else ARGS+=("$1"); fi; shift ;;
     --uninstall) CMD=uninstall; shift ;;
-    --panel-only) OPENVPN_HERE=0; shift ;;
-    --with-openvpn) OPENVPN_HERE=1; shift ;;
+    --panel-only|--no-local-node) OPENVPN_HERE=0; shift ;;
+    --with-openvpn|--local-node) OPENVPN_HERE=1; shift ;;
     --port) PORT="${2:-}"; shift 2 || shift ;;
-    --udp-port) UDP_PORT="${2:-}"; shift 2 || shift ;;
-    --tcp-port) TCP_PORT="${2:-}"; shift 2 || shift ;;
-    --tcp) TCP_ON=1; shift ;;
+    --udp-port|--tcp-port) IGNORED_OPT=1; shift 2 || shift ;;
+    --tcp) IGNORED_OPT=1; shift ;;
     --ssl) SSL="${2:-}"; shift 2 || shift ;;
     --domain) DOMAIN="${2:-}"; shift 2 || shift ;;
     --email) EMAIL="${2:-}"; shift 2 || shift ;;
@@ -1185,13 +1182,14 @@ while [[ $# -gt 0 ]]; do
 done
 ui_init
 brand_init
+(( IGNORED_OPT )) && printf '  %s--udp-port, --tcp-port and --tcp are ignored: create inbounds in the panel under Inbounds.%s\n' "$DIM" "$RST"
 
 # ------------------------------------------------------------ panel specifics
 
-local_on() { # does this server run OpenVPN for the panel?
+local_on() { # is this server a node of its own panel?
   local out
   if out=$(panel_cmd openvpn status 2>/dev/null); then
-    [[ "$out" == *": on"* ]]
+    [[ "$out" == *": yes"* || "$out" == *": on"* ]]
   else # a binary from before the command existed: look at the units
     systemctl list-units --plain --no-legend "${SLUG}-ovpn@*" 2>/dev/null | grep -q running
   fi
@@ -1329,41 +1327,15 @@ panel_wizard() {
     ask_port PORT "Panel port" 2053 tcp
   fi
 
-  step 2 4 "OpenVPN on this server"
+  step 2 4 "This server as a node"
   if [[ -z "$OPENVPN_HERE" ]]; then
     if ui_has_input; then
-      printf '  %s  yes: this server runs the panel and OpenVPN together (a single-server setup)%s\n' "$DIM" "$RST"
-      printf '  %s  no : an empty panel that only manages nodes; add them later under Nodes%s\n' "$DIM" "$RST"
-      printf '  %s  You can switch any time with: ovira openvpn enable%s\n' "$DIM" "$RST"
-      if pick_yesno "Run OpenVPN on this server too?" y; then OPENVPN_HERE=1; else OPENVPN_HERE=0; fi
+      printf '  %s  yes: this server also runs VPN inbounds and shows up in the Nodes list as the panel'"'"'s own node%s\n' "$DIM" "$RST"
+      printf '  %s  no : panel only, it just manages other nodes (change it later from the menu)%s\n' "$DIM" "$RST"
+      if pick_yesno "Use this server as a node too?" y; then OPENVPN_HERE=1; else OPENVPN_HERE=0; fi
     else
       OPENVPN_HERE=1
     fi
-  fi
-  if [[ "$OPENVPN_HERE" == 1 ]]; then
-    if [[ -n "$UDP_PORT" ]]; then
-      valid_port "$UDP_PORT" || die "Not a port number: $UDP_PORT"
-      udp_busy "$UDP_PORT" && die "Port $UDP_PORT/udp is already in use; choose another with --udp-port."
-    else
-      ask_port UDP_PORT "OpenVPN UDP port" 1194 udp
-    fi
-    if [[ -z "$TCP_ON" ]]; then
-      if ui_has_input; then
-        if pick_yesno "Also run OpenVPN over TCP (for networks that block UDP)?" n; then TCP_ON=1; else TCP_ON=0; fi
-      else
-        TCP_ON=0
-      fi
-    fi
-    if [[ -n "$TCP_PORT" ]]; then
-      valid_port "$TCP_PORT" || die "Not a port number: $TCP_PORT"
-      if [[ $TCP_ON -eq 1 ]] && { tcp_busy "$TCP_PORT" || [[ "$TCP_PORT" == "$PORT" ]]; }; then die "Port $TCP_PORT/tcp is already in use; choose another with --tcp-port."; fi
-    elif [[ $TCP_ON -eq 1 ]]; then
-      ask_port TCP_PORT "OpenVPN TCP port" 443 tcp "$PORT"
-    else
-      TCP_PORT=443
-    fi
-  else
-    UDP_PORT=${UDP_PORT:-1194}; TCP_PORT=${TCP_PORT:-443}; TCP_ON=0
   fi
 
   step 3 4 "HTTPS"
@@ -1394,11 +1366,8 @@ panel_wizard() {
   card_top "SUMMARY"
   ui_kv "Panel port" "$PORT/tcp"
   ui_kv "Admin user" "$ADMIN_USER"
-  if [[ "$OPENVPN_HERE" == 1 ]]; then
-    ui_kv "OpenVPN" "udp/$UDP_PORT$([[ $TCP_ON -eq 1 ]] && echo ", tcp/$TCP_PORT") on this server"
-  else
-    ui_kv "OpenVPN" "none here (panel only)"
-  fi
+  ui_kv "Node here" "$([[ "$OPENVPN_HERE" == 1 ]] && echo yes || echo no)"
+  ui_kv "Inbounds" "none yet: create them in the panel under Inbounds"
   case "$SSL" in
     domain) ui_kv "HTTPS" "Let's Encrypt for $DOMAIN" ;;
     ip) ui_kv "HTTPS" "Let's Encrypt for this server's IP" ;;
@@ -1415,9 +1384,9 @@ ready_card_panel() { # ready_card_panel URL PASSWORD
   card_top "READY $G_MID Ovira ${v:-}"
   ui_kv "Username" "$ADMIN_USER" "$BOLD"
   if [[ "$OPENVPN_HERE" == 1 ]]; then
-    ui_kv "OpenVPN" "udp/$UDP_PORT$([[ $TCP_ON -eq 1 ]] && echo ", tcp/$TCP_PORT") on this server"
+    ui_kv "Node" "this server is a node of this panel (add inbounds under Inbounds)"
   else
-    ui_kv "OpenVPN" "panel only: open Nodes in the panel to connect a server" "$DIM"
+    ui_kv "Panel only" "connect nodes under Nodes" "$DIM"
   fi
   card_sep "Panel address (open it in your browser)"
   card_copy "$1"
@@ -1428,6 +1397,7 @@ ready_card_panel() { # ready_card_panel URL PASSWORD
   card_text "Turn on two-factor sign-in under Settings $G_FLOW My account."
   card_text "Free plan: 5 active clients, 2 nodes. Upgrade under License."
   card_text "Run ${BOLD}ovira${RST} any time for the menu (status, update, logs)."
+  card_text "Create your first inbound under Inbounds."
   card_text "To add a node, run the node command on another server."
   card_end
 }
@@ -1536,11 +1506,9 @@ do_install_panel() {
   info "Public address: $public"
   mkdir -p "$CONFDIR" "$DATA"
   chmod 711 "$DATA"  # OpenVPN (as nobody) must reach pki/crl.pem
-  local tcp_flag=""; [[ $TCP_ON -eq 1 ]] && tcp_flag="-tcp"
   local local_flag="-local=true"; [[ "$OPENVPN_HERE" == 1 ]] || local_flag="-local=false"
   pubhost=$public; [[ "$SSL" == domain ]] && pubhost=$DOMAIN
-  out=$(OVIRA_CONFIG=$CONFIG "$BIN" init -config "$CONFIG" -data "$DATA" -port "$PORT" -public-host "$pubhost" -username "$ADMIN_USER" \
-    -udp-port "$UDP_PORT" -tcp-port "$TCP_PORT" $tcp_flag $local_flag)
+  out=$(OVIRA_CONFIG=$CONFIG "$BIN" init -config "$CONFIG" -data "$DATA" -port "$PORT" -public-host "$pubhost" -username "$ADMIN_USER" $local_flag)
   pass=$(echo "$out" | awk -F': *' '/^password/ {print $2}')
   base=$(echo "$out" | awk -F': *' '/^panel path/ {print $2}')
 
@@ -1558,12 +1526,6 @@ do_install_panel() {
   systemctl enable --now "${SLUG}.service" >/dev/null 2>&1
   open_port "$PORT/tcp"
   ok "Panel started"
-  if [[ "$OPENVPN_HERE" == 1 ]]; then
-    systemctl enable --now "${SLUG}-ovpn@udp$UDP_PORT.service" >/dev/null 2>&1 || warn "OpenVPN did not start; check: journalctl -u ${SLUG}-ovpn@udp$UDP_PORT"
-    [[ $TCP_ON -eq 1 ]] && { systemctl enable --now "${SLUG}-ovpn@tcp$TCP_PORT.service" >/dev/null 2>&1 || true; }
-    open_port "$UDP_PORT/udp" nat
-    [[ $TCP_ON -eq 1 ]] && open_port "$TCP_PORT/tcp" nat
-  fi
   ready_card_panel "$scheme://$host:$PORT$base" "$pass"
   after_install
 }
@@ -1656,9 +1618,9 @@ panel_status_lines() {
   ui_item "$G_SEC" "HTTPS" "$tls"
   ui_item "$G_SEC" "License" "${PI_LIC:-unknown}"
   if (( ${MENU_LOCAL:-0} )); then
-    ui_item "$G_SEC" "OpenVPN" "on: this server runs VPN servers"
+    ui_item "$G_SEC" "Node here" "yes: this server is a node of this panel"
   else
-    ui_item "$G_SEC" "OpenVPN" "off: panel only (add nodes, or turn it on in the menu)"
+    ui_item "$G_SEC" "Node here" "no: panel only (connect nodes, or turn it on in the menu)"
   fi
   if [[ -z "$latest" ]]; then
     ui_item "$G_SEC" "Update" "could not check for a newer release"
@@ -1815,23 +1777,18 @@ cmd_openvpn() {
     enable)
       ui_header
       detect_os
-      if [[ -n "$UDP_PORT" ]]; then valid_port "$UDP_PORT" || die "Not a port number: $UDP_PORT"; else ask_port UDP_PORT "OpenVPN UDP port" 1194 udp; fi
       ensure_openvpn
       enable_forwarding
       write_panel_units
-      local tcp=""; [[ "$TCP_ON" == 1 ]] && tcp="-tcp"
-      [[ -n "$TCP_PORT" ]] || TCP_PORT=443
-      OVIRA_MANAGE=1 panel_cmd openvpn enable -udp-port "$UDP_PORT" -tcp-port "$TCP_PORT" $tcp
+      OVIRA_MANAGE=1 panel_cmd openvpn enable
       run "Restarting the panel" systemctl restart "$SLUG.service"
-      open_port "$UDP_PORT/udp" nat
-      [[ "$TCP_ON" == 1 ]] && open_port "$TCP_PORT/tcp" nat
-      ok "This server now runs OpenVPN too (udp/$UDP_PORT). See Servers in the panel." ;;
+      ok "This server is now a node of this panel. Create inbounds under Inbounds." ;;
     disable)
-      if [[ $YES -eq 0 ]] && ui_has_input; then pick_yesno "Stop OpenVPN on this server? Clients connected here are disconnected." n || { info "Nothing was changed."; return 0; }; fi
+      if [[ $YES -eq 0 ]] && ui_has_input; then pick_yesno "Stop using this server as a node? Clients connected here are disconnected." n || { info "Nothing was changed."; return 0; }; fi
       OVIRA_MANAGE=1 panel_cmd openvpn disable
       run "Restarting the panel" systemctl restart "$SLUG.service"
-      ok "OpenVPN is off here. The panel and its nodes keep working." ;;
-    *) die "Use: ovira openvpn enable|disable|status" ;;
+      ok "This server is panel only now. The panel and its other nodes keep working." ;;
+    *) die "Use: ovira local-node enable|disable|status" ;;
   esac
 }
 
@@ -1884,8 +1841,8 @@ cmd_help() {
     ovira password [USER] set a new password for a panel admin
     ovira license         license and machine ID
     ovira ssl             HTTPS certificate for the panel
-    ovira openvpn enable  also run OpenVPN servers on the panel's own server
-    ovira openvpn disable | status
+    ovira local-node enable   make this server a node of its own panel too
+    ovira local-node disable | status
     ovira ocserv install  install the OpenConnect (Cisco AnyConnect) server software
     ovira ocserv status
     ovira logs [-f]       show (or follow) the log
@@ -1897,7 +1854,7 @@ cmd_help() {
 
     bash <(curl -fsSL $RAW_BASE/install.sh) [options]
 
-    --panel-only  --with-openvpn  --port N  --udp-port N  --tcp-port N  --tcp
+    --local-node  --no-local-node  --port N   (the panel creates no inbounds; add them under Inbounds)
     --ssl domain|ip|none  --domain D  --email E  --user NAME
     --beta  --binary FILE  --yes  --fresh  --purge
 
@@ -1929,11 +1886,11 @@ menu_build() {
   menu_add start "Start the panel" "Start the panel if it is stopped."
   menu_add stop "Stop the panel" "Stop the panel service. Asks first."
   menu_add logs "Live logs" "Follow the panel log. Ctrl+C comes back here."
-  menu_section "VPN ON THIS SERVER"
+  menu_section "THIS SERVER"
   if (( MENU_LOCAL )); then
-    menu_add openvpn "OpenVPN on this server: ON (turn off)" "Stop the OpenVPN servers on this machine. Asks first."
+    menu_add openvpn "This server as a node: ON (turn off)" "Stop this machine's inbounds and list it as panel only. Asks first."
   else
-    menu_add openvpn "OpenVPN on this server: OFF (turn on)" "Also run OpenVPN servers on the panel's own machine."
+    menu_add openvpn "This server as a node: OFF (turn on)" "Also use the panel's own machine as a node, so inbounds can run here."
   fi
   menu_add ocserv "Install OpenConnect" "Install the OpenConnect (AnyConnect) server software."
   (( IS_NODE )) && menu_add node "Node on this server" "Open the menu of the node that is installed here."
@@ -2034,7 +1991,7 @@ case "$CMD" in
       password|passwd) cmd_password ;;
       license) cmd_license ;;
       ssl) cmd_ssl ;;
-      openvpn) cmd_openvpn ;;
+      openvpn|local-node) cmd_openvpn ;;
       ocserv) cmd_ocserv ;;
       key) if (( IS_NODE )); then run_node_script installed "${ORIG_ARGS[@]}"; else die "Only a node has a key."; fi ;;
       backup) cmd_backup ;;

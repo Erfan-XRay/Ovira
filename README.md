@@ -49,7 +49,7 @@ The script downloads Ovira itself, so there is nothing to copy over first, and i
 
 | Choose | What it is |
 |---|---|
-| **Panel** | The web panel. It asks for the port, whether this server should also run OpenVPN (or stay an *empty panel* that only manages nodes), the OpenVPN ports and how to get HTTPS: a Let's Encrypt certificate for your domain, for the server's IP, or none. Then it prints the address and your password. |
+| **Panel** | The web panel. It asks for the port, whether this server is also a node (or stays a panel that only manages other nodes) and how to get HTTPS: a Let's Encrypt certificate for your domain, for the server's IP, or none. Then it prints the address and your password. |
 | **Node** | An extra OpenVPN server for a panel running elsewhere. In the panel, **Nodes → Connect a node** shows the exact command, ready to copy. |
 
 Every download is checked against the **release signature** before anything is installed. Prefer no questions? Everything can be passed as options, see the [install guide](https://erfan-xray.github.io/Ovira/guide/install).
@@ -63,7 +63,7 @@ Every download is checked against the **release signature** before anything is i
 # a node, answering only your panel
 bash <(curl -fsSL https://raw.githubusercontent.com/Erfan-XRay/Ovira/main/node.sh) --panel-ip PANEL_IP
 
-# an empty panel that only manages nodes
+# a panel only, it manages other nodes
 bash <(curl -fsSL https://raw.githubusercontent.com/Erfan-XRay/Ovira/main/install.sh) panel --panel-only
 
 # no questions at all
@@ -71,7 +71,7 @@ bash <(curl -fsSL https://raw.githubusercontent.com/Erfan-XRay/Ovira/main/instal
   --port 8443 --ssl domain --domain panel.example.com --email you@example.com
 ```
 
-An empty panel can become an OpenVPN server later with `ovira openvpn enable`.
+The installer creates no inbounds; create them in the panel under Inbounds. A panel-only server can become a node too later with `ovira local-node enable`.
 
 </details>
 
@@ -88,7 +88,7 @@ After installing, `ovira` opens a menu on the server, and every entry is also a 
 | `ovira password` | New password for a panel admin: your own, or a strong random one |
 | `ovira license` | License and machine ID |
 | `ovira ssl` | HTTPS certificate for a domain or an IP |
-| `ovira openvpn enable` | Make the panel's own server an OpenVPN server too (`disable` to undo) |
+| `ovira local-node enable` | Make the panel's own server a node too (`disable` to undo; `ovira openvpn` still works) |
 | `ovira logs` · `restart` · `backup` · `uninstall` | Exactly what they say |
 
 ## What you get
