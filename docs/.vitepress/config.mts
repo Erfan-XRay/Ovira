@@ -12,12 +12,13 @@ const enGuide = [
   {
     text: "Running it",
     items: [
-      { text: "OpenVPN servers", link: "/guide/servers" },
+      { text: "Inbounds and OpenVPN", link: "/guide/servers" },
       { text: "OpenConnect (Cisco)", link: "/guide/openconnect" },
       { text: "WireGuard", link: "/guide/wireguard" },
       { text: "Nodes and relays", link: "/guide/nodes" },
       { text: "Groups", link: "/guide/groups" },
       { text: "Updates", link: "/guide/updates" },
+      { text: "Panel accounts and resellers", link: "/guide/resellers" },
       { text: "Plans and licenses", link: "/guide/plans" },
     ],
   },
@@ -42,12 +43,13 @@ const faGuide = [
   {
     text: "کار با پنل",
     items: [
-      { text: "سرورهای OpenVPN", link: "/fa/guide/servers" },
+      { text: "اینباندها و OpenVPN", link: "/fa/guide/servers" },
       { text: "OpenConnect (سیسکو)", link: "/fa/guide/openconnect" },
       { text: "وایرگارد (WireGuard)", link: "/fa/guide/wireguard" },
       { text: "نودها و سرورهای واسط", link: "/fa/guide/nodes" },
       { text: "گروه‌ها", link: "/fa/guide/groups" },
       { text: "به‌روزرسانی", link: "/fa/guide/updates" },
+      { text: "حساب‌های پنل و نمایندگان", link: "/fa/guide/resellers" },
       { text: "پلن‌ها و لایسنس", link: "/fa/guide/plans" },
     ],
   },

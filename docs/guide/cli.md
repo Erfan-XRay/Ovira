@@ -10,7 +10,7 @@ All commands run as root on the server. Type `ovira` alone for a menu; every men
 | `ovira status` | What is running: version, panel address, machine ID, license, OpenVPN services. Tells you when an update is out |
 | `ovira update` | Install the newest release (`--beta` for the beta channel, `--force` to reinstall) |
 | `ovira restart` / `start` / `stop` | Control the panel (or the node) service |
-| `ovira logs` | Last 100 log lines; `-f` follows them; `ovira logs udp1194` shows one OpenVPN server |
+| `ovira logs` | Last 100 log lines; `-f` follows them; `ovira logs udp1194` shows one OpenVPN inbound |
 | `ovira password [USER]` | New password for a panel admin: type one or press Enter for a strong random one. Other sessions of that admin are signed out |
 | `ovira license` | License and machine ID (the license is activated in the panel under **License**) |
 | `ovira ssl [status\|domain\|ip\|off]` | HTTPS certificate for the panel, see [HTTPS](./https) |
@@ -42,7 +42,7 @@ ovira node reset-key                         # new API key; paste the new key in
 
 ```bash
 systemctl status ovira                       # the panel
-systemctl status 'ovira-ovpn@*'              # OpenVPN servers on the panel's server
+systemctl status 'ovira-ovpn@*'              # OpenVPN inbounds on the panel's server
 systemctl status ovira-node 'ovira-node-ovpn@*'   # on a node
 journalctl -u ovira -u 'ovira-ovpn@*' -f    # follow the logs
 ```

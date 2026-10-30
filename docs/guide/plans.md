@@ -11,7 +11,7 @@ The table below lists the default plans. The **License** page shows the current 
 | **Pro** | 800 | 10 | 2 | 5 | $7 | $19 | $63 |
 | **Business** | unlimited | unlimited | 3 | unlimited | $15 | $40 | $135 |
 
-Pro and Business include **reseller accounts** (panel users who manage only their own clients, with a client cap).
+Pro and Business include **reseller accounts** (panel users who manage only their own clients, with a client cap and an optional traffic pool). See [Panel accounts and resellers](./resellers).
 
 *Active clients* are enabled and not past their end date, including clients waiting for their first connection. Disabled or expired clients kept for records do not count. A client that has used its traffic allowance still counts until disabled or expired. The node limit counts remote nodes; the panel's local server is separate.
 

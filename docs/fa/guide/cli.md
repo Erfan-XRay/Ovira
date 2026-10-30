@@ -10,7 +10,7 @@
 | `ovira status` | چه چیزی در حال اجراست: نسخه، آدرس پنل، شناسهٔ دستگاه، لایسنس، سرویس‌های OpenVPN. اگر نسخهٔ جدیدی باشد خبر می‌دهد |
 | `ovira update` | نصب جدیدترین نسخه (`--beta` برای کانال بتا، `--force` برای نصب دوباره) |
 | `ovira restart` / `start` / `stop` | کنترل سرویس پنل (یا نود) |
-| `ovira logs` | ۱۰۰ خط آخر لاگ؛ `-f` دنبالش می‌کند؛ `ovira logs udp1194` لاگ یک سرور OpenVPN را نشان می‌دهد |
+| `ovira logs` | ۱۰۰ خط آخر لاگ؛ `-f` دنبالش می‌کند؛ `ovira logs udp1194` لاگ یک اینباند OpenVPN را نشان می‌دهد |
 | `ovira password [USER]` | رمز جدید برای یک ادمین پنل: خودتان بنویسید یا Enter بزنید تا رمز تصادفی قوی ساخته شود. نشست‌های دیگر آن ادمین بسته می‌شوند |
 | `ovira license` | لایسنس و شناسهٔ دستگاه (لایسنس در پنل، بخش **لایسنس** فعال می‌شود) |
 | `ovira ssl [status\|domain\|ip\|off]` | گواهی HTTPS پنل؛ [HTTPS](./https) را ببینید |
@@ -42,7 +42,7 @@ ovira node reset-key                         # کلید API جدید؛ کلید 
 
 ```bash
 systemctl status ovira                       # پنل
-systemctl status 'ovira-ovpn@*'              # سرورهای OpenVPN روی سرور پنل
+systemctl status 'ovira-ovpn@*'              # اینباندهای OpenVPN روی سرور پنل
 systemctl status ovira-node 'ovira-node-ovpn@*'   # روی نود
 journalctl -u ovira -u 'ovira-ovpn@*' -f    # دنبال کردن لاگ‌ها
 ```

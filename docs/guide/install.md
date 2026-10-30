@@ -37,7 +37,7 @@ Press Enter to keep a default:
 - **Yes**: this one server is both the panel and an OpenVPN server. Right for a single VPS.
 - **No**: an *empty panel* that only manages nodes. Nothing OpenVPN-related is installed on it; add servers under **Nodes**.
 
-You can change your mind at any time. On a panel-only server, `ovira openvpn enable` installs OpenVPN and makes the panel's own server a node too. `ovira openvpn disable` turns it off again and keeps its servers for later.
+You can change your mind at any time. On a panel-only server, `ovira openvpn enable` installs OpenVPN and makes the panel's own server a node too. `ovira openvpn disable` turns it off again and keeps its inbounds for later.
 
 At the end the script prints the panel address, user name and password:
 
@@ -82,7 +82,7 @@ bash <(curl -fsSL https://raw.githubusercontent.com/Erfan-XRay/Ovira/main/instal
 
 1. Installs the packages it needs (OpenVPN 2.5 or newer and iptables only when this server runs OpenVPN).
 2. Downloads the release, checks it against `SHA256SUMS` and the **release signature**, and refuses anything that does not match.
-3. Creates the `ovira` service and, with OpenVPN, one `ovira-ovpn@NAME` service per OpenVPN server.
+3. Creates the `ovira` service and, with OpenVPN, one `ovira-ovpn@NAME` service per OpenVPN inbound.
 4. Turns on IPv4 forwarding, opens the ports in ufw or firewalld when they are active.
 5. Gets a Let's Encrypt certificate when you chose HTTPS.
 6. Leaves itself on the server as the **`ovira` command**.

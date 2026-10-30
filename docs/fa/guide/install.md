@@ -82,7 +82,7 @@ bash <(curl -fsSL https://raw.githubusercontent.com/Erfan-XRay/Ovira/main/instal
 
 1. بسته‌های لازم را نصب می‌کند (OpenVPN نسخهٔ ۲٫۵ یا جدیدتر و iptables فقط وقتی این سرور OpenVPN اجرا می‌کند).
 2. نسخه را دانلود می‌کند، با `SHA256SUMS` و **امضای نسخه** بررسی می‌کند و هر چیزی را که مطابقت نداشته باشد رد می‌کند.
-3. سرویس `ovira` و، با OpenVPN، برای هر سرور OpenVPN یک سرویس `ovira-ovpn@NAME` می‌سازد.
+3. سرویس `ovira` و، با OpenVPN، برای هر اینباند OpenVPN یک سرویس `ovira-ovpn@NAME` می‌سازد.
 4. IPv4 forwarding را فعال می‌کند و اگر ufw یا firewalld فعال باشد پورت‌ها را باز می‌کند.
 5. اگر HTTPS انتخاب کرده باشید، گواهی Let's Encrypt می‌گیرد.
 6. خودش را به‌صورت **دستور `ovira`** روی سرور می‌گذارد.

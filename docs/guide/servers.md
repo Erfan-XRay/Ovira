@@ -1,14 +1,14 @@
-# OpenVPN servers
+# Inbounds and OpenVPN
 
-**Servers** lists every server the panel runs, grouped by node. Each one is a separate process with its own port, protocol and tunnel network, and a badge shows whether it is **OpenVPN** or **OpenConnect**. This page covers OpenVPN; see [OpenConnect (Cisco)](./openconnect) for the other kind.
+An **inbound** is one protocol with its own port and tunnel network on a node. **Inbounds** lists every inbound the panel runs, grouped by node; the node that hosts the panel is shown as **This server**. A badge shows whether each one is **OpenVPN**, **OpenConnect** or **WireGuard**. This page covers OpenVPN; see [OpenConnect (Cisco)](./openconnect) and [WireGuard](./wireguard) for the others.
 
-In **Servers → New server**, the first choice is the **Protocol**. It cannot be changed later.
+In **Inbounds → New inbound**, the first choice is the **Protocol**. It cannot be changed later. The form suggests a name and a free port, and keeps the advanced settings collapsed until you open them.
 
 ## Ports
 
-Change a server's port in its editor (**Servers → server → Port**) and save: Ovira rewrites the config, moves the firewall rules and restarts that server. Clients get the new port in their profile the next time they download it.
+Change an inbound's port in its editor (**Inbounds → inbound → Port**) and save: Ovira rewrites the config, moves the firewall rules and restarts that inbound. Clients get the new port in their profile the next time they download it.
 
-To run another protocol or port side by side, **Servers → New server**:
+To run another protocol or port side by side, **Inbounds → New inbound**:
 
 - **UDP** avoids TCP-over-TCP overhead and is a usual starting point; actual performance depends on the network.
 - **TCP** is an option where UDP is blocked, when that network allows OpenVPN over TCP. Port 443 alone does not guarantee access. OpenVPN's *port share* needs explicit configuration and a compatible web backend; it does not automatically share a listener owned by another service.
@@ -22,7 +22,7 @@ To run another protocol or port side by side, **Servers → New server**:
 | Certificate + password | Profile, user name and password |
 | Password only | User name and password; no client certificate |
 
-Clients see their user name and password on the subscription page when a server asks for them.
+Clients see their user name and password on the subscription page when an inbound asks for them.
 
 ## Network and routing
 

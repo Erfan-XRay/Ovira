@@ -10,7 +10,7 @@ There is no official Telegram support service for this project. A support link c
 
 ### The Cisco app says "untrusted server" (OpenConnect)
 
-Turn off **Block untrusted servers** in Cisco Secure Client's settings, or use the panel certificate for that server. See [OpenConnect (Cisco)](./openconnect#certificate).
+Turn off **Block untrusted servers** in Cisco Secure Client's settings, or use the panel certificate for that inbound. See [OpenConnect (Cisco)](./openconnect#certificate).
 
 ### I lost the panel address
 
@@ -27,13 +27,13 @@ ovira admin reset-2fa -username admin
 
 ### A client connects but has no internet
 
-- Check that **NAT** is on for that server (**Servers → server → Network**).
+- Check that **NAT** is on for that inbound (**Inbounds → inbound → Network**).
 - Another firewall (for example a cloud provider's security group) must allow the OpenVPN port.
 - On servers where nftables manages the firewall, Ovira keeps its rules in its own `ovira` table: `nft list table ip ovira`.
 
 ### "device limit reached"
 
-The client already has as many tunnels open as allowed, counted across all servers and nodes. Disconnect an old session under **Connections**, or raise the limit.
+The client already has as many tunnels open as allowed, counted across all inbounds and nodes. Disconnect an old session under **Connections**, or raise the limit.
 
 ### Two devices on one profile kick each other off
 

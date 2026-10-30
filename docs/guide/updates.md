@@ -23,7 +23,7 @@ When a new version is out, every admin sees a banner at the top of the panel and
 
 1. The panel downloads the release from the Ovira mirror (or GitHub), checks it against the **signed** checksum list, and refuses anything that does not match.
 2. It checks the downloaded executable's version, keeps a backup, replaces the binary and restarts. The progress window waits for the requested version to confirm startup; download and startup time vary.
-3. OpenVPN keeps running; a server is restarted only if the new version changes its settings.
+3. OpenVPN keeps running; an inbound is restarted only if the new version changes its settings.
 4. When the new version is running, every open panel page **reloads by itself**, including pages of other admins and after an automatic update, and says which version it is now on. Nobody has to refresh.
 5. With **Update nodes together with the panel** on, node updates follow only after the panel confirms successful startup. Each node downloads and verifies the release and reports its own progress or error. Updating the agent does not intentionally stop OpenVPN, but uninterrupted tunnels are not guaranteed if a host, VPN process or changed configuration needs restarting.
 
