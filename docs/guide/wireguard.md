@@ -28,15 +28,16 @@ Turn on **Amnezia obfuscation** in the inbound form to use Amnezia mode. You can
 
 1. **Inbounds → New inbound**.
 2. Under **Protocol**, pick **WireGuard**. The protocol is fixed once the inbound exists.
-3. Pick the **Node** (or **This server**), give it a **Name**, and choose a UDP **Port** (default 51820) that is free on that machine.
-4. **Tunnel network**: the form suggests one and shows how many devices it holds (a /16 holds about 65,000 devices). Change it if it overlaps a network already used on that machine.
+3. Give it a **Name**, and choose a UDP **Port** (default 51820) that is free on the node you attach it to.
+4. **Tunnel network**: enter a range to see how many devices it holds (a /16 holds about 65,000 devices), or leave it empty to have a free range picked when attached.
 5. Under **Access**, choose which existing groups and clients get the new inbound. All of them are selected by default; groups with *all inbounds* get it anyway.
-6. Press **Create**.
+6. Press **Create**. It is saved under **Not on a node** and does not run yet.
+7. On **Nodes**, press **Attach inbound** on the target node's card (including **This server**) and select it. The port and tunnel network are checked against that node before it starts; if a check fails, nothing changes and the dialog shows why.
 
 Nothing needs to be installed: WireGuard is built into Ovira. The machine only needs **TUN** (`/dev/net/tun`), which almost every VPS has; some container-based VPS types do not. The Nodes page shows *WireGuard ready* or *No TUN* for every node.
 
 ::: tip Nodes
-A node needs Ovira 0.7.0 or newer to run WireGuard. Update it from **Updates** if the form says so.
+A node needs Ovira 0.7.0 or newer to run WireGuard. Update it from **Updates** if the attach dialog says so.
 :::
 
 ## Devices
