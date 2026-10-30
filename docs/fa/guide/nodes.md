@@ -7,7 +7,7 @@
 **۱. در پنل**، **نودها ← اتصال نود** را باز کنید. دستور نصب را با آدرس پنل شما پر شده نشان می‌دهد؛ دکمهٔ کپی را بزنید و با root روی سرور جدید اجرا کنید:
 
 ```bash
-bash <(curl -fsSL https://raw.githubusercontent.com/Erfan-XRay/Ovira/main/install.sh) node --panel-ip PANEL_IP
+bash <(curl -fsSL https://raw.githubusercontent.com/Erfan-XRay/Ovira/main/node.sh) --panel-ip PANEL_IP
 ```
 
 اسکریپت اویرا را خودش از گیت‌هاب می‌گیرد، پس لازم نیست چیزی از قبل روی سرور جدید کپی کنید. `--panel-ip` باعث می‌شود نود فقط به پنل شما جواب بدهد. در پایان یک **کلید نود** (`BNK1-…`) چاپ می‌کند. نود روی پورت TCP **62060** گوش می‌دهد؛ برای پورت دیگر از `--port` استفاده کنید.

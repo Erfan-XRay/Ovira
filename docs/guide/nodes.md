@@ -7,7 +7,7 @@ A **node** is another server that runs OpenVPN, OpenConnect or WireGuard inbound
 **1. In the panel**, open **Nodes → Connect a node**. It shows the install command with your panel's address already filled in; press the copy button and run it as root on the new server:
 
 ```bash
-bash <(curl -fsSL https://raw.githubusercontent.com/Erfan-XRay/Ovira/main/install.sh) node --panel-ip PANEL_IP
+bash <(curl -fsSL https://raw.githubusercontent.com/Erfan-XRay/Ovira/main/node.sh) --panel-ip PANEL_IP
 ```
 
 The script downloads Ovira from GitHub itself, so nothing is copied to the new server first. `--panel-ip` makes the node answer only your panel. When it finishes it prints a **node key** (`BNK1-…`). The node listens on TCP port **62060**; use `--port` for another one.
