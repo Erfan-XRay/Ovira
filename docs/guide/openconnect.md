@@ -20,13 +20,14 @@ OpenConnect is available on every plan, Free included. Clients and nodes count a
 
 1. **Inbounds → New inbound**.
 2. Under **Protocol**, pick **OpenConnect (Cisco)**. The protocol is fixed once the inbound exists.
-3. Pick the **Node** (or **This server**), give it a **Name** and keep port **443** if it is free. The form suggests a free tunnel network.
-4. Press **Create**.
+3. Give it a **Name** and keep port **443** if it is free on the node you attach it to. Set the tunnel network; **Certificate** can stay on **Automatic** so the node chooses when attached.
+4. Press **Create**. It is saved under **Not on a node** and does not run yet.
+5. On **Nodes**, press **Attach inbound** on the target node's card (including **This server**) and select it. Port availability, tunnel network overlaps, OpenConnect installation and the certificate are checked against that node here. If a check fails, nothing changes and the dialog shows why; otherwise the inbound starts there.
 
-If OpenConnect is not installed on that machine yet, the form tells you. On a node, Ovira installs it for you when the first OpenConnect inbound is applied; if that fails the error stays on the inbound, Ovira tries again by itself every 10 minutes, and **Sync node** on the Nodes page retries at once. On the main server, press **Install OpenConnect** in the form: the installation runs in the background (it can take a few minutes, you can keep the page open) and the **Create** button unlocks when it finishes. If it fails, the form shows the reason and a **Try again** button. The form also shows the installed version, or that the node needs an update first.
+To use OpenConnect on the panel's own server, press **Install OpenConnect** on the **This server** card on **Nodes** and wait for installation to finish before attaching the inbound there. Another node installs OpenConnect by itself when the first OpenConnect inbound is attached to it. Creating or editing an inbound does not check installation or certificate availability.
 
 ::: tip Nodes
-A node needs a recent Ovira version to run OpenConnect. If the form says the node must be updated, update it from **Updates** (nodes follow the panel) and try again. The Nodes page shows the OpenConnect version of every node and of the main server, or *not installed*.
+A node needs a recent Ovira version to run OpenConnect. If the attach dialog says the node must be updated, update it from **Updates** (nodes follow the panel) and try again. The Nodes page shows the OpenConnect version of every node and of the main server, or *not installed*.
 :::
 
 ## Settings
@@ -41,7 +42,7 @@ DNS, routes, NAT, IPv6, maximum clients, tunnel network and the public address o
 
 ## Certificate
 
-OpenConnect always uses TLS, so the app checks the server's certificate. You pick one of three sources per inbound:
+OpenConnect always uses TLS, so the app checks the server's certificate. Leave **Certificate** on **Automatic** for the node to choose when attached, or pick a source per inbound:
 
 | Source | Where | What clients see |
 |---|---|---|
@@ -49,13 +50,13 @@ OpenConnect always uses TLS, so the app checks the server's certificate. You pic
 | **Panel certificate** (trusted) | Servers on the panel's own server | No warning, because it is the panel's own Let's Encrypt certificate. Needs an HTTPS certificate on the panel (see [HTTPS](./https)), and clients must connect to the same domain or IP the certificate was issued for. |
 | **Trusted, from the node** (Let's Encrypt) | Servers on a node | No warning. The node itself gets a free Let's Encrypt certificate for its own IP address or for a domain name that points at it. Clients must connect to that name or IP. |
 
-The default is the panel certificate when it is available, otherwise the Ovira one. When the panel certificate is renewed, or issued by hand with `ovira ssl issue`, the OpenConnect inbounds that use it reload it by themselves; connected clients stay connected.
+Certificate availability is checked when the inbound is attached to a node. When the panel certificate is renewed, or issued by hand with `ovira ssl issue`, the OpenConnect inbounds that use it reload it by themselves; connected clients stay connected.
 
 ### Trusted certificates on a node
 
 Pick **Trusted (Let's Encrypt, from the node)** in the inbound's **Certificate** field and fill in the **Certificate name**:
 
-- **A domain name** such as `vpn.example.com`. It must already point at the node (an `A` record to the node's IPv4 address). Let's Encrypt checks it from the outside, so a name that points elsewhere cannot be issued. Ovira warns you when the name does not seem to point at the node, and saves anyway. Certificates for a name last about 90 days.
+- **A domain name** such as `vpn.example.com`. It must already point at the node (an `A` record to the node's IPv4 address). Let's Encrypt checks it from the outside, so a name that points elsewhere cannot be issued. The certificate is checked against the node when you attach the inbound, rather than when you save the form. Certificates for a name last about 90 days.
 - **Empty**, for a certificate for the node's **IP address**. This works when the node is added to the panel by its IP address. Such certificates are short-lived (about 6 days) and renew by themselves every few days. If the node is added by a name, enter the name or its IP address instead.
 
 How it works: the node, not the panel, asks Let's Encrypt, because Let's Encrypt must reach the machine the clients connect to. The node keeps one Let's Encrypt account and its certificates in its own data directory. It renews when a third of the certificate's lifetime is left, retries with growing pauses (5 minutes up to an hour) if that fails, and reloads the server without disconnecting anyone.
@@ -101,6 +102,6 @@ On the admin side, a client's page (**Clients → client**) lists the OpenConnec
 - **A trusted certificate is not issued**: check that the name points at the node, and that TCP port 80 on the node is free and open (also in the provider's firewall). The error on the inbound says which.
 - **A browser or scanner sees "Restricted Content" or a refusal**: that is camouflage working. Use the full address including `?secret`.
 - **Camouflage is greyed out**: the machine has an ocserv older than 1.2.0. Update ocserv on it, then reopen the form.
-- **The port is "already used"**: OpenConnect needs the TCP port, and with DTLS the UDP port of the same number, to be free on that machine. Another OpenVPN inbound on TCP 443 conflicts with it; use a different port.
+- **The port is "already used"**: OpenConnect needs the TCP port, and with DTLS the UDP port of the same number, to be free on the node you attach it to. Another OpenVPN inbound on TCP 443 conflicts with it; use a different port.
 - **Connects but no internet**: check **NAT** on the inbound and your provider's firewall for the TCP and UDP port, as with OpenVPN (see [Troubleshooting](./faq)).
 - **A client is refused**: the same rules as OpenVPN apply (disabled, expired, out of traffic, device limit). Check **Connections** and the client's page.

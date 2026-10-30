@@ -14,7 +14,9 @@ The script downloads Ovira from GitHub itself, so nothing is copied to the new s
 
 **2. Back in the dialog**, paste the key, give the node a name and save. The panel connects within seconds.
 
-**3. Add an inbound on it**: on the node's card, **Add an inbound on this node**. Pick the protocol, then its port, like on **This server**. The first OpenConnect inbound installs OpenConnect on the node automatically; until then the node's card says *OpenConnect not installed*. A node that runs an older Ovira shows *Update this node to use OpenConnect*: update it first.
+**3. Attach an inbound**: create one first under **Inbounds → New inbound**, then press **Attach inbound** on the node's card and select it from **Not on a node**. Every card, including **This server**, has this button. The target node is checked before the inbound starts; if a check fails, nothing changes and the dialog shows why. For OpenConnect on **This server**, use **Install OpenConnect** on that card before attaching.
+
+The **Detach** icon beside an inbound stops it and returns it to **Not on a node**; clients keep their access, but connected users are disconnected. To move an inbound, select it with **Attach inbound** on another node; the new node is checked before it leaves the old one.
 
 The node key contains the node's API key and its certificate fingerprint, so the panel talks only to that node. If you reinstall a node, paste its new key in the node's editor. `ovira key` on the node prints the key again.
 
@@ -68,7 +70,7 @@ If only the management connection is lost, existing OpenVPN processes may keep t
 
 ## Remove a node
 
-**Nodes → ⋯ → Remove node** stops its inbounds and takes them out of every profile. To remove the software from the node itself:
+**Nodes → ⋯ → Remove node** stops its inbounds and moves them to **Not on a node**, keeping clients' access. Attach them to another node to run them again. To remove the software from the node itself:
 
 ```bash
 ovira --node --uninstall --purge
