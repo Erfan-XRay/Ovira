@@ -1,0 +1,222 @@
+/* Landing page: shared tokens and pieces. Component details live in each .vue file. */
+
+:root {
+  /* three protocol lines; each passes 4.5:1 on its page background */
+  --o-ovpn: #3d6f00;
+  --o-wg: #006f7d;
+  --o-oc: #9a4d00;
+  --o-bad: #b3261e;
+  --o-warn: #8a5a00;
+  --o-map-bg: rgba(246, 245, 238, 0.6);
+  --o-station: #f6f5ee;
+  --o-station-ink: #0b1713;
+}
+
+.dark {
+  --o-ovpn: #c4f82a;
+  --o-wg: #46d6e6;
+  --o-oc: #ffb454;
+  --o-bad: #ff7b72;
+  --o-warn: #ffc15a;
+  --o-map-bg: rgba(10, 17, 18, 0.55);
+  --o-station: #05090a;
+  --o-station-ink: #e9f3ee;
+}
+
+.ov {
+  position: relative;
+  overflow-x: clip;
+  color: var(--vp-c-text-1);
+}
+
+.ov-wrap {
+  max-width: 1152px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.ov-section {
+  padding: 88px 0;
+  scroll-margin-top: 72px;
+}
+
+@media (max-width: 767px) {
+  .ov-section {
+    padding: 64px 0;
+  }
+}
+
+/* section label: a station marker and its number */
+.ov-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 14px;
+  font-family: var(--vp-font-family-mono);
+  font-size: 12.5px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--vp-c-text-2);
+}
+
+.ov-eyebrow::before {
+  content: "";
+  width: 12px;
+  height: 12px;
+  border: 3px solid var(--vp-c-brand-3);
+  border-radius: 50%;
+  background: var(--o-station);
+  box-shadow: 0 0 12px var(--o-glow);
+}
+
+[dir="rtl"] .ov-eyebrow {
+  letter-spacing: 0;
+  font-family: var(--vp-font-family-base);
+  font-size: 14px;
+}
+
+.ov h2.ov-h2 {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-family: var(--o-display);
+  font-size: clamp(30px, 4.2vw, 46px);
+  font-weight: 650;
+  line-height: 1.1;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+}
+
+[dir="rtl"] .ov h2.ov-h2 {
+  line-height: 1.4;
+  letter-spacing: 0;
+}
+
+.ov h2.ov-h2::before {
+  display: none;
+}
+
+.ov-lede {
+  max-width: 640px;
+  margin: 16px 0 0;
+  color: var(--vp-c-text-2);
+  font-size: 17.5px;
+  line-height: 1.7;
+}
+
+[dir="rtl"] .ov-lede {
+  line-height: 2;
+}
+
+.ov-head {
+  margin-bottom: 44px;
+}
+
+/* buttons */
+.ov-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 48px;
+  padding: 0 22px;
+  border: 1px solid var(--o-line-strong);
+  border-radius: 14px;
+  background: var(--vp-button-alt-bg);
+  color: var(--vp-c-text-1);
+  font-size: 15.5px;
+  font-weight: 650;
+  text-decoration: none;
+  transition: transform 0.4s var(--o-spring), background 0.2s, border-color 0.2s;
+}
+
+.ov-btn:hover {
+  transform: translateY(-3px);
+  border-color: var(--vp-c-brand-3);
+  background: var(--vp-button-alt-hover-bg);
+}
+
+.ov-btn:active {
+  transform: scale(0.97);
+}
+
+.ov-btn.primary {
+  border-color: transparent;
+  background: var(--vp-button-brand-bg);
+  color: var(--vp-button-brand-text);
+  box-shadow: 0 14px 30px -12px var(--o-glow);
+}
+
+.ov-btn.primary:hover {
+  background: var(--vp-button-brand-hover-bg);
+}
+
+.ov a:focus-visible,
+.ov button:focus-visible,
+.ov [tabindex]:focus-visible {
+  outline: 2px solid var(--vp-c-brand-3);
+  outline-offset: 3px;
+  border-radius: 8px;
+}
+
+.ov-link {
+  color: var(--vp-c-brand-1);
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 4px;
+}
+
+/* a card in the same glass as the feature cards */
+.ov-card {
+  border: 1px solid var(--o-line);
+  border-radius: 22px;
+  background: var(--o-glass);
+  box-shadow: inset 0 1px 0 var(--o-edge), 0 24px 50px -34px var(--o-shadow);
+}
+
+/* the three lines as inline dots */
+.ov-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: currentColor;
+}
+.c-ovpn { color: var(--o-ovpn); }
+.c-wg { color: var(--o-wg); }
+.c-oc { color: var(--o-oc); }
+
+.ov-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.ov-mono {
+  font-family: var(--vp-font-family-mono);
+}
+
+/* reveal on scroll; armed only once the script runs, so the page reads without it */
+.ov.armed [data-reveal]:not(.is-in) {
+  opacity: 0;
+  transform: translateY(26px);
+}
+
+.ov [data-reveal] {
+  transition: opacity 0.9s var(--o-out), transform 0.9s var(--o-out);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ov.armed [data-reveal]:not(.is-in) {
+    opacity: 1;
+    transform: none;
+  }
+}

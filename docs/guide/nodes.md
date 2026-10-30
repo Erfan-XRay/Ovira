@@ -1,77 +1,12 @@
+---
+head:
+  - - meta
+    - http-equiv: refresh
+      content: "0; url=/Ovira/use/nodes"
+search: false
+sidebar: false
+---
+
 # Nodes and relays
 
-A **node** is another server that runs OpenVPN, OpenConnect or WireGuard inbounds for your panel. Clients are created once, in the panel, and work on every node.
-
-## Add a node
-
-**1. In the panel**, open **Nodes → Connect a node**. It shows the install command with your panel's address already filled in; press the copy button and run it as root on the new server:
-
-```bash
-bash <(curl -fsSL https://raw.githubusercontent.com/Erfan-XRay/Ovira/main/node.sh) --panel-ip PANEL_IP
-```
-
-The script downloads Ovira from GitHub itself, so nothing is copied to the new server first. `--panel-ip` makes the node answer only your panel. When it finishes it prints a **node key** (`BNK1-…`). The node listens on TCP port **62060**; use `--port` for another one.
-
-**2. Back in the dialog**, paste the key, give the node a name and save. The panel connects within seconds.
-
-**3. Attach an inbound**: create one first under **Inbounds → New inbound**, then press **Attach inbound** on the node's card and select it from **Not on a node**. Every card, including **This server**, has this button. The target node is checked before the inbound starts; if a check fails, nothing changes and the dialog shows why. For OpenConnect on **This server**, use **Install OpenConnect** on that card before attaching.
-
-The **Detach** icon beside an inbound stops it and returns it to **Not on a node**; clients keep their access, but connected users are disconnected. To move an inbound, select it with **Attach inbound** on another node; the new node is checked before it leaves the old one.
-
-The node key contains the node's API key and its certificate fingerprint, so the panel talks only to that node. If you reinstall a node, paste its new key in the node's editor. `ovira key` on the node prints the key again.
-
-## The panel's own server
-
-The installer asks whether the panel's own server is a node too, see [Install](./install#local-node). If not, the card of **This server** says *Panel only*. To make that server a node too, run on it:
-
-```bash
-ovira local-node enable
-```
-
-It installs OpenVPN if needed; create inbounds under **Inbounds**. `ovira local-node disable` stops them again; the panel and its other nodes keep working.
-
-## Devices at once
-
-The device limit counts a client's tunnels on **all** inbounds together. With a limit of 2, a client may use two devices anywhere: both on one node, or one on each.
-
-## Traffic multiplier
-
-Each node (and the main server) has a multiplier for quota accounting:
-
-| Multiplier | 1 GB used there counts as |
-|---|---|
-| ×1 | 1 GB |
-| ×1.5 | 1.5 GB |
-| ×0.5 | 0.5 GB |
-| ×0 | nothing (free traffic) |
-
-The traffic shown on the node's card is always the real amount. Subscription pages show the multiplier next to each inbound.
-
-## Connect addresses (relays and tunnels)
-
-By default clients connect to the node's own address. If you put **relay servers** in front of a node (for example servers inside the country tunneled to a node abroad), add their addresses in the node's editor under **Connect addresses**:
-
-| Field | Example |
-|---|---|
-| Label | `Tehran relay` |
-| Host | `ir1.example.com` |
-| Port | empty = the inbound's own port, or the relay's port |
-| For | All inbounds, or one OpenVPN inbound on the node |
-
-Each enabled address becomes an endpoint profile on the subscription page. The all-in-one profile includes failover `remote` lines only for inbounds compatible with its first inbound's OpenVPN settings; it does not combine every protocol and authentication mode. Set up the actual relay or tunnel separately: adding a connect address only changes the endpoints advertised to clients.
-
-::: warning
-When a node has connect addresses, profiles use only those. Add the node's own address too if clients may also connect directly.
-:::
-
-## When a node goes offline
-
-If only the management connection is lost, existing OpenVPN processes may keep their tunnels running, but new authentication and live quota enforcement depend on the panel connection. A host or VPN service outage interrupts tunnels. After reconnection, the panel reconciles surviving sessions and their counters; it cannot recover counters lost when the VPN process itself restarted.
-
-## Remove a node
-
-**Nodes → ⋯ → Remove node** stops its inbounds and moves them to **Not on a node**, keeping clients' access. Attach them to another node to run them again. To remove the software from the node itself:
-
-```bash
-ovira --node --uninstall --purge
-```
+This page has moved to [Nodes and relays](/use/nodes).

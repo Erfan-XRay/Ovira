@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import DefaultTheme from "vitepress/theme";
-import { useRoute } from "vitepress";
+import { useData, useRoute } from "vitepress";
 import { nextTick, onMounted, onUnmounted, ref, watch } from "vue";
 import Ambient from "./components/Ambient.vue";
-import NetworkStory from "./components/NetworkStory.vue";
-import Steps from "./components/Steps.vue";
+import Landing from "./landing/Landing.vue";
 
 const { Layout } = DefaultTheme;
 const route = useRoute();
+const { frontmatter } = useData();
 const progress = ref(0);
 
 let io: IntersectionObserver | undefined;
@@ -87,10 +87,7 @@ watch(() => route.path, observe);
       <div class="progress" :style="{ transform: `scaleX(${progress})` }" aria-hidden="true" />
     </template>
     <template #home-hero-before>
-      <NetworkStory />
-    </template>
-    <template #home-features-after>
-      <Steps />
+      <Landing v-if="frontmatter.landing" />
     </template>
   </Layout>
 </template>

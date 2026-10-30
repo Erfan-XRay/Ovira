@@ -494,6 +494,13 @@ body {
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--vp-c-text-3);
+  white-space: nowrap;
+}
+
+/* Narrow tables must not squeeze the first column until words break. */
+.vp-doc th:first-child,
+.vp-doc td:first-child {
+  min-width: 7.5em;
 }
 
 .vp-doc tr {
