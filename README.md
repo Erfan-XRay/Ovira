@@ -192,14 +192,14 @@ The panel never carries your clients' traffic unless you let its own server run 
 
 ## Plans
 
-The free plan allows **5 active clients, 2 remote nodes and 1 panel account**. Reseller accounts are included in Pro and Business. Default paid plans start at **$3 a month**. Buy inside the panel using a currently enabled payment method; activation follows confirmed payment. Payment networks and currencies depend on the checkout provider.
+The free plan allows **5 active clients, 2 remote nodes and 1 panel account**. Reseller accounts are included in Pro and Business. Default paid plans start at **$1 a month**. Buy inside the panel using a currently enabled payment method; activation follows confirmed payment. Payment networks and currencies depend on the checkout provider.
 
 | Plan | Active clients | Nodes | Panels at once | Monthly |
 |---|---|---|---|---|
 | **Free** | 5 | 2 | 1 | $0 |
-| **Starter** | 200 | 3 | 1 | $3 |
-| **Pro** | 800 | 10 | 2 | $7 |
-| **Business** | unlimited | unlimited | 3 | $15 |
+| **Starter** | 200 | 3 | 1 | $1 |
+| **Pro** | 800 | 10 | 2 | $3 |
+| **Business** | unlimited | unlimited | 3 | $10 |
 
 These are default plan prices; check **License** in the panel for current offers, payment methods and limits. See the [license guide](https://erfan-xray.github.io/Ovira/guide/plans) for activation approval, renewal deadlines and server transfers.
 

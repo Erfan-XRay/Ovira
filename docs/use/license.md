@@ -42,7 +42,7 @@ Only owners can buy, renew, enter a key or remove a license.
 ## Buy or renew
 
 1. Open **License**.
-2. Under **Billing period**, choose **1 month**, **3 months** or **12 months**. Longer periods show a saving.
+2. Under **Billing period**, choose **1 month**, **3 months** or **12 months**. Longer periods save on Pro and Business; Starter costs the same per month.
 3. On the plan you want, press **Buy**. On your current plan the button is **Renew**; on another plan it is **Switch to this plan**.
 4. Choose the **Payment method**: **USDT on TRON (TRC20)**, or **Other cryptocurrencies** through the NOWPayments page. Enter an optional Telegram or email contact for support with this purchase.
 5. Press **Pay**, then pay as the page says. For USDT, send exactly the amount shown, including the decimals, to the address shown, on the TRC20 network only. Funds sent on another network are lost, and the exact amount is how the payment is matched to you.
