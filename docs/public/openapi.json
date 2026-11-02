@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Ovira panel API",
-    "version": "0.9.9-beta.6",
+    "version": "0.9.9",
     "summary": "Manage clients, inbounds, nodes and panel settings over HTTP.",
     "description": "Use the same REST routes as the panel web app. Public subscription routes use the client token in their URL.\n\n**Authentication.** Send `Authorization: Bearer ovk_...` for an API token, or use the panel session cookie. A bearer header takes precedence over the cookie. Token requests need no CSRF header; session writes require `X-CSRF-Token`.\n\n**Permissions.** A full token follows its account’s current rights. A custom token carries only its chosen permissions, capped by the account’s current rights, and never counts as an owner. Owner-only routes require a full owner token. For client action routes the chosen action determines the permission: edit, reset, kick or delete. Full inbound lists, details, deployments and logs require `inbounds.view: all`; own scope can use the brief list.\n\n**Session-only actions.** Operations marked `x-ovira-token: false` reject tokens with 403 `token_forbidden`. These include account and token management, logout, admin password/2FA changes, panel address/TLS changes, backup restore and protocol package removal. Billing, license changes and update installation are also session-only and are outside this document. Other owner administration is available to full owner tokens.\n\n**Errors.** Failures have `error`, plus `code` when applicable, `field` for a bad request field and optional `params`. Token authentication can return `token_invalid`, `token_expired` or `token_ip`. Blocked account writes return `account_blocked`."
   },
