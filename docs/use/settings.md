@@ -9,9 +9,12 @@
 | **General** | Owners | Addresses, language, colour, warning thresholds, history retention, version. |
 | **Subscription page** | Owners | The look of the client page. See [The subscription page](/use/subscription-page). |
 | **Panel access** | Owners | The panel's own address, secret path and HTTPS. |
+| **API** | Everyone | **API Tokens**, the **API base URL** and the **OpenAPI document**. See [API tokens](/api/tokens). |
 | **My account** | Everyone | Your password, two-factor sign-in and signed-in devices. See [Panel accounts](/use/admins). |
 | **Backup** | Owners | Download and restore. See [Back up and restore](/use/backup). |
 | **Activity log** | Owners and roles that see all clients | Who did what. See [Activity log](/use/audit). |
+
+The **API** tab shows the address to send API requests to, the OpenAPI document, and the tokens of the signed-in account. Create a token there and keep its secret; the panel does not show it again. How tokens work is on [API tokens](/api/tokens).
 
 ## General
 

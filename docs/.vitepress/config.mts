@@ -63,6 +63,26 @@ function sections(prefix: string, t: Record<string, string>): Group[] {
       ],
     },
     {
+      text: t.api,
+      items: [
+        { text: t.apiOverview, link: p("api/") },
+        { text: t.apiQuickstart, link: p("api/quickstart") },
+        { text: t.apiTokens, link: p("api/tokens") },
+        { text: t.apiShopBot, link: p("api/shop-bot") },
+        { text: t.apiReference, link: p("api/reference/") },
+        { text: t.apiClients, link: p("api/reference/clients") },
+        { text: t.apiConnections, link: p("api/reference/connections") },
+        { text: t.apiInbounds, link: p("api/reference/inbounds") },
+        { text: t.apiGroups, link: p("api/reference/groups") },
+        { text: t.apiNodes, link: p("api/reference/nodes") },
+        { text: t.apiAdmins, link: p("api/reference/admins") },
+        { text: t.apiSettings, link: p("api/reference/settings") },
+        { text: t.apiAccount, link: p("api/reference/account") },
+        { text: t.apiSubscription, link: p("api/reference/subscription") },
+        { text: t.apiOpenapi, link: p("api/openapi") },
+      ],
+    },
+    {
       text: t.reference,
       items: [
         { text: t.cli, link: p("reference/cli") },
@@ -88,6 +108,11 @@ const en = {
   traffic: "Traffic, quotas and limits", nodePanel: "A node and its panel", relays: "Relays and connect addresses",
   reference: "Reference", cli: "Command line", files: "Files, services and ports", trouble: "Troubleshooting",
   glossary: "Glossary", changelog: "Changelog",
+  api: "API", apiOverview: "API overview", apiQuickstart: "Quickstart", apiTokens: "API tokens",
+  apiShopBot: "A shop bot", apiReference: "Endpoint reference", apiClients: "Clients", apiConnections: "Connections",
+  apiInbounds: "Inbounds", apiGroups: "Groups", apiNodes: "Nodes", apiAdmins: "Accounts and roles",
+  apiSettings: "Panel settings", apiAccount: "Auth and account", apiSubscription: "Subscription links",
+  apiOpenapi: "OpenAPI document",
 };
 
 const fa = {
@@ -103,11 +128,16 @@ const fa = {
   traffic: "ترافیک، سهمیه و محدودیت‌ها", nodePanel: "نود و پنلش", relays: "رله‌ها و آدرس‌های اتصال",
   reference: "مرجع", cli: "خط فرمان", files: "فایل‌ها، سرویس‌ها و پورت‌ها", trouble: "عیب‌یابی",
   glossary: "واژه‌نامه", changelog: "تاریخچهٔ تغییرات",
+  api: "API", apiOverview: "نمای کلی API", apiQuickstart: "شروع سریع", apiTokens: "توکن‌های API",
+  apiShopBot: "ربات فروش", apiReference: "مرجع API", apiClients: "کاربران", apiConnections: "اتصال‌ها",
+  apiInbounds: "اینباندها", apiGroups: "گروه‌ها", apiNodes: "نودها", apiAdmins: "حساب‌ها و نقش‌ها",
+  apiSettings: "تنظیمات پنل", apiAccount: "ورود و حساب", apiSubscription: "لینک‌های اشتراک",
+  apiOpenapi: "سند OpenAPI",
 };
 
 const enGuide = sections("", en);
 const faGuide = sections("/fa", fa);
-const sectionDirs = ["start", "use", "protocols", "how", "reference", "guide"];
+const sectionDirs = ["start", "use", "protocols", "how", "api", "reference", "guide"];
 const sidebarFor = (prefix: string, groups: Group[]) =>
   Object.fromEntries(sectionDirs.map((d) => [`${prefix}/${d}/`, groups]));
 
@@ -142,6 +172,7 @@ export default defineConfig({
         nav: [
           { text: "Get started", link: "/start/" },
           { text: "Docs", link: "/use/" },
+          { text: "API", link: "/api/" },
           { text: "Protocols", link: "/protocols/" },
           { text: "License", link: "/use/license" },
           { text: "Releases", link: "https://github.com/Erfan-XRay/Ovira/releases" },
@@ -160,6 +191,7 @@ export default defineConfig({
         nav: [
           { text: "شروع کار", link: "/fa/start/" },
           { text: "مستندات", link: "/fa/use/" },
+          { text: "API", link: "/fa/api/" },
           { text: "پروتکل‌ها", link: "/fa/protocols/" },
           { text: "لایسنس", link: "/fa/use/license" },
           { text: "نسخه‌ها", link: "https://github.com/Erfan-XRay/Ovira/releases" },
