@@ -1263,7 +1263,7 @@ node_wizard() {
   card_top "SUMMARY"
   ui_kv "Node port" "$PORT/tcp (must be reachable from the panel)"
   if [[ -n "$PANEL_IP" ]]; then ui_kv "Panel access" "only calls from $PANEL_IP"; else ui_kv "Panel access" "any address (the node still needs its key)"; fi
-  ui_kv "OpenVPN" "installed on this server"
+  ui_kv "VPN protocols" "installed when an inbound needs them"
   ui_kv "Release" "$([[ -n "$BINARY" ]] && echo "local file" || { [[ $BETA -eq 1 ]] && echo "newest beta" || echo "newest stable"; })"
   card_end
   if ui_has_input; then pick_yesno "Start installation?" y || return 1; fi
@@ -1310,7 +1310,8 @@ do_install_node() {
     *) section "INSTALLING THE NODE" ;;
   esac
 
-  ensure_openvpn
+  ensure_tools
+  run "Preparing network tools ($OS_NAME)" pkg_install iptables || die "Could not install network tools."
   get_binary
   place_binary
   ok "Installed $("$BIN" version)"
