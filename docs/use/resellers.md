@@ -70,7 +70,7 @@ To top up a reseller, use **Add traffic…** (adds to the pool) or **Extend…**
 
 ### What the reseller sees
 
-A reseller sees **Overview**, **Clients**, **Connections**, **Settings** (only **My account**) and **License**. The clients are only its own. **Overview** shows **Your account** with the pool and warnings: at 80 percent used, at 95 percent, and in the last days before the end date. When the account is switched off, expired or out of traffic, a banner explains it and changes are off. The reseller asks you for more.
+A reseller sees **Overview**, **Clients**, **Connections**, **Settings** (only **My account** and **API**) and **License**. The clients are only its own. **Overview** shows **Your account** with the pool and warnings: at 80 percent used, at 95 percent, and in the last days before the end date. When the account is switched off, expired or out of traffic, a banner explains it and changes are off. The reseller asks you for more.
 
 ## Related pages
 
