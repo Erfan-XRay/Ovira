@@ -1310,7 +1310,7 @@ do_install_node() {
     *) section "INSTALLING THE NODE" ;;
   esac
 
-  ensure_tools
+  ensure_base_tools
   run "Preparing network tools ($OS_NAME)" pkg_install iptables || die "Could not install network tools."
   get_binary
   place_binary
