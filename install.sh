@@ -24,7 +24,9 @@
 #
 #   --local-node            this server is also a node of the panel (default; same as --with-openvpn)
 #   --no-local-node         panel only, it manages other nodes (same as --panel-only)
-#   --port 2053             panel port
+#   --port 2053             panel port (or OVIRA_PORT)
+#   --sub-port N            separate port for subscription links (or OVIRA_SUB_PORT);
+#                           default: the panel port
 #   --ssl domain|ip|none    HTTPS with a Let's Encrypt certificate, or plain HTTP
 #   --domain panel.example.com   --email you@example.com
 #   --user admin            name of the first admin
@@ -1109,6 +1111,7 @@ brand_init() {
 
 CMD=""
 PORT=""
+SUB_PORT=""
 IGNORED_OPT=0
 SSL=""
 DOMAIN=""
@@ -1140,7 +1143,7 @@ want_node=0; skip=0; nargs=()
 for a in "$@"; do
   if (( skip )); then skip=0; nargs+=("$a"); continue; fi
   case "$a" in
-    --port|--udp-port|--tcp-port|--ssl|--domain|--email|--binary|--user|--username) skip=1; nargs+=("$a") ;;
+    --port|--sub-port|--udp-port|--tcp-port|--ssl|--domain|--email|--binary|--user|--username) skip=1; nargs+=("$a") ;;
     --panel-ip) want_node=1; skip=1; nargs+=("$a") ;;
     node|--node) want_node=1 ;;
     --uninstall) nargs+=(uninstall) ;;
@@ -1161,6 +1164,7 @@ while [[ $# -gt 0 ]]; do
     --panel-only|--no-local-node) OPENVPN_HERE=0; shift ;;
     --with-openvpn|--local-node) OPENVPN_HERE=1; shift ;;
     --port) PORT="${2:-}"; shift 2 || shift ;;
+    --sub-port) SUB_PORT="${2:-}"; shift 2 || shift ;;
     --udp-port|--tcp-port) IGNORED_OPT=1; shift 2 || shift ;;
     --tcp) IGNORED_OPT=1; shift ;;
     --ssl) SSL="${2:-}"; shift 2 || shift ;;
@@ -1180,6 +1184,8 @@ while [[ $# -gt 0 ]]; do
     *) if [[ -n "$CMD" ]]; then ARGS+=("$1"); else echo "unknown command: $1 (see: ovira help)" >&2; exit 2; fi; shift ;;
   esac
 done
+PORT=${PORT:-${OVIRA_PORT:-}}
+SUB_PORT=${SUB_PORT:-${OVIRA_SUB_PORT:-}}
 ui_init
 brand_init
 (( IGNORED_OPT )) && printf '  %s--udp-port, --tcp-port and --tcp are ignored: create inbounds in the panel under Inbounds.%s\n' "$DIM" "$RST"
@@ -1312,6 +1318,19 @@ install_manager() {
 # ------------------------------------------------------------------- install
 
 
+# Ports Ovira itself uses: the node agent and outbound routing.
+RESERVED_PORTS="62060 61080"
+reserved_port() { [[ " $RESERVED_PORTS " == *" $1 "* ]]; }
+
+# check_sub_port VALUE: prints why a subscription port is not usable, nothing if it is.
+check_sub_port() {
+  if ! valid_port "$1"; then echo "Not a port number (1-65535): $1"
+  elif [[ "$1" == "$PORT" ]]; then echo "The subscription port must differ from the panel port $PORT."
+  elif reserved_port "$1"; then echo "Port $1 is used by Ovira itself."
+  elif tcp_busy "$1"; then echo "Port $1/tcp is already in use on this server."
+  fi
+}
+
 # Fills in what the options did not give, then shows a summary. Returns 1 when the user cancels.
 panel_wizard() {
   local a idx=1
@@ -1322,9 +1341,23 @@ panel_wizard() {
   step 1 4 "Panel"
   if [[ -n "$PORT" ]]; then
     valid_port "$PORT" || die "Not a port number: $PORT"
+    reserved_port "$PORT" && die "Port $PORT is used by Ovira itself; choose another panel port with --port."
     tcp_busy "$PORT" && die "Port $PORT/tcp is already in use; choose another panel port with --port."
   else
-    ask_port PORT "Panel port" 2053 tcp
+    ask_port PORT "Panel port" 2053 tcp $RESERVED_PORTS
+  fi
+  local bad=""
+  if [[ -n "$SUB_PORT" ]]; then
+    bad=$(check_sub_port "$SUB_PORT")
+    [[ -n "$bad" ]] && die "$bad (--sub-port)"
+  elif ui_has_input; then
+    while :; do
+      ask SUB_PORT "Separate port for subscription links (Enter = same as panel port)" ""
+      [[ -z "$SUB_PORT" ]] && break
+      bad=$(check_sub_port "$SUB_PORT")
+      [[ -z "$bad" ]] && break
+      warn "$bad Pick another, or press Enter for none."
+    done
   fi
 
   step 2 4 "This server as a node"
@@ -1365,6 +1398,7 @@ panel_wizard() {
   step 4 4 "Review"
   card_top "SUMMARY"
   ui_kv "Panel port" "$PORT/tcp"
+  ui_kv "Subscription port" "$([[ -n "$SUB_PORT" ]] && echo "$SUB_PORT/tcp" || echo "same as panel")"
   ui_kv "Admin user" "$ADMIN_USER"
   ui_kv "Node here" "$([[ "$OPENVPN_HERE" == 1 ]] && echo yes || echo no)"
   ui_kv "Inbounds" "none yet: create them in the panel under Inbounds"
@@ -1492,6 +1526,8 @@ do_install_panel() {
     systemctl enable --now "${SLUG}.service" >/dev/null 2>&1 || die "The panel did not start; check: journalctl -u $SLUG"
     ok "Panel started"
     open_port "$PORT/tcp"
+    SUB_PORT=$(sed -n 's/.*"subPort": *\([0-9][0-9]*\).*/\1/p' "$CONFIG" 2>/dev/null | head -1)
+    if valid_port "${SUB_PORT:-}"; then open_port "$SUB_PORT/tcp"; fi
     if [[ "$OPENVPN_HERE" == 1 ]]; then
       restore_instances "$CONFDIR/restore-units" || restore_from_db || warn "Start your VPN servers from Servers in the panel."
     fi
@@ -1507,8 +1543,13 @@ do_install_panel() {
   mkdir -p "$CONFDIR" "$DATA"
   chmod 711 "$DATA"  # OpenVPN (as nobody) must reach pki/crl.pem
   local local_flag="-local=true"; [[ "$OPENVPN_HERE" == 1 ]] || local_flag="-local=false"
+  if [[ -n "$SUB_PORT" ]] && ! grep -q -- '-sub-port' <<<"$("$BIN" init -h 2>&1 || true)"; then
+    warn "This release does not support a separate subscription port; set it later in Settings after updating."
+    SUB_PORT=""
+  fi
+  local sub_flag=(); [[ -n "$SUB_PORT" ]] && sub_flag=(-sub-port "$SUB_PORT")
   pubhost=$public; [[ "$SSL" == domain ]] && pubhost=$DOMAIN
-  out=$(OVIRA_CONFIG=$CONFIG "$BIN" init -config "$CONFIG" -data "$DATA" -port "$PORT" -public-host "$pubhost" -username "$ADMIN_USER" $local_flag)
+  out=$(OVIRA_CONFIG=$CONFIG "$BIN" init -config "$CONFIG" -data "$DATA" -port "$PORT" ${sub_flag[@]+"${sub_flag[@]}"} -public-host "$pubhost" -username "$ADMIN_USER" $local_flag)
   pass=$(echo "$out" | awk -F': *' '/^password/ {print $2}')
   base=$(echo "$out" | awk -F': *' '/^panel path/ {print $2}')
 
@@ -1525,6 +1566,7 @@ do_install_panel() {
 
   systemctl enable --now "${SLUG}.service" >/dev/null 2>&1
   open_port "$PORT/tcp"
+  [[ -n "$SUB_PORT" ]] && open_port "$SUB_PORT/tcp"
   ok "Panel started"
   ready_card_panel "$scheme://$host:$PORT$base" "$pass"
   after_install
@@ -1854,7 +1896,7 @@ cmd_help() {
 
     bash <(curl -fsSL $RAW_BASE/install.sh) [options]
 
-    --local-node  --no-local-node  --port N   (the panel creates no inbounds; add them under Inbounds)
+    --local-node  --no-local-node  --port N  --sub-port N   (the panel creates no inbounds; add them under Inbounds)
     --ssl domain|ip|none  --domain D  --email E  --user NAME
     --beta  --binary FILE  --yes  --fresh  --purge
 
