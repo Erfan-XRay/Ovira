@@ -14,7 +14,8 @@ Press Enter to keep the default in an answer. The installer asks, in this order:
 
 | Question | Default | What it does |
 |---|---|---|
-| **Panel port** | `2053` | The TCP port the panel listens on. The installer stops if the port is already in use. |
+| **Panel port** | `2053` | The TCP port the panel listens on. The installer stops if the port is already in use. You can change it later in **Settings**. |
+| **Subscription port** | empty | Optional. A separate TCP port that serves only subscription links and pages. Empty: they stay on the panel port. |
 | **Use this server as a node too?** | yes | Yes: the server also runs VPN inbounds and appears under **Nodes** as **This server**. No: panel only, and you [add nodes](/start/add-node) on other servers. You can change this later, see [This server as a node](/start/same-server). |
 | HTTPS | the server's IP | A Let's Encrypt certificate for a domain, for the server's IP, or none. See [HTTPS for the panel](/start/https). |
 | Email for certificate notices | empty | Optional. Let's Encrypt writes to it only when the certificate needs attention. |
@@ -48,7 +49,8 @@ bash <(curl -fsSL https://raw.githubusercontent.com/Erfan-XRay/Ovira/main/instal
 
 | Option | What it does |
 |---|---|
-| `--port N` | Panel port. |
+| `--port N` | Panel port (or `OVIRA_PORT`). Ports 62060 and 61080 are reserved. |
+| `--sub-port N` | A separate port for subscription links (or `OVIRA_SUB_PORT`). |
 | `--local-node` | This server is also a node (the default). |
 | `--no-local-node` | Panel only. |
 | `--ssl domain`, `--ssl ip`, `--ssl none` | How the panel gets HTTPS. Unattended, the default is `ip`. |

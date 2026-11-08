@@ -10,6 +10,8 @@
 | WireGuard | WireGuard | WireGuard | WireGuard |
 | AmneziaWG | AmneziaWG، AmneziaVPN | AmneziaWG، AmneziaVPN | AmneziaWG، AmneziaVPN |
 | OpenConnect | Cisco Secure Client، OpenConnect، نسخهٔ F-Droid برنامهٔ OpenConnect | Cisco Secure Client | Cisco Secure Client، OpenConnect-GUI، `openconnect` |
+| IKEv2 | داخلی (اندروید ۱۱ به بعد)، strongSwan | داخلی | داخلی در ویندوز و macOS؛ strongSwan در لینوکس |
+| L2TP/IPsec | در نسخه‌های جدید اندروید نیست | داخلی | داخلی در ویندوز و macOS |
 
 این‌ها پیش‌فرض‌اند. مالک می‌تواند برنامه‌های پیشنهادی را عوض کند، نام تب هر پروتکل را تغییر دهد، یک یادداشت کوتاه بگذارد و پروتکلی را پنهان کند؛ از **تنظیمات ← صفحهٔ اشتراک ← پروتکل‌ها**. برنامه‌های دیگری که همان پروتکل را بفهمند هم کار می‌کنند، ولی پارامترهای امنزیا فقط در برنامه‌های امنزیا کار می‌کنند.
 
@@ -35,6 +37,10 @@
 1. Cisco Secure Client یا یک برنامهٔ OpenConnect را نصب کنید.
 2. یک اتصال جدید با **آدرس سرور** تب **Cisco** اضافه کنید.
 3. با نام کاربری و رمز صفحه وارد شوید.
+
+### IKEv2 و L2TP/IPsec
+
+روی بیشتر دستگاه‌ها برنامه‌ای لازم نیست. در تب **IKEv2** یا **L2TP/IPsec** فایل تنظیم دستگاه را دریافت کنید (پروفایل برای آیفون، آیپد و مک، پروفایل strongSwan برای اندروید، اسکریپت PowerShell برای ویندوز) یا مراحل دستی همان‌جا را دنبال کنید. [IKEv2 و L2TP/IPsec](./ipsec) را ببینید.
 
 Cisco Secure Client سرور خودامضا را رد می‌کند مگر اینکه **Block untrusted servers** در تنظیماتش خاموش باشد. گزینه‌های دیگر را در [OpenConnect](./openconnect#certificate) ببینید.
 

@@ -39,7 +39,9 @@ The block at the top is **HTTPS**, described in [HTTPS for the panel](/start/htt
 
 | Field | What it does |
 |---|---|
-| **Listen address** | The port the panel listens on, for example `:2053`. Use `127.0.0.1:2053` behind a reverse proxy. |
+| **Panel port** | The port the panel listens on (1–65535). Ovira opens it in this server's firewall; open it in any cloud firewall yourself. |
+| **Bind address** | Optional. Empty means all interfaces. Use `127.0.0.1` when a reverse proxy on this server sits in front of the panel. |
+| **Subscription port** | Optional. Subscription links and pages are served on this port instead of the panel port. A **Subscription link address** under General overrides it. |
 | **Secret path** | The panel answers only under this path. Everything else looks like an empty server. |
 | **Subscription path** | The first part of subscription links. |
 | **TLS certificate file**, **TLS key file** | Your own certificate as full paths on the server. Empty for plain HTTP or the Ovira-managed certificate. |
@@ -48,7 +50,7 @@ The block at the top is **HTTPS**, described in [HTTPS for the panel](/start/htt
 These take effect after a restart. **Save** keeps them, the page tells you `Saved. Restart the panel to apply.`, and **Restart panel** applies them. The page shows the new address in the form `After restart the panel will be at ...`. Write it down before you restart. VPN connections are not affected by the restart.
 
 ::: warning
-A wrong **Listen address** or **Secret path** makes the panel unreachable after the restart. Check the address under the fields before you restart. If you are locked out, `ovira status` on the server prints the address the panel now uses.
+A wrong **Panel port**, **Bind address** or **Secret path** makes the panel unreachable after the restart. If the new address cannot be opened, the panel goes back to the last address that worked. Check the address under the fields before you restart. If you are locked out, `ovira status` on the server prints the address the panel now uses.
 :::
 
 ## Related pages

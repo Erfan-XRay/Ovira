@@ -1,18 +1,20 @@
 <div align="center">
 
-<a href="https://erfan-xray.github.io/Ovira/"><img src="assets/hero.webp" alt="Ovira: the OpenVPN panel for your own servers" width="100%"></a>
+<a href="https://erfan-xray.github.io/Ovira/"><img src="assets/hero.webp" alt="Ovira: a self-hosted VPN panel for your own servers" width="100%"></a>
 
 <br>
 
 [![Release](https://img.shields.io/github/v/release/Erfan-XRay/Ovira?style=for-the-badge&color=c4f82a&labelColor=0b1300&label=release)](https://github.com/Erfan-XRay/Ovira/releases/latest) [![Downloads](https://img.shields.io/github/downloads/Erfan-XRay/Ovira/total?style=for-the-badge&color=46d6e6&labelColor=0b1300)](https://github.com/Erfan-XRay/Ovira/releases) [![Platform](https://img.shields.io/badge/linux-amd64%20%C2%B7%20arm64-c4f82a?style=for-the-badge&labelColor=0b1300)](#install) [![Free plan](https://img.shields.io/badge/free%20plan-5%20clients%20%C2%B7%202%20nodes-46d6e6?style=for-the-badge&labelColor=0b1300)](#plans)
 
-**[Documentation](https://erfan-xray.github.io/Ovira/)** &nbsp;·&nbsp; **[مستندات فارسی](https://erfan-xray.github.io/Ovira/fa/)** &nbsp;·&nbsp; **[README فارسی](README.fa.md)** &nbsp;·&nbsp; **[Releases](https://github.com/Erfan-XRay/Ovira/releases)**
+**[Website & docs](https://erfan-xray.github.io/Ovira/)** &nbsp;·&nbsp; **[مستندات فارسی](https://erfan-xray.github.io/Ovira/fa/)** &nbsp;·&nbsp; **[README فارسی](README.fa.md)** &nbsp;·&nbsp; **[Releases](https://github.com/Erfan-XRay/Ovira/releases)**
 
 </div>
 
 <br>
 
-**Ovira** is a VPN panel (OpenVPN, OpenConnect and WireGuard) for Linux servers: one binary with the web UI built in. Create clients with traffic and time limits, hand each one a subscription link, and manage local and remote servers within your plan limits from a single place. No Docker, no database to set up, no config files to edit.
+**Ovira** is a self-hosted VPN panel for Linux servers: one binary with the web UI built in. Create clients with traffic and time limits, hand each one a single subscription link, and run **OpenVPN, WireGuard / AmneziaWG, OpenConnect, IKEv2 and L2TP/IPsec** on the panel's own server and on as many nodes as your plan allows. Send traffic out through other servers with **outbound routing**. No Docker, no database to set up, no config files to edit.
+
+> **Ovira 1.0 is out.** Outbound routing with Cloudflare WARP and NordVPN in one click, IKEv2 and L2TP/IPsec, Let's Encrypt certificates for every node, a choosable panel port and a separate subscription port. See [what's new](#whats-new-in-10).
 
 <table>
 <tr>
@@ -25,13 +27,13 @@ A single script installs the panel (or a node), gets an HTTPS certificate and pr
 <td width="33%" valign="top">
 
 ### 🌍 Many servers
-Add nodes in minutes. A client works on all of them, and its device limit counts across every server.
+Add nodes in minutes. A client works on all of them, and its device limit counts across every server and every protocol.
 
 </td>
 <td width="33%" valign="top">
 
 ### 📱 Clients love it
-Each client gets a page with remaining traffic, days left and one-tap import, in English and Persian.
+Each client gets a page with remaining traffic, days left, one-tap import and ready-made setup files, in English and Persian.
 
 </td>
 </tr>
@@ -49,10 +51,10 @@ The script downloads Ovira itself, so there is nothing to copy over first, and i
 
 | Choose | What it is |
 |---|---|
-| **Panel** | The web panel. It asks for the port, whether this server is also a node (or stays a panel that only manages other nodes) and how to get HTTPS: a Let's Encrypt certificate for your domain, for the server's IP, or none. Then it prints the address and your password. |
-| **Node** | An extra OpenVPN server for a panel running elsewhere. In the panel, **Nodes → Connect a node** shows the exact command, ready to copy. |
+| **Panel** | The web panel. It asks for the panel port (default `2053`), an optional separate subscription port, whether this server is also a node, and how to get HTTPS: a Let's Encrypt certificate for your domain, for the server's IP, or none. Then it prints the address and your password. |
+| **Node** | An extra VPN server for a panel running elsewhere. In the panel, **Nodes → Connect a node** shows the exact command, ready to copy. |
 
-Every download is checked against the **release signature** before anything is installed. Prefer no questions? Everything can be passed as options, see the [install guide](https://erfan-xray.github.io/Ovira/guide/install).
+Downloads are checked against the release checksums, and against the release signature when the server has OpenSSL 3. Prefer no questions? Everything can be passed as options, see the [install guide](https://erfan-xray.github.io/Ovira/start/install-panel).
 
 <details>
 <summary><b>Install a node, an empty panel, or script it</b></summary>
@@ -66,14 +68,28 @@ bash <(curl -fsSL https://raw.githubusercontent.com/Erfan-XRay/Ovira/main/node.s
 # a panel only, it manages other nodes
 bash <(curl -fsSL https://raw.githubusercontent.com/Erfan-XRay/Ovira/main/install.sh) panel --panel-only
 
-# no questions at all
+# no questions at all, subscription links on their own port
 bash <(curl -fsSL https://raw.githubusercontent.com/Erfan-XRay/Ovira/main/install.sh) panel --yes \
-  --port 8443 --ssl domain --domain panel.example.com --email you@example.com
+  --port 8443 --sub-port 2096 --ssl domain --domain panel.example.com --email you@example.com
 ```
 
-The installer creates no inbounds; create them in the panel under Inbounds. A panel-only server can become a node too later with `ovira local-node enable`.
+The installer creates no inbounds; create them in the panel under **Inbounds** and attach them to a node. A panel-only server can become a node later with `ovira local-node enable`.
 
 </details>
+
+## What's new in 1.0
+
+| | |
+|---|---|
+| **Outbound routing** | Send your VPN clients' traffic out through another server, per node, from the new **Routing** page. Add VLESS, VMess, Trojan, Shadowsocks, Hysteria2, WireGuard, SOCKS or HTTP outbounds field by field or from a link, then route by site lists (geosite / geoip), domains, IPs, ports or inbound, or send everything. |
+| **WARP and NordVPN** | Create a Cloudflare WARP (free or WARP+) or NordVPN (NordLynx) outbound in one click. |
+| **Outbound test** | Test any outbound from the main server or a node: whether it connects, its latency, and the exit IP and country. |
+| **IKEv2 and L2TP/IPsec** | Two new protocols for the VPN clients built into phones and computers, with downloadable setup files for iPhone, iPad, Mac, Android and Windows. |
+| **Certificates** | Request Let's Encrypt certificates for nodes and the main server from the **Certificates** page, use them in inbounds and for the panel's HTTPS. They renew on their own. |
+| **Nodes** | A simpler list with a details panel; install and remove protocols from the panel; update every node at once. |
+| **Panel and subscription ports** | Choose the panel port at install and change it later in **Settings**; serve subscription links on a separate port if you like. |
+
+Update the panel and its nodes together. The full notes are on the [releases page](https://github.com/Erfan-XRay/Ovira/releases/tag/v1.0.0).
 
 ## The `ovira` command
 
@@ -88,7 +104,7 @@ After installing, `ovira` opens a menu on the server, and every entry is also a 
 | `ovira password` | New password for a panel admin: your own, or a strong random one |
 | `ovira license` | License and machine ID |
 | `ovira ssl` | HTTPS certificate for a domain or an IP |
-| `ovira local-node enable` | Make the panel's own server a node too (`disable` to undo; `ovira openvpn` still works) |
+| `ovira local-node enable` | Make the panel's own server a node too (`disable` to undo) |
 | `ovira logs` · `restart` · `backup` · `uninstall` | Exactly what they say |
 
 ## What you get
@@ -98,47 +114,48 @@ After installing, `ovira` opens a menu on the server, and every entry is also a 
 <td width="50%" valign="top">
 
 ### 👥 Clients
-Traffic allowance, an end date or a clock that starts at first use, devices at once, periodic resets, fixed IPs and bulk creation. Put clients in **groups** to decide which servers they get.
+Traffic allowance, an end date or a clock that starts at first use, devices at once, periodic resets, fixed IPs and bulk creation. Put clients in **groups** to decide which inbounds they get.
+
+### 🔐 Five protocols, one client
+| Protocol | Apps |
+|---|---|
+| **OpenVPN** (UDP / TCP) | OpenVPN Connect and other OpenVPN apps |
+| **WireGuard / AmneziaWG** | WireGuard, AmneziaVPN |
+| **OpenConnect** | Cisco Secure Client, OpenConnect apps |
+| **IKEv2** | Built into iOS, macOS, Windows, Android 11+, strongSwan |
+| **L2TP/IPsec** | Built into iOS, macOS and Windows |
 
 </td>
 <td width="50%" valign="top">
 
-### 🔐 OpenVPN, fully
-UDP and TCP servers side by side, certificate and/or password sign-in, tls-crypt, cipher control, split or full tunnel, IPv6.
+### 🧭 Outbound routing
+Per node, choose which inbounds are routed and where their traffic leaves: directly, through an outbound, or blocked. Ready-made presets such as *Gemini via outbound* and *Iran direct*; DNS and private addresses always stay direct.
 
-### 🌐 OpenConnect (Cisco)
-Run OpenConnect servers next to OpenVPN, on the panel or on nodes. Clients use Cisco Secure Client or OpenConnect apps with the same name and password; camouflage hides the server from scanners.
+### 🛰️ Nodes and relays
+Connect more servers to one panel. Each node has its own traffic multiplier and connect addresses, so relays in front of it become profiles clients can pick. Protocols install on a node from the panel when you attach the first inbound.
 
-### ⚡ WireGuard
-WireGuard servers on the panel or on nodes, in plain mode or Amnezia mode for networks that block WireGuard. Each device gets its own configuration and QR code, ready on every server the client may use.
+### 🪪 Certificates
+The panel's HTTPS certificate and every OpenConnect and IKEv2 certificate on one page, with expiry and automatic renewal.
 
 </td>
 </tr>
 <tr>
-<td valign="top">
-
-### 🛰️ Nodes and relays
-Connect more servers to one panel. Each node has its own traffic multiplier and its own connect addresses, so relays or tunnels in front of it become profiles clients can pick.
-
-</td>
 <td valign="top">
 
 ### 🔄 Updates that tell you
-A banner appears in the panel when a new version is out; one click installs it, and open pages reload themselves when it is done. Stable and beta channels, automatic updates, nodes updated together with the panel.
+A banner appears in the panel when a new version is out; one click installs it. Stable and beta channels, automatic updates, nodes updated together with the panel.
+
+### 🧑‍💼 Panel accounts and resellers
+Give resellers their own login with a traffic pool, an end date and a client limit, and choose which groups and inbounds they can hand out.
 
 </td>
-</tr>
-<tr>
 <td valign="top">
 
 ### 🎨 Subscription pages
-Three looks, your own name and accent colour, a support button, English and Persian. Remaining traffic, days left, usage chart, one-tap import.
-
-</td>
-<td valign="top">
+Your own name and accent colour, a support button, English and Persian, protocol tabs you can reorder or rename. Remaining traffic, days left, usage chart, one-tap import and setup files.
 
 ### 🛡️ Secure by default
-Argon2id passwords, two-factor sign-in, a secret panel path (everything else answers *404*), automatic HTTPS certificates, signed releases.
+Argon2id passwords, two-factor sign-in, a secret panel path (everything else answers *404*), automatic HTTPS, signed releases, backups to Telegram and an API with scoped tokens.
 
 </td>
 </tr>
@@ -146,7 +163,7 @@ Argon2id passwords, two-factor sign-in, a secret panel path (everything else ans
 
 ## See it
 
-These screenshots are examples of the interface. Client data and owner-configured branding or support links are illustrative; Ovira does not provide an official Telegram support service.
+These screenshots are examples of the interface. Client data and branding are illustrative.
 
 <p align="center">
   <img src="assets/clients.webp" alt="Clients list with traffic, status and expiry" width="100%">
@@ -157,7 +174,7 @@ These screenshots are examples of the interface. Client data and owner-configure
 </p>
 
 <p align="center">
-  <img src="assets/subscription.webp" alt="The subscription page in its three looks" width="100%">
+  <img src="assets/subscription.webp" alt="The subscription page" width="100%">
 </p>
 
 <table>
@@ -175,45 +192,51 @@ These screenshots are examples of the interface. Client data and owner-configure
 
 ```mermaid
 flowchart LR
-    C["👤 Clients<br/>OpenVPN apps"]
+    C["👤 Clients<br/>OpenVPN · WireGuard · Cisco · IKEv2 · L2TP"]
     P["🖥️ Panel<br/>web UI · clients · licenses"]
-    subgraph S["OpenVPN servers"]
+    subgraph S["Your servers"]
         direction TB
         N1["🌍 Node"]
         N2["🌍 Node"]
         L["⚙️ Panel's own server<br/>(optional)"]
     end
+    O["🧭 Outbounds<br/>WARP · NordVPN · VLESS · …"]
+    I(("🌐 Internet"))
     C -- "subscription link" --> P
     P -- "manages over TLS,<br/>key-pinned API" --> S
-    C == "OpenVPN tunnels" ==> S
+    C == "VPN tunnels" ==> S
+    S -- "routing rules" --> O
+    S -- "direct" --> I
+    O --> I
 ```
 
-The panel never carries your clients' traffic unless you let its own server run OpenVPN too. Nodes hold the tunnels; the panel holds the clients, limits and licenses.
+The panel never carries your clients' traffic unless you let its own server be a node too. Nodes hold the tunnels and apply the routing rules; the panel holds the clients, limits and licenses.
 
 ## Plans
 
-The free plan allows **5 active clients, 2 remote nodes and 1 panel account**. Reseller accounts are included in Pro and Business. Default paid plans start at **$1 a month**. Buy inside the panel using a currently enabled payment method; activation follows confirmed payment. Payment networks and currencies depend on the checkout provider.
+The free plan allows **5 active clients, 2 remote nodes and 1 panel account**. Paid plans add more clients, nodes and panel accounts for resellers. Default paid plans start at **$1 a month**. Buy inside the panel using a currently enabled payment method; activation follows confirmed payment.
 
-| Plan | Active clients | Nodes | Panels at once | Monthly |
-|---|---|---|---|---|
-| **Free** | 5 | 2 | 1 | $0 |
-| **Starter** | 200 | 3 | 1 | $1 |
-| **Pro** | 800 | 10 | 2 | $3 |
-| **Business** | unlimited | unlimited | 3 | $10 |
+| Plan | Active clients | Nodes | Panel accounts | Panels at once | Monthly |
+|---|---|---|---|---|---|
+| **Free** | 5 | 2 | 1 | 1 | $0 |
+| **Starter** | 200 | 3 | 2 | 1 | $1 |
+| **Pro** | 800 | 10 | 5 | 2 | $3 |
+| **Business** | unlimited | unlimited | unlimited | 3 | $10 |
 
-These are default plan prices; check **License** in the panel for current offers, payment methods and limits. See the [license guide](https://erfan-xray.github.io/Ovira/guide/plans) for activation approval, renewal deadlines and server transfers.
+Every protocol and outbound routing are on every plan, including Free. These are default plans; check **License** in the panel for current offers, payment methods and limits. See the [license guide](https://erfan-xray.github.io/Ovira/use/license).
 
 ## Documentation
 
 | | |
 |---|---|
-| 🚀 [Install](https://erfan-xray.github.io/Ovira/guide/install) | Requirements, options, what the script does |
-| 🧭 [First steps](https://erfan-xray.github.io/Ovira/guide/first-steps) | Your first client and subscription link |
-| 🌍 [Nodes and relays](https://erfan-xray.github.io/Ovira/guide/nodes) | More servers, multipliers, connect addresses |
-| 🧩 [Groups](https://erfan-xray.github.io/Ovira/guide/groups) | Which clients get which servers |
-| 🔄 [Updates](https://erfan-xray.github.io/Ovira/guide/updates) | Channels, automatic updates, the in-panel banner |
-| ⌨️ [Command line](https://erfan-xray.github.io/Ovira/guide/cli) | The `ovira` command and its menu |
-| 🛠️ [Troubleshooting](https://erfan-xray.github.io/Ovira/guide/faq) | Common problems and fixes |
+| 🚀 [Install the panel](https://erfan-xray.github.io/Ovira/start/install-panel) | Requirements, options, ports, what the script does |
+| 🧭 [Your first client](https://erfan-xray.github.io/Ovira/start/first-client) | Your first client and subscription link |
+| 🔐 [Choosing a protocol](https://erfan-xray.github.io/Ovira/protocols/) | OpenVPN, WireGuard, OpenConnect, IKEv2, L2TP/IPsec |
+| 🧭 [Outbound routing](https://erfan-xray.github.io/Ovira/use/routing) | Outbounds, WARP, NordVPN, rules and tests |
+| 🌍 [Nodes](https://erfan-xray.github.io/Ovira/use/nodes) | More servers, multipliers, connect addresses |
+| 🪪 [Certificates](https://erfan-xray.github.io/Ovira/use/certificates) | Let's Encrypt for nodes and the panel |
+| 🔌 [API](https://erfan-xray.github.io/Ovira/api/) | Tokens, endpoints and a shop-bot example |
+| 🛠️ [Troubleshooting](https://erfan-xray.github.io/Ovira/reference/troubleshooting) | Common problems and fixes |
 
 Every page is also available [in Persian](https://erfan-xray.github.io/Ovira/fa/).
 

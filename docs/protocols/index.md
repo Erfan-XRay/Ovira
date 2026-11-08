@@ -1,29 +1,29 @@
 # Choosing a protocol
 
-An [inbound](/reference/glossary#inbound) is one VPN server with its own port and tunnel network, and every inbound runs exactly one protocol: OpenVPN, WireGuard or OpenConnect. This page compares them so you can decide which inbounds to create. The pages that follow cover each protocol in detail.
+An [inbound](/reference/glossary#inbound) is one VPN server with its own port and tunnel network, and every inbound runs exactly one protocol: OpenVPN, WireGuard, OpenConnect, IKEv2 or L2TP/IPsec. This page compares them so you can decide which inbounds to create. The pages that follow cover each protocol in detail.
 
-All three are available on every plan, including Free. Clients, groups, traffic limits, end dates, device limits, node multipliers and the **Connections** list work the same way whichever protocol a client uses.
+All of them are available on every plan, including Free. Clients, groups, traffic limits, end dates, device limits, node multipliers and the **Connections** list work the same way whichever protocol a client uses.
 
 ## At a glance
 
-| | OpenVPN | WireGuard | AmneziaWG | OpenConnect |
-|---|---|---|---|---|
-| Transport | UDP or TCP | UDP | UDP | TCP, plus UDP (DTLS) on the same port number |
-| Port the form suggests | 1194 | 51820 | 51820 | 443 |
-| Sign-in | Certificate, certificate and password, or password only | None; the device holds its own key | None; the device holds its own key | Client name and password |
-| What a client imports | A profile file | A `.conf` file or QR code, one per device | A `.conf` file or QR code, one per device | A server address, typed into the app |
-| Apps | OpenVPN Connect and other OpenVPN apps | WireGuard | AmneziaVPN, AmneziaWG | Cisco Secure Client, OpenConnect apps |
-| Needs on the machine | OpenVPN 2.5 or newer | TUN (`/dev/net/tun`) | TUN (`/dev/net/tun`) | `ocserv`, installed from the panel |
-| Details | [OpenVPN](./openvpn) | [WireGuard and AmneziaWG](./wireguard) | [WireGuard and AmneziaWG](./wireguard) | [OpenConnect](./openconnect) |
+| | OpenVPN | WireGuard | AmneziaWG | OpenConnect | IKEv2 | L2TP/IPsec |
+|---|---|---|---|---|---|---|
+| Transport | UDP or TCP | UDP | UDP | TCP, plus UDP (DTLS) on the same port number | UDP 500 and 4500 | UDP 500, 4500 and 1701 |
+| Port the form suggests | 1194 | 51820 | 51820 | 443 | fixed | fixed |
+| Sign-in | Certificate, certificate and password, or password only | None; the device holds its own key | None; the device holds its own key | Client name and password | Client name and password | Shared key, then name and password |
+| What a client imports | A profile file | A `.conf` file or QR code, one per device | A `.conf` file or QR code, one per device | A server address, typed into the app | A setup file, or settings typed in | A setup file, or settings typed in |
+| Apps | OpenVPN Connect and other OpenVPN apps | WireGuard | AmneziaVPN, AmneziaWG | Cisco Secure Client, OpenConnect apps | Built into the device; strongSwan | Built into Apple devices and Windows |
+| Needs on the machine | OpenVPN 2.5 or newer | TUN (`/dev/net/tun`) | TUN (`/dev/net/tun`) | `ocserv`, installed from the panel | strongSwan on Debian/Ubuntu, installed from the panel | strongSwan and PPP, installed from the panel |
+| Details | [OpenVPN](./openvpn) | [WireGuard and AmneziaWG](./wireguard) | [WireGuard and AmneziaWG](./wireguard) | [OpenConnect](./openconnect) | [IKEv2](./ipsec) | [L2TP/IPsec](./ipsec) |
 
 AmneziaWG is not a fourth protocol in the **New inbound** form. It is a WireGuard inbound with **Amnezia obfuscation** switched on, and it appears as its own tab on the subscription page.
 
-## What the three have in common
+## What they have in common
 
 - A client is created once and can be allowed on inbounds of any protocol. Which inbounds a client gets is decided by its [groups](/use/groups).
 - The device limit counts a client's connections across every inbound, every node and every protocol together. See [The life of a connection](/how/connection).
 - Traffic is counted in both directions and multiplied by the [node's traffic multiplier](/how/traffic).
-- The client's subscription page shows one tab for each protocol the client has access to: OpenVPN, WireGuard, AmneziaWG and Cisco. The owner can reorder, hide or rename tabs in **Settings**. See [Subscription page](/use/subscription-page).
+- The client's subscription page shows one tab for each protocol the client has access to: OpenVPN, WireGuard, AmneziaWG, Cisco, IKEv2 and L2TP/IPsec. The owner can reorder, hide or rename tabs in **Settings**. See [Subscription page](/use/subscription-page).
 
 ## What differs
 
@@ -41,6 +41,8 @@ AmneziaWG is not a fourth protocol in the **New inbound** form. It is a WireGuar
 - Add WireGuard for customers who want speed and light battery use on phones. Give each device its own configuration.
 - Add an Amnezia-mode WireGuard inbound on a second port for networks that block plain WireGuard. Plain WireGuard apps cannot connect to it.
 - Add OpenConnect on port 443 for networks that block OpenVPN but let HTTPS through, or for customers who already use the Cisco app.
+- Add IKEv2 for customers who want no app at all: it is built into iPhones, Macs, Windows and recent Android. Add L2TP/IPsec only for devices that cannot use IKEv2.
+- Send traffic out through another server on any of them with [outbound routing](/use/routing).
 - Run more than one. A client allowed on several protocols sees them all on its subscription page and picks whichever works on its current network.
 
 ::: warning One port, one inbound
@@ -52,5 +54,6 @@ Two inbounds cannot use the same port and protocol on one node. OpenConnect on T
 - [OpenVPN](./openvpn): sign-in modes, network and routing, advanced options.
 - [WireGuard and AmneziaWG](./wireguard): devices, Amnezia mode and the `.conf` files.
 - [OpenConnect](./openconnect): certificates, camouflage and the Cisco app.
+- [IKEv2 and L2TP/IPsec](./ipsec): built-in device VPNs, setup files and certificates.
 - [Client apps](./apps): which app to install on which platform.
 - [Inbounds](/use/inbounds): the panel page where all of this is configured.

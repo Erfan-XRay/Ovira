@@ -10,6 +10,8 @@ Each protocol has its own client apps. This page lists the apps the subscription
 | WireGuard | WireGuard | WireGuard | WireGuard |
 | AmneziaWG | AmneziaWG, AmneziaVPN | AmneziaWG, AmneziaVPN | AmneziaWG, AmneziaVPN |
 | OpenConnect | Cisco Secure Client, OpenConnect, F-Droid build of OpenConnect | Cisco Secure Client | Cisco Secure Client, OpenConnect-GUI, `openconnect` |
+| IKEv2 | Built in (Android 11+), strongSwan | Built in | Built in on Windows and macOS; strongSwan on Linux |
+| L2TP/IPsec | Not in recent Android versions | Built in | Built in on Windows and macOS |
 
 These are the defaults. The owner can change the recommended apps, rename a protocol's tab, add a short note and hide a protocol under **Settings → Subscription page → Protocols**. Other apps that speak the same protocol work too, but the Amnezia parameters only work in Amnezia apps.
 
@@ -35,6 +37,10 @@ Each phone or computer needs its own device. Importing one device's configuratio
 1. Install Cisco Secure Client or an OpenConnect app.
 2. Add a new connection with the **Server address** from the **Cisco** tab.
 3. Sign in with the user name and password on the page.
+
+### IKEv2 and L2TP/IPsec
+
+No app to install on most devices. On the **IKEv2** or **L2TP/IPsec** tab, download the setup file for the device (a profile for iPhone, iPad and Mac, a strongSwan profile for Android, a PowerShell script for Windows), or follow the manual steps shown there. See [IKEv2 and L2TP/IPsec](./ipsec#what-your-customers-do).
 
 Cisco Secure Client refuses a self-signed server unless **Block untrusted servers** is off in its settings. See [OpenConnect](./openconnect#certificate) for the alternatives.
 

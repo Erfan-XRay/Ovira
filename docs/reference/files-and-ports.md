@@ -8,12 +8,16 @@ Open these in the server's firewall and in your provider's firewall or security 
 
 | Port | Where | What it is for |
 |---|---|---|
-| TCP 2053 | Panel | The panel and the subscription pages. This is the default; the installer asks and `--port` sets it. |
+| TCP 2053 | Panel | The panel and the subscription pages. This is the default; the installer asks, `--port` sets it, and **Settings** changes it later. |
+| TCP of your choice | Panel | Optional subscription port: only subscription links and pages. `--sub-port` or **Settings** sets it. |
 | TCP 62060 | Node | The node's API, which only the panel connects to. `--port` sets another. Clients never use it. |
 | UDP 1194 | Node | The port the form suggests for an OpenVPN inbound on UDP. Any port works. |
 | TCP and UDP of your choice | Node | An OpenVPN inbound uses the one protocol you chose on its port. |
 | UDP 51820 | Node | The port the form suggests for a WireGuard inbound. |
 | TCP 443, and UDP 443 with DTLS | Node | The port the form suggests for an OpenConnect inbound. |
+| UDP 500 and 4500 | Node | IKEv2 and L2TP/IPsec. Fixed and shared by every IPsec inbound on the node. |
+| UDP 1701 | Node | L2TP/IPsec, inside IPsec. |
+| TCP 80 | Node | Only while Let's Encrypt issues or renews a node certificate. |
 | TCP 80 or TCP 443 | Panel | Needed during issuing and renewal of the panel's Let's Encrypt certificate. |
 | TCP 80 | Node | Needed during issuing and renewal of an OpenConnect inbound's Let's Encrypt certificate. |
 

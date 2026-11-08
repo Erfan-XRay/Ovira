@@ -2,6 +2,17 @@
 
 A [node](/reference/glossary) is a server that runs inbounds for the panel, whatever the protocol. The **Nodes** page shows one card per node, starting with **This server**. A client created once works on every node, and its device limit counts across all of them. This page covers the cards, the node dialog, traffic multipliers, connect addresses for relays, and removing a node. To install a node, see [Add a node](/start/add-node).
 
+## New in 1.0
+
+- **Rows and a details panel.** Each node is one row; open it to see the **Overview**, **Protocols**, **Inbounds** and **Addresses** tabs.
+- **Protocols from the panel.** The **Protocols** tab shows OpenVPN, OpenConnect, IPsec and WireGuard on the node. **Install** puts a protocol on the node (it also installs itself when you attach the first inbound that needs it); owners can remove software Ovira installed once no inbound uses it.
+- **Update all.** When several nodes are behind the panel, a banner offers **Update all**, which updates them one by one.
+- **Routing.** A node's menu opens its [outbound routing](./routing).
+- **Certificates.** Let's Encrypt certificates for a node are requested on [Certificates](./certificates).
+- **This server can stop being a node.** **Remove node role from this server** stops its VPN services, optionally removes the software Ovira installed, and keeps the panel running.
+
+The sections below describe the information each node shows.
+
 ## The cards
 
 Each card shows the node's name and its state:

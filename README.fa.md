@@ -1,12 +1,12 @@
 <div align="center">
 
-<a href="https://erfan-xray.github.io/Ovira/fa/"><img src="assets/hero.webp" alt="اویرا: پنل OpenVPN برای سرورهای خودتان" width="100%"></a>
+<a href="https://erfan-xray.github.io/Ovira/fa/"><img src="assets/hero.webp" alt="اویرا: پنل VPN روی سرورهای خودتان" width="100%"></a>
 
 <br>
 
-[![Release](https://img.shields.io/github/v/release/Erfan-XRay/Ovira?style=for-the-badge&color=c4f82a&labelColor=0b1300&label=release)](https://github.com/Erfan-XRay/Ovira/releases/latest) [![Downloads](https://img.shields.io/github/downloads/Erfan-XRay/Ovira/total?style=for-the-badge&color=46d6e6&labelColor=0b1300)](https://github.com/Erfan-XRay/Ovira/releases) [![Platform](https://img.shields.io/badge/linux-amd64%20%C2%B7%20arm64-c4f82a?style=for-the-badge&labelColor=0b1300)](#نصب) [![Free plan](https://img.shields.io/badge/free%20plan-5%20clients%20%C2%B7%202%20nodes-46d6e6?style=for-the-badge&labelColor=0b1300)](#پلن‌ها)
+[![Release](https://img.shields.io/github/v/release/Erfan-XRay/Ovira?style=for-the-badge&color=c4f82a&labelColor=0b1300&label=release)](https://github.com/Erfan-XRay/Ovira/releases/latest) [![Downloads](https://img.shields.io/github/downloads/Erfan-XRay/Ovira/total?style=for-the-badge&color=46d6e6&labelColor=0b1300)](https://github.com/Erfan-XRay/Ovira/releases) [![Platform](https://img.shields.io/badge/linux-amd64%20%C2%B7%20arm64-c4f82a?style=for-the-badge&labelColor=0b1300)](#نصب) [![Free plan](https://img.shields.io/badge/free%20plan-5%20clients%20%C2%B7%202%20nodes-46d6e6?style=for-the-badge&labelColor=0b1300)](#پلنها)
 
-**[مستندات](https://erfan-xray.github.io/Ovira/fa/)** &nbsp;·&nbsp; **[Documentation](https://erfan-xray.github.io/Ovira/)** &nbsp;·&nbsp; **[English README](README.md)** &nbsp;·&nbsp; **[Releases](https://github.com/Erfan-XRay/Ovira/releases)**
+**[سایت و مستندات](https://erfan-xray.github.io/Ovira/fa/)** &nbsp;·&nbsp; **[Documentation](https://erfan-xray.github.io/Ovira/)** &nbsp;·&nbsp; **[English README](README.md)** &nbsp;·&nbsp; **[Releases](https://github.com/Erfan-XRay/Ovira/releases)**
 
 </div>
 
@@ -14,7 +14,9 @@
 
 <div dir="rtl">
 
-**اویرا** (Ovira) یک پنل VPN (OpenVPN، OpenConnect و WireGuard) برای سرورهای لینوکسی است: یک فایل اجرایی که رابط وب هم داخلش است. کاربر بسازید با محدودیت حجم و زمان، برای هر کدام لینک اشتراک بدهید و سرورهای محلی و راه دور را در محدودهٔ پلن خود از یک جا مدیریت کنید. بدون داکر، بدون راه‌اندازی دیتابیس، بدون ویرایش فایل تنظیمات.
+**اویرا** (Ovira) یک پنل VPN برای سرورهای لینوکسی خودتان است: یک فایل اجرایی که رابط وب هم داخلش است. کاربر بسازید با محدودیت حجم و زمان، به هر کدام یک لینک اشتراک بدهید و **OpenVPN، WireGuard / AmneziaWG، OpenConnect، IKEv2 و L2TP/IPsec** را روی سرور خود پنل و روی هر تعداد نودی که پلنتان اجازه می‌دهد اجرا کنید. با **مسیریابی خروجی** ترافیک را از سرورهای دیگر بیرون بفرستید. بدون داکر، بدون راه‌اندازی دیتابیس، بدون ویرایش فایل تنظیمات.
+
+> **اویرا ۱٫۰ منتشر شد.** مسیریابی خروجی با Cloudflare WARP و NordVPN با یک کلیک، IKEv2 و L2TP/IPsec، گواهی Let's Encrypt برای هر نود، پورت پنل قابل انتخاب و پورت جدا برای ساب. [تازه‌های ۱٫۰](#تازههای-۱۰) را ببینید.
 
 <table dir="rtl">
 <tr>
@@ -27,13 +29,13 @@
 <td width="33%" valign="top">
 
 ### 🌍 چند سرور
-در چند دقیقه نود اضافه کنید. یک کاربر روی همهٔ آن‌ها کار می‌کند و محدودیت دستگاهش روی همهٔ سرورها با هم شمرده می‌شود.
+در چند دقیقه نود اضافه کنید. یک کاربر روی همهٔ آن‌ها کار می‌کند و سقف دستگاهش روی همهٔ سرورها و همهٔ پروتکل‌ها با هم شمرده می‌شود.
 
 </td>
 <td width="33%" valign="top">
 
 ### 📱 کاربران دوستش دارند
-هر کاربر صفحه‌ای دارد با حجم باقی‌مانده، روزهای مانده و اتصال با یک لمس، به فارسی و انگلیسی.
+هر کاربر صفحه‌ای دارد با حجم باقی‌مانده، روزهای مانده، اتصال با یک لمس و فایل‌های آمادهٔ تنظیم، به فارسی و انگلیسی.
 
 </td>
 </tr>
@@ -55,10 +57,10 @@ bash <(curl -fsSL https://raw.githubusercontent.com/Erfan-XRay/Ovira/main/instal
 
 | انتخاب | چیست |
 |---|---|
-| **پنل** | پنل وب. پورت را می‌پرسد، اینکه این سرور خودش هم نود باشد یا فقط پنل بماند و نودهای دیگر را مدیریت کند، و روش HTTPS: گواهی Let's Encrypt برای دامنه، برای آی‌پی سرور، یا هیچ. بعد آدرس و رمز را چاپ می‌کند. |
-| **نود** | یک سرور OpenVPN اضافه برای پنلی که جای دیگر اجرا می‌شود. در پنل، **نودها ← اتصال نود** دستور دقیق را آمادهٔ کپی نشان می‌دهد. |
+| **پنل** | پنل وب. پورت پنل (پیش‌فرض `2053`)، پورت جداگانهٔ اختیاری برای ساب، اینکه این سرور خودش هم نود باشد یا نه، و روش HTTPS را می‌پرسد: گواهی Let's Encrypt برای دامنه، برای آی‌پی سرور، یا هیچ. بعد آدرس و رمز را چاپ می‌کند. |
+| **نود** | یک سرور VPN اضافه برای پنلی که جای دیگر اجرا می‌شود. در پنل، **نودها ← اتصال نود** دستور دقیق را آمادهٔ کپی نشان می‌دهد. |
 
-هر دانلود قبل از نصب با **امضای نسخه** بررسی می‌شود. سؤال نمی‌خواهید؟ همه‌چیز را می‌شود به‌صورت گزینه داد؛ [راهنمای نصب](https://erfan-xray.github.io/Ovira/fa/guide/install) را ببینید.
+دانلودها با چک‌سام نسخه، و اگر سرور OpenSSL 3 داشته باشد با امضای نسخه هم، بررسی می‌شوند. سؤال نمی‌خواهید؟ همه‌چیز را می‌شود به‌صورت گزینه داد؛ [راهنمای نصب](https://erfan-xray.github.io/Ovira/fa/start/install-panel) را ببینید.
 
 </div>
 
@@ -74,20 +76,34 @@ bash <(curl -fsSL https://raw.githubusercontent.com/Erfan-XRay/Ovira/main/node.s
 # پنل خالی که فقط نودها را مدیریت می‌کند
 bash <(curl -fsSL https://raw.githubusercontent.com/Erfan-XRay/Ovira/main/install.sh) panel --panel-only
 
-# بدون هیچ سؤالی
+# بدون هیچ سؤالی، لینک‌های ساب روی پورت جدا
 bash <(curl -fsSL https://raw.githubusercontent.com/Erfan-XRay/Ovira/main/install.sh) panel --yes \
-  --port 8443 --ssl domain --domain panel.example.com --email you@example.com
+  --port 8443 --sub-port 2096 --ssl domain --domain panel.example.com --email you@example.com
 ```
 
 <div dir="rtl">
 
-نصب‌کننده هیچ اینباندی نمی‌سازد؛ اینباندها را در پنل، بخش «اینباندها»، بسازید. سرور فقط‌پنل را بعداً با `ovira local-node enable` می‌شود نود هم کرد.
+نصب‌کننده هیچ اینباندی نمی‌سازد؛ اینباندها را در پنل، بخش «اینباندها»، بسازید و به یک نود وصل کنید. سرور فقط‌پنل را بعداً با `ovira local-node enable` می‌شود نود هم کرد.
 
 </div>
 
 </details>
 
 <div dir="rtl">
+
+## تازه‌های ۱٫۰
+
+| | |
+|---|---|
+| **مسیریابی خروجی** | ترافیک کاربران VPN را برای هر نود از صفحهٔ جدید «مسیریابی» از طریق سرور دیگری بفرستید. خروجی VLESS، VMess، Trojan، Shadowsocks، Hysteria2، WireGuard، SOCKS یا HTTP را فیلدبه‌فیلد یا با لینک اضافه کنید و بر اساس فهرست سایت‌ها (geosite / geoip)، دامنه، IP، پورت یا اینباند مسیر بدهید، یا کل ترافیک را بفرستید. |
+| **WARP و NordVPN** | ساخت خروجی Cloudflare WARP (رایگان یا WARP+) یا NordVPN (NordLynx) با یک کلیک. |
+| **تست خروجی** | هر خروجی را از سرور اصلی یا یک نود تست کنید: وصل می‌شود یا نه، پینگ، و IP و کشور خروجی. |
+| **IKEv2 و L2TP/IPsec** | دو پروتکل جدید برای کلاینت VPN داخلی گوشی‌ها و کامپیوترها، با فایل تنظیم آماده برای آیفون، آیپد، مک، اندروید و ویندوز. |
+| **گواهی‌ها** | گرفتن گواهی Let's Encrypt برای نودها و سرور اصلی از صفحهٔ «گواهی‌ها» و استفاده در اینباندها و HTTPS پنل. خودشان تمدید می‌شوند. |
+| **نودها** | فهرست ساده‌تر با پنل جزئیات؛ نصب و حذف پروتکل‌ها از پنل؛ به‌روزرسانی همهٔ نودها با هم. |
+| **پورت پنل و پورت ساب** | پورت پنل را هنگام نصب انتخاب کنید و بعداً در «تنظیمات» عوض کنید؛ در صورت تمایل لینک‌های ساب را روی پورت جدا سرو کنید. |
+
+پنل و نودها را با هم به‌روزرسانی کنید. یادداشت کامل در [صفحهٔ نسخه‌ها](https://github.com/Erfan-XRay/Ovira/releases/tag/v1.0.0) است.
 
 ## دستور `ovira`
 
@@ -102,7 +118,7 @@ bash <(curl -fsSL https://raw.githubusercontent.com/Erfan-XRay/Ovira/main/instal
 | `ovira password` | رمز جدید برای یک ادمین: خودتان بنویسید یا یک رمز تصادفی قوی |
 | `ovira license` | لایسنس و شناسهٔ دستگاه |
 | `ovira ssl` | گواهی HTTPS برای دامنه یا آی‌پی |
-| `ovira local-node enable` | سرور خود پنل را هم نود کنید (`disable` برای برگشت؛ `ovira openvpn` هم کار می‌کند) |
+| `ovira local-node enable` | سرور خود پنل را هم نود کنید (`disable` برای برگشت) |
 | `ovira logs` · `restart` · `backup` · `uninstall` | همان‌طور که اسمشان می‌گوید |
 
 ## چه چیزی می‌گیرید
@@ -112,47 +128,48 @@ bash <(curl -fsSL https://raw.githubusercontent.com/Erfan-XRay/Ovira/main/instal
 <td width="50%" valign="top">
 
 ### 👥 کاربران
-سهمیهٔ حجم، تاریخ پایان یا ساعتی که از اولین استفاده شروع می‌شود، دستگاه هم‌زمان، ریست دوره‌ای، آی‌پی ثابت و ساخت گروهی. کاربران را در **گروه** بگذارید تا تعیین شود کدام سرورها را می‌گیرند.
+سهمیهٔ حجم، تاریخ پایان یا ساعتی که از اولین استفاده شروع می‌شود، دستگاه هم‌زمان، ریست دوره‌ای، آی‌پی ثابت و ساخت گروهی. کاربران را در **گروه** بگذارید تا تعیین شود کدام اینباندها را می‌گیرند.
+
+### 🔐 پنج پروتکل، یک کاربر
+| پروتکل | برنامه‌ها |
+|---|---|
+| **OpenVPN** (UDP / TCP) | OpenVPN Connect و برنامه‌های OpenVPN |
+| **WireGuard / AmneziaWG** | WireGuard، AmneziaVPN |
+| **OpenConnect** | Cisco Secure Client، برنامه‌های OpenConnect |
+| **IKEv2** | داخلی در iOS، macOS، ویندوز، اندروید ۱۱ به بعد، strongSwan |
+| **L2TP/IPsec** | داخلی در iOS، macOS و ویندوز |
 
 </td>
 <td width="50%" valign="top">
 
-### 🔐 OpenVPN کامل
-سرورهای UDP و TCP کنار هم، ورود با گواهی و/یا رمز، tls-crypt، انتخاب رمزنگاری، تونل کامل یا تقسیم‌شده، IPv6.
+### 🧭 مسیریابی خروجی
+برای هر نود انتخاب کنید کدام اینباندها مسیریابی شوند و ترافیکشان از کجا خارج شود: مستقیم، از طریق یک خروجی، یا مسدود. الگوهای آماده مثل «Gemini از خروجی» و «ایران مستقیم»؛ DNS و آدرس‌های خصوصی همیشه مستقیم می‌روند.
 
-### 🌐 OpenConnect (سیسکو)
-سرورهای OpenConnect کنار OpenVPN، روی پنل یا نودها. کاربران با Cisco Secure Client یا برنامه‌های OpenConnect و همان نام و رمز وصل می‌شوند؛ استتار سرور را از اسکنرها پنهان می‌کند.
+### 🛰️ نودها و سرورهای واسط
+سرورهای بیشتری به یک پنل وصل کنید. هر نود ضریب ترافیک و آدرس‌های اتصال خودش را دارد، پس سرور واسطِ جلوی آن به پروفایل‌هایی تبدیل می‌شود که کاربر انتخاب می‌کند. پروتکل‌ها با وصل کردن اولین اینباند از خود پنل روی نود نصب می‌شوند.
 
-### ⚡ وایرگارد (WireGuard)
-سرورهای وایرگارد روی پنل یا نودها، در حالت عادی یا حالت امنزیا برای شبکه‌هایی که وایرگارد را می‌بندند. هر دستگاه پیکربندی و کد QR خودش را دارد که روی همهٔ سرورهای مجاز کاربر کار می‌کند.
+### 🪪 گواهی‌ها
+گواهی HTTPS پنل و همهٔ گواهی‌های OpenConnect و IKEv2 در یک صفحه، با تاریخ انقضا و تمدید خودکار.
 
 </td>
 </tr>
 <tr>
-<td valign="top">
-
-### 🛰️ نودها و سرورهای واسط
-سرورهای بیشتری به یک پنل وصل کنید. هر نود ضریب ترافیک و آدرس‌های اتصال خودش را دارد، پس سرور واسط یا تونلِ جلوی آن به پروفایل‌هایی تبدیل می‌شود که کاربر می‌تواند انتخاب کند.
-
-</td>
 <td valign="top">
 
 ### 🔄 به‌روزرسانی که خبر می‌دهد
-وقتی نسخهٔ جدید بیاید یک بنر در پنل ظاهر می‌شود؛ با یک کلیک نصب می‌شود و صفحه‌های باز بعد از پایان خودشان دوباره بارگذاری می‌شوند. کانال پایدار و بتا، به‌روزرسانی خودکار، نودها همراه پنل.
+وقتی نسخهٔ جدید بیاید یک بنر در پنل ظاهر می‌شود و با یک کلیک نصب می‌شود. کانال پایدار و بتا، به‌روزرسانی خودکار، نودها همراه پنل.
+
+### 🧑‍💼 حساب‌های پنل و نمایندگان
+به نماینده‌ها ورود جدا با سهمیهٔ ترافیک، تاریخ پایان و سقف کاربر بدهید و تعیین کنید کدام گروه‌ها و اینباندها را بفروشند.
 
 </td>
-</tr>
-<tr>
 <td valign="top">
 
 ### 🎨 صفحهٔ اشتراک
-سه ظاهر، نام و رنگ خودتان، دکمهٔ پشتیبانی، فارسی و انگلیسی. حجم باقی‌مانده، روزهای مانده، نمودار مصرف، اتصال با یک لمس.
-
-</td>
-<td valign="top">
+نام و رنگ خودتان، دکمهٔ پشتیبانی، فارسی و انگلیسی، تب‌های پروتکل با ترتیب و نام دلخواه. حجم باقی‌مانده، روزهای مانده، نمودار مصرف، اتصال با یک لمس و فایل‌های تنظیم.
 
 ### 🛡️ امن به‌صورت پیش‌فرض
-رمزها با Argon2id، ورود دومرحله‌ای، مسیر مخفی پنل (هر چیز دیگر *404* می‌دهد)، گواهی HTTPS خودکار، نسخه‌های امضاشده.
+رمزها با Argon2id، ورود دومرحله‌ای، مسیر مخفی پنل (هر چیز دیگر *404* می‌دهد)، HTTPS خودکار، نسخه‌های امضاشده، پشتیبان‌گیری در تلگرام و API با توکن‌های محدود.
 
 </td>
 </tr>
@@ -160,7 +177,7 @@ bash <(curl -fsSL https://raw.githubusercontent.com/Erfan-XRay/Ovira/main/instal
 
 ## ببینید
 
-این تصاویر نمونه‌هایی از رابط کاربری‌اند. داده‌های کاربران و نام تجاری یا لینک پشتیبانی تنظیم‌شده توسط مالک، نمونه هستند؛ اویرا سرویس رسمی پشتیبانی تلگرام ندارد.
+این تصاویر نمونه‌هایی از رابط کاربری‌اند. داده‌های کاربران و نام تجاری نمونه هستند.
 
 </div>
 
@@ -173,7 +190,7 @@ bash <(curl -fsSL https://raw.githubusercontent.com/Erfan-XRay/Ovira/main/instal
 </p>
 
 <p align="center">
-  <img src="assets/subscription.webp" alt="صفحهٔ اشتراک در سه ظاهر" width="100%">
+  <img src="assets/subscription.webp" alt="صفحهٔ اشتراک" width="100%">
 </p>
 
 <table>
@@ -195,47 +212,53 @@ bash <(curl -fsSL https://raw.githubusercontent.com/Erfan-XRay/Ovira/main/instal
 
 ```mermaid
 flowchart LR
-    C["👤 Clients<br/>OpenVPN apps"]
+    C["👤 Clients<br/>OpenVPN · WireGuard · Cisco · IKEv2 · L2TP"]
     P["🖥️ Panel<br/>web UI · clients · licenses"]
-    subgraph S["OpenVPN servers"]
+    subgraph S["Your servers"]
         direction TB
         N1["🌍 Node"]
         N2["🌍 Node"]
         L["⚙️ Panel's own server<br/>(optional)"]
     end
+    O["🧭 Outbounds<br/>WARP · NordVPN · VLESS · …"]
+    I(("🌐 Internet"))
     C -- "subscription link" --> P
     P -- "manages over TLS,<br/>key-pinned API" --> S
-    C == "OpenVPN tunnels" ==> S
+    C == "VPN tunnels" ==> S
+    S -- "routing rules" --> O
+    S -- "direct" --> I
+    O --> I
 ```
 
 <div dir="rtl">
 
-پنل ترافیک کاربران شما را عبور نمی‌دهد، مگر اینکه بگذارید سرور خودش هم OpenVPN اجرا کند. تونل‌ها روی نودهاست؛ کاربران، محدودیت‌ها و لایسنس‌ها پیش پنل.
+پنل ترافیک کاربران شما را عبور نمی‌دهد، مگر اینکه بگذارید سرور خودش هم نود باشد. تونل‌ها و قوانین مسیریابی روی نودهاست؛ کاربران، محدودیت‌ها و لایسنس‌ها پیش پنل.
 
 ## پلن‌ها
 
-پلن رایگان **۵ کاربر فعال، ۲ نود راه دور و ۱ حساب پنل** دارد. حساب نمایندهٔ فروش در Pro و Business ارائه می‌شود. پلن‌های پولی پیش‌فرض از **۳ دلار در ماه** شروع می‌شوند. خرید داخل پنل با یکی از روش‌های پرداخت فعال انجام می‌شود و پس از تأیید پرداخت فعال‌سازی صورت می‌گیرد. شبکه و ارز موجود به سرویس پرداخت بستگی دارد.
+پلن رایگان **۵ کاربر فعال، ۲ نود راه دور و ۱ حساب پنل** دارد. پلن‌های پولی کاربر، نود و حساب پنل بیشتری برای نمایندگان می‌دهند و از **۱ دلار در ماه** شروع می‌شوند. خرید داخل پنل با یکی از روش‌های پرداخت فعال انجام می‌شود و پس از تأیید پرداخت فعال‌سازی صورت می‌گیرد.
 
-| پلن | کاربر فعال | نود | پنل هم‌زمان | ماهانه |
-|---|---|---|---|---|
-| **رایگان** | ۵ | ۲ | ۱ | ۰ دلار |
-| **Starter** | ۲۰۰ | ۳ | ۱ | ۳ دلار |
-| **Pro** | ۸۰۰ | ۱۰ | ۲ | ۷ دلار |
-| **Business** | نامحدود | نامحدود | ۳ | ۱۵ دلار |
+| پلن | کاربر فعال | نود | حساب پنل | پنل هم‌زمان | ماهانه |
+|---|---|---|---|---|---|
+| **رایگان** | ۵ | ۲ | ۱ | ۱ | ۰ دلار |
+| **Starter** | ۲۰۰ | ۳ | ۲ | ۱ | ۱ دلار |
+| **Pro** | ۸۰۰ | ۱۰ | ۵ | ۲ | ۳ دلار |
+| **Business** | نامحدود | نامحدود | نامحدود | ۳ | ۱۰ دلار |
 
-این‌ها قیمت‌های پیش‌فرض‌اند؛ پیشنهادها، روش‌های پرداخت و سقف‌های فعلی را در صفحهٔ **لایسنس** پنل ببینید. برای تأیید فعال‌سازی، مهلت تمدید و انتقال سرور [راهنمای لایسنس](https://erfan-xray.github.io/Ovira/fa/guide/plans) را بخوانید.
+همهٔ پروتکل‌ها و مسیریابی خروجی در همهٔ پلن‌ها، حتی رایگان، هستند. این‌ها پلن‌های پیش‌فرض‌اند؛ پیشنهادها، روش‌های پرداخت و سقف‌های فعلی را در صفحهٔ **لایسنس** پنل ببینید. [راهنمای لایسنس](https://erfan-xray.github.io/Ovira/fa/use/license) را بخوانید.
 
 ## مستندات
 
 | | |
 |---|---|
-| 🚀 [نصب](https://erfan-xray.github.io/Ovira/fa/guide/install) | پیش‌نیازها، گزینه‌ها، کار اسکریپت |
-| 🧭 [قدم‌های اول](https://erfan-xray.github.io/Ovira/fa/guide/first-steps) | اولین کاربر و لینک اشتراک |
-| 🌍 [نودها و سرورهای واسط](https://erfan-xray.github.io/Ovira/fa/guide/nodes) | سرورهای بیشتر، ضریب، آدرس‌های اتصال |
-| 🧩 [گروه‌ها](https://erfan-xray.github.io/Ovira/fa/guide/groups) | کدام کاربر کدام سرورها را بگیرد |
-| 🔄 [به‌روزرسانی](https://erfan-xray.github.io/Ovira/fa/guide/updates) | کانال‌ها، به‌روزرسانی خودکار، بنر داخل پنل |
-| ⌨️ [خط فرمان](https://erfan-xray.github.io/Ovira/fa/guide/cli) | دستور `ovira` و منویش |
-| 🛠️ [رفع مشکل](https://erfan-xray.github.io/Ovira/fa/guide/faq) | مشکل‌های رایج و راه‌حل |
+| 🚀 [نصب پنل](https://erfan-xray.github.io/Ovira/fa/start/install-panel) | پیش‌نیازها، گزینه‌ها، پورت‌ها، کار اسکریپت |
+| 🧭 [اولین کاربر](https://erfan-xray.github.io/Ovira/fa/start/first-client) | اولین کاربر و لینک اشتراک |
+| 🔐 [انتخاب پروتکل](https://erfan-xray.github.io/Ovira/fa/protocols/) | OpenVPN، WireGuard، OpenConnect، IKEv2، L2TP/IPsec |
+| 🧭 [مسیریابی خروجی](https://erfan-xray.github.io/Ovira/fa/use/routing) | خروجی‌ها، WARP، NordVPN، قوانین و تست |
+| 🌍 [نودها](https://erfan-xray.github.io/Ovira/fa/use/nodes) | سرورهای بیشتر، ضریب، آدرس‌های اتصال |
+| 🪪 [گواهی‌ها](https://erfan-xray.github.io/Ovira/fa/use/certificates) | Let's Encrypt برای نودها و پنل |
+| 🔌 [API](https://erfan-xray.github.io/Ovira/fa/api/) | توکن‌ها، endpointها و نمونهٔ ربات فروش |
+| 🛠️ [عیب‌یابی](https://erfan-xray.github.io/Ovira/fa/reference/troubleshooting) | مشکل‌های رایج و راه‌حل |
 
 ## مجوز
 

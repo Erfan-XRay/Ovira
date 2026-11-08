@@ -45,9 +45,11 @@ const MW = 360;
 const MH = 150;
 type Pt = [number, number];
 const RAW: Pt[][] = [
-  [[50, 62], [170, 62], [210, 26], [316, 26]],
+  [[50, 63], [150, 63], [195, 18], [316, 18]],
+  [[50, 69], [170, 69], [193, 46], [316, 46]],
   [[50, 75], [316, 75]],
-  [[50, 88], [170, 88], [210, 124], [316, 124]],
+  [[50, 81], [170, 81], [193, 104], [316, 104]],
+  [[50, 87], [150, 87], [195, 132], [316, 132]],
 ];
 const mini = computed(() =>
   RAW.map((pts) => {
@@ -56,7 +58,13 @@ const mini = computed(() =>
   }),
 );
 const cx = computed(() => mx(30, MW, fa.value));
-const KEY = ["ovpn", "wg", "oc"] as const;
+const KEY = ["ovpn", "wg", "oc", "ike", "l2tp"] as const;
+const isFile = (k: string): k is keyof typeof CODE => k in CODE;
+const fields = computed(() => ({
+  oc: [[w.value.ocAddress, "vpn.example.com"], [w.value.ocUser, w.value.client.name], [w.value.ocPass, w.value.ocPassVal, 1]],
+  ike: [[w.value.ikeType, "IKEv2"], [w.value.ocAddress, "vpn.example.com"], [w.value.ikeRemote, "vpn.example.com"], [w.value.ocUser, w.value.client.name], [w.value.ocPass, w.value.ocPassVal, 1]],
+  l2tp: [[w.value.ikeType, "L2TP/IPsec PSK"], [w.value.ocAddress, "vpn.example.com"], [w.value.psk, w.value.ocPassVal, 1], [w.value.ocUser, w.value.client.name], [w.value.ocPass, w.value.ocPassVal, 1]],
+} as Record<string, (string | number)[][]>));
 const pick = (i: number) => (cur.value = i);
 </script>
 
@@ -125,14 +133,12 @@ const pick = (i: number) => (cur.value = i);
             <p class="text">{{ tb.text }}</p>
             <div class="file" :class="'k-' + tb.key">
               <div class="bar"><span class="dots" aria-hidden="true"><i /><i /><i /></span><span class="fn" dir="ltr">{{ tb.file }}</span></div>
-              <pre v-if="tb.key !== 'oc'" dir="ltr"><code><template v-for="(l, j) in CODE[tb.key]" :key="j"><span :class="kind(l)">{{ l || " " }}</span>{{ "\n" }}</template></code></pre>
+              <pre v-if="isFile(tb.key)" dir="ltr"><code><template v-for="(l, j) in CODE[tb.key]" :key="j"><span :class="kind(l)">{{ l || " " }}</span>{{ "\n" }}</template></code></pre>
               <div v-else class="oc">
-                <label>{{ w.ocAddress }}<span class="field" dir="ltr">vpn.example.com</span></label>
-                <label>{{ w.ocUser }}<span class="field" dir="ltr">{{ w.client.name }}</span></label>
-                <label>{{ w.ocPass }}<span class="field dim">{{ w.ocPassVal }}</span></label>
+                <label v-for="f in fields[tb.key]" :key="String(f[0])">{{ f[0] }}<span class="field" :class="{ dim: f[2] }" :dir="f[2] ? undefined : 'ltr'">{{ f[1] }}</span></label>
               </div>
             </div>
-            <p v-if="tb.key !== 'oc'" class="abr">{{ w.abridged }}</p>
+            <p v-if="isFile(tb.key)" class="abr">{{ w.abridged }}</p>
           </div>
         </div>
       </div>
@@ -203,7 +209,7 @@ dd { margin: 0; font-weight: 650; }
 .mini { display: block; width: 100%; height: auto; margin-top: 18px; overflow: visible; }
 .mline { opacity: 0.22; transition: opacity 0.4s; }
 .mline.on { opacity: 1; }
-.p { fill: none; stroke: currentColor; stroke-width: 7; stroke-linecap: round; stroke-linejoin: round; }
+.p { fill: none; stroke: currentColor; stroke-width: 5.5; stroke-linecap: round; stroke-linejoin: round; }
 .end { fill: var(--o-station); stroke: currentColor; stroke-width: 4; }
 .me { fill: var(--o-station); stroke: var(--vp-c-brand-3); stroke-width: 5; }
 .meT { fill: var(--vp-c-text-1); font-size: 16px; font-weight: 700; text-anchor: middle; text-transform: uppercase; }
@@ -245,9 +251,13 @@ dd { margin: 0; font-weight: 650; }
 .tab.k-ovpn .ov-dot { color: var(--o-ovpn); }
 .tab.k-wg .ov-dot { color: var(--o-wg); }
 .tab.k-oc .ov-dot { color: var(--o-oc); }
+.tab.k-ike .ov-dot { color: var(--o-ike); }
+.tab.k-l2tp .ov-dot { color: var(--o-l2tp); }
 .tab.k-ovpn.on { border-color: var(--o-ovpn); background: color-mix(in srgb, var(--o-ovpn) 14%, transparent); }
 .tab.k-wg.on { border-color: var(--o-wg); background: color-mix(in srgb, var(--o-wg) 14%, transparent); }
 .tab.k-oc.on { border-color: var(--o-oc); background: color-mix(in srgb, var(--o-oc) 14%, transparent); }
+.tab.k-ike.on { border-color: var(--o-ike); background: color-mix(in srgb, var(--o-ike) 14%, transparent); }
+.tab.k-l2tp.on { border-color: var(--o-l2tp); background: color-mix(in srgb, var(--o-l2tp) 14%, transparent); }
 
 .panel { padding: 22px; }
 .text { margin: 0 0 16px; font-size: 16px; line-height: 1.75; }

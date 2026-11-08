@@ -2,7 +2,9 @@
 import { onMounted, onUnmounted, ref } from "vue";
 import "./landing.css";
 import Hero from "./Hero.vue";
+import News from "./News.vue";
 import Ways from "./Ways.vue";
+import Routing from "./Routing.vue";
 import Life from "./Life.vue";
 import Fleet from "./Fleet.vue";
 import Resellers from "./Resellers.vue";
@@ -26,7 +28,13 @@ onMounted(() => {
       }),
     { threshold: 0.12, rootMargin: "0px 0px -6% 0px" },
   );
-  root.value?.querySelectorAll("[data-reveal]").forEach((el) => io!.observe(el));
+  // Siblings that reveal together arrive one after another.
+  root.value?.querySelectorAll<HTMLElement>("[data-reveal]").forEach((el) => {
+    const sibs = el.parentElement ? Array.from(el.parentElement.children).filter((c) => c.hasAttribute("data-reveal")) : [];
+    const i = Math.max(0, sibs.indexOf(el));
+    if (i && !el.style.getPropertyValue("--rd")) el.style.setProperty("--rd", `${Math.min(i, 4) * 110}ms`);
+    io!.observe(el);
+  });
   armed.value = true;
 });
 onUnmounted(() => io?.disconnect());
@@ -35,7 +43,9 @@ onUnmounted(() => io?.disconnect());
 <template>
   <div ref="root" class="ov" :class="{ armed }">
     <Hero />
+    <News />
     <Ways />
+    <Routing />
     <Life />
     <Fleet />
     <Resellers />

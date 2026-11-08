@@ -5,6 +5,8 @@
   --o-ovpn: #3d6f00;
   --o-wg: #006f7d;
   --o-oc: #9a4d00;
+  --o-ike: #6a3fd0;
+  --o-l2tp: #b0206a;
   --o-bad: #b3261e;
   --o-warn: #8a5a00;
   --o-map-bg: rgba(246, 245, 238, 0.6);
@@ -16,6 +18,8 @@
   --o-ovpn: #c4f82a;
   --o-wg: #46d6e6;
   --o-oc: #ffb454;
+  --o-ike: #b79cff;
+  --o-l2tp: #ff7eb8;
   --o-bad: #ff7b72;
   --o-warn: #ffc15a;
   --o-map-bg: rgba(10, 17, 18, 0.55);
@@ -187,6 +191,8 @@
 .c-ovpn { color: var(--o-ovpn); }
 .c-wg { color: var(--o-wg); }
 .c-oc { color: var(--o-oc); }
+.c-ike { color: var(--o-ike); }
+.c-l2tp { color: var(--o-l2tp); }
 
 .ov-sr {
   position: absolute;
@@ -207,16 +213,34 @@
 /* reveal on scroll; armed only once the script runs, so the page reads without it */
 .ov.armed [data-reveal]:not(.is-in) {
   opacity: 0;
-  transform: translateY(26px);
+  transform: translateY(34px) scale(0.985);
+  filter: blur(8px);
 }
 
 .ov [data-reveal] {
-  transition: opacity 0.9s var(--o-out), transform 0.9s var(--o-out);
+  transition: opacity 1s var(--o-out), transform 1s var(--o-out), filter 1s var(--o-out);
+  transition-delay: var(--rd, 0s);
+}
+
+/* cards tip forward as they arrive */
+.ov.armed [data-tilt]:not(.is-in) {
+  transform: perspective(900px) translateY(46px) rotateX(-14deg);
+}
+
+/* the station dot of a section label lights up as the section arrives */
+.ov.armed .is-in .ov-eyebrow::before,
+.ov.armed .ov-eyebrow.is-in::before {
+  animation: station 1.2s var(--o-out) 0.2s backwards;
+}
+@keyframes station {
+  from { transform: scale(0.2); box-shadow: 0 0 0 0 var(--o-glow); }
+  60% { transform: scale(1.25); box-shadow: 0 0 0 10px transparent; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .ov.armed [data-reveal]:not(.is-in) {
     opacity: 1;
     transform: none;
+    filter: none;
   }
 }

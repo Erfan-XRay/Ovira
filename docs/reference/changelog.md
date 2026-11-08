@@ -2,9 +2,13 @@
 
 What changed in each minor release, newest first. Patch releases are folded into the minor release they belong to. The full notes are on the [GitHub releases page](https://github.com/Erfan-XRay/Ovira/releases). Update from the panel or with `ovira update`; see [Update the panel and nodes](/start/update).
 
+## 1.0
+
+November 8, 2026. The first stable 1.0. **Outbound routing**: send clients' traffic out through another server, per node, from the new [Routing](/use/routing) page, with VLESS, VMess, Trojan, Shadowsocks, Hysteria2, WireGuard, SOCKS and HTTP outbounds added field by field or from a link, Cloudflare WARP and NordVPN in one click, rules by site list, domain, IP, port or inbound, and a test that shows latency and the exit IP. **IKEv2 and L2TP/IPsec** inbounds on the panel's server and on nodes, with setup files for Apple devices, Android and Windows; see [IKEv2 and L2TP/IPsec](/protocols/ipsec). The [Certificates](/use/certificates) page requests Let's Encrypt certificates for nodes and the main server. The Nodes page became a list with a details panel, installs and removes protocols, and updates every node at once. The panel port can be chosen at install and changed in **Settings**, and subscription links can have their own port. Panel accounts are limited only by the plan's account count. Update the panel and its nodes together.
+
 ## 0.9
 
-October 30, 2026. Inbounds are no longer tied to a node when you create them. **New inbound** has no node field, and a new inbound waits under **Not on a node**. You run it from **Nodes → Attach inbound**, which checks the port, network and certificate against that node first. Inbounds can be detached or moved to another node, and removing a node keeps its inbounds. A new panel starts with no inbounds, and the installer asks whether the panel's own server should also be a node. Let's Encrypt certificates for a server's IP address were fixed. Panels with hundreds of online users save traffic much faster and no longer hang connections. Nodes do not need to be updated for 0.9.
+October 30, 2026. Inbounds are no longer tied to a node when you create them. **New inbound** has no node field, and a new inbound waits under **Not on a node**. You run it from **Nodes → Attach inbound**, which checks the port, network and certificate against that node first. Inbounds can be detached or moved to another node, and removing a node keeps its inbounds. A new panel starts with no inbounds, and the installer asks whether the panel's own server should also be a node. Let's Encrypt certificates for a server's IP address were fixed. Panels with hundreds of online users save traffic much faster and no longer hang connections. Nodes do not need to be updated for 0.9. The 0.9 patch releases added Telegram backups, API tokens with a public API, one inbound shared by several nodes and protocols installed on demand.
 
 ## 0.8
 
