@@ -2028,7 +2028,7 @@ case "$CMD" in
   install|panel) do_install_panel ;;
   uninstall) do_uninstall ;;
   menu|"")
-    if (( IS_PANEL || IS_NODE )); then
+    if (( IS_PANEL )); then
       # An installation from before the menu existed gets it now.
       [[ -f "$LIBDIR/panel.sh" ]] || { mktmp; install_manager 2>/dev/null || true; }
       main_menu
