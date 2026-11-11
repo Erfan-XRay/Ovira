@@ -14,7 +14,7 @@ Prefer IKEv2. It reconnects quickly when a phone moves between Wi-Fi and mobile 
 
 ## Before you start
 
-- The node runs Debian or Ubuntu with `apt`, `dpkg` and systemd. Ovira installs strongSwan (and, for L2TP, the PPP packages) on the node when the first IPsec inbound is attached. Other distributions need compatible packages installed beforehand.
+- The node runs Ubuntu with `apt`, `dpkg` and systemd. Ovira installs strongSwan (and, for L2TP, the PPP packages) on the node when the first IPsec inbound is attached. Other distributions need compatible packages installed beforehand.
 - UDP 500 and 4500 (and UDP 1701 for L2TP) are free on the node and open in any firewall in front of it. These ports are shared by every IPsec inbound on that node.
 - Every client that should use IPsec has a **password**. IKEv2 and L2TP sign in with the client's name and password; a client without one sees a note asking the administrator to set it.
 - The node runs Ovira 1.0 or newer. Update the panel and its nodes together.

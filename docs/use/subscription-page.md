@@ -32,7 +32,7 @@ Open **Settings → Subscription page**. A live preview shows a client's real pa
 
 | Field | What it does |
 |---|---|
-| **Look** | **Night shift** (a dark control room with glowing lamps), **Aurora** (soft colour glow and frosted-glass cards) or **Pop** (loud, playful cards with thick outlines). |
+| **Look** | **Night shift** (a dark control room with glowing lamps), **Aurora** (soft colour glow and frosted-glass cards), **Pop** (loud, playful cards with thick outlines), **Ticket** (a paper boarding pass), **Orbit** (deep space with a glowing planet) or **Mono** (a quiet editorial page with big serif figures). |
 | **Accent colour** | Buttons, highlights and charts. **Theme colour** uses the look's own colour. Pick a swatch or **Custom colour** for another one; light and dark versions are worked out for you. |
 
 ### Shop

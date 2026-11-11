@@ -4,7 +4,7 @@ Ovira is a web panel for running VPN servers. The panel stores your clients, pla
 
 ## What you need
 
-- A server running Debian, Ubuntu, AlmaLinux, Rocky Linux or CentOS Stream, on amd64 or arm64, with systemd.
+- A server running Ubuntu 22.04 or newer (22.04, 24.04, 26.04), on amd64 or arm64, with systemd.
 - Root access, and a public IPv4 address.
 - Outbound HTTPS from the server, so the installer can download Ovira and, later, the panel can check for updates.
 - A TCP port for the panel (the installer offers `2053`), and the ports of the inbounds you create later. The installer opens its own ports in `ufw` or `firewalld` when one of them is active. A firewall at your hosting provider is yours to open.

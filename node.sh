@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Ovira node: installer and management tool for a node.
 # A node is an extra server that a panel on another server controls.
-# Debian, Ubuntu, AlmaLinux, Rocky and CentOS Stream. Copyright (c) Erfan-XRay.
+# Ubuntu 22.04 or newer. Copyright (c) Erfan-XRay.
 #
 #   bash <(curl -fsSL https://raw.githubusercontent.com/Erfan-XRay/Ovira/main/node.sh) --panel-ip PANEL_IP
 #
@@ -938,11 +938,23 @@ detect_os() {
   [[ -r /etc/os-release ]] || die "Cannot tell which system this is."
   # shellcheck disable=SC1091
   . /etc/os-release
-  case "${ID_LIKE:-$ID}" in
-    *debian*|*ubuntu*) OS_FAMILY=debian ;;
-    *rhel*|*fedora*|*centos*) OS_FAMILY=rhel ;;
-    *) die "Unsupported distribution: $ID. Ovira supports Debian, Ubuntu, AlmaLinux, Rocky and CentOS Stream." ;;
-  esac
+  local id=${ID:-} ver=${VERSION_ID:-} major
+  major=${ver%%.*}
+  if [[ $id == ubuntu && $major =~ ^[0-9]+$ ]] && (( 10#$major >= 22 )); then
+    OS_FAMILY=debian
+  else
+    # A server that already runs Ovira keeps working; only a new install is refused.
+    if (( IS_NODE )); then
+      warn "Ovira supports Ubuntu 22.04 or newer. This system is ${PRETTY_NAME:-${id:-unknown}}; continuing anyway."
+    else
+      die "Ovira supports Ubuntu 22.04 or newer. This system is ${PRETTY_NAME:-${id:-unknown}}."
+    fi
+    case "${ID_LIKE:-$id}" in
+      *debian*|*ubuntu*) OS_FAMILY=debian ;;
+      *rhel*|*fedora*|*centos*) OS_FAMILY=rhel ;;
+      *) die "Unsupported distribution: ${id:-unknown}. Ovira supports Ubuntu 22.04 or newer." ;;
+    esac
+  fi
   OS_NAME=${PRETTY_NAME:-$ID}
 }
 
@@ -950,7 +962,7 @@ pkg_install() {
   case "$OS_FAMILY" in
     debian)
       export DEBIAN_FRONTEND=noninteractive NEEDRESTART_SUSPEND=1  # never restart other services on a live server
-      apt-get update -qq && apt-get install -y -qq "$@" >/dev/null ;;
+      apt-get -o DPkg::Lock::Timeout=300 update -qq && apt-get -o DPkg::Lock::Timeout=300 install -y -qq "$@" >/dev/null ;;
     rhel)
       local pm=yum; command -v dnf >/dev/null && pm=dnf
       $pm install -y -q epel-release >/dev/null 2>&1 || true
@@ -969,10 +981,13 @@ ensure_openvpn() {
       info "OpenVPN $ver is too old; adding the OpenVPN community repository"
       # shellcheck disable=SC1091
       . /etc/os-release
-      curl -fsSL https://swupdate.openvpn.net/repos/repo-public.gpg | gpg --dearmor -o /usr/share/keyrings/openvpn.gpg
+      command -v curl >/dev/null && command -v gpg >/dev/null || die "OpenVPN $ver is too old and curl or gpg is missing, so the OpenVPN repository cannot be added. Install curl and gnupg, then try again."
+      curl -fsSL https://swupdate.openvpn.net/repos/repo-public.gpg | gpg --batch --yes --dearmor -o /usr/share/keyrings/openvpn.gpg || die "Could not download the OpenVPN repository key. Check the network and try again."
       echo "deb [signed-by=/usr/share/keyrings/openvpn.gpg] https://build.openvpn.net/debian/openvpn/stable ${VERSION_CODENAME} main" > /etc/apt/sources.list.d/openvpn.list
-      run "Updating OpenVPN" bash -c 'apt-get update -qq && apt-get install -y -qq openvpn >/dev/null'
+      run "Updating OpenVPN" bash -c 'apt-get -o DPkg::Lock::Timeout=300 update -qq && apt-get -o DPkg::Lock::Timeout=300 install -y -qq openvpn >/dev/null'
       ver=$("$ovpn" --version | head -1 | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' | head -1)
+      major=${ver%%.*}; rest=${ver#*.}; minor=${rest%%.*}
+      if (( major < 2 || (major == 2 && minor < 5) )); then die "OpenVPN $ver found; Ovira needs 2.5 or newer."; fi
     else
       die "OpenVPN $ver found; Ovira needs 2.5 or newer."
     fi

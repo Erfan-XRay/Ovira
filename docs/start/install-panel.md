@@ -65,8 +65,8 @@ bash <(curl -fsSL https://raw.githubusercontent.com/Erfan-XRay/Ovira/main/instal
 
 ## What the installer does
 
-1. Checks the system (Debian, Ubuntu, AlmaLinux, Rocky or CentOS Stream), root access and systemd.
-2. Installs the packages it needs. When the server is also a node, that includes OpenVPN 2.5 or newer; on Debian-based systems with an older OpenVPN it adds the OpenVPN community repository.
+1. Checks the system (Ubuntu 22.04 or newer), root access and systemd.
+2. Installs the packages it needs. When the server is also a node, that includes OpenVPN 2.5 or newer; with an older OpenVPN it adds the OpenVPN community repository.
 3. Downloads the release from GitHub, and from the Ovira mirror when GitHub is slow or blocked. It verifies the download against the release signature and checksums, and stops if they do not match.
 4. Creates the `ovira` service and starts the panel. Each inbound you create later gets its own service.
 5. Turns on IPv4 forwarding when the server is a node, and opens the panel port in `ufw` or `firewalld` if one is active.

@@ -13,7 +13,7 @@
 | ورود | گواهی، گواهی و رمز، یا فقط رمز | ندارد؛ کلید هر دستگاه در پیکربندی خودش است | ندارد؛ کلید هر دستگاه در پیکربندی خودش است | نام و رمز کاربر | نام و رمز کاربر | کلید مشترک، بعد نام و رمز |
 | کاربر چه چیزی وارد می‌کند | یک فایل پروفایل | یک فایل `.conf` یا کد QR برای هر دستگاه | یک فایل `.conf` یا کد QR برای هر دستگاه | آدرس سرور را در برنامه می‌زند | فایل تنظیم یا تنظیم دستی | فایل تنظیم یا تنظیم دستی |
 | برنامه‌ها | OpenVPN Connect و برنامه‌های دیگر OpenVPN | WireGuard | AmneziaVPN، AmneziaWG | Cisco Secure Client و برنامه‌های OpenConnect | داخلی دستگاه؛ strongSwan | داخلی دستگاه‌های اپل و ویندوز |
-| نیاز روی دستگاه | OpenVPN نسخهٔ ۲٫۵ یا بالاتر | TUN، یعنی `/dev/net/tun` | TUN، یعنی `/dev/net/tun` | `ocserv` که از پنل نصب می‌شود | strongSwan روی Debian/Ubuntu، از پنل نصب می‌شود | strongSwan و PPP، از پنل نصب می‌شود |
+| نیاز روی دستگاه | OpenVPN نسخهٔ ۲٫۵ یا بالاتر | TUN، یعنی `/dev/net/tun` | TUN، یعنی `/dev/net/tun` | `ocserv` که از پنل نصب می‌شود | strongSwan روی اوبونتو، از پنل نصب می‌شود | strongSwan و PPP، از پنل نصب می‌شود |
 | جزئیات | [OpenVPN](./openvpn) | [WireGuard و AmneziaWG](./wireguard) | [WireGuard و AmneziaWG](./wireguard) | [OpenConnect](./openconnect) | [IKEv2](./ipsec) | [L2TP/IPsec](./ipsec) |
 
 AmneziaWG در فرم **اینباند جدید** پروتکل چهارمی نیست. همان اینباند WireGuard است که **مبهم‌سازی امنزیا** در آن روشن شده و در صفحهٔ اشتراک تب جدا دارد.

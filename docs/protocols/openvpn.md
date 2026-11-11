@@ -19,7 +19,7 @@ OpenVPN is the protocol with the widest client support. An OpenVPN [inbound](/re
 
 Attaching is where the checks happen: the port must be free on that node, and the tunnel network must not overlap another inbound or a route the node already has (WireGuard, Docker, another VPN). If a check fails, nothing changes and the dialog shows the reason. See [Nodes](/use/nodes).
 
-The machine needs OpenVPN 2.5 or newer. The installer adds it, and on Debian and Ubuntu it adds the OpenVPN community repository when the packaged version is older.
+The machine needs OpenVPN 2.5 or newer. The installer adds it, and on Ubuntu it adds the OpenVPN community repository when the packaged version is older.
 
 ## Basics
 

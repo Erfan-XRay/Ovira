@@ -4,7 +4,7 @@ A [node](/reference/glossary) is another server that runs inbounds for your pane
 
 ## Before you start
 
-- A second server with the same system requirements as the panel server, and root access.
+- A second server running Ubuntu 22.04 or newer, and root access.
 - A TCP port on the node that the panel can reach. The default is `62060`.
 - A license that allows another node. The free plan allows 2; the **License** page shows your limit. Only owner accounts can connect nodes.
 

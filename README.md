@@ -41,7 +41,7 @@ Each client gets a page with remaining traffic, days left, one-tap import and re
 
 ## Install
 
-On a fresh **Debian 11+**, **Ubuntu 20.04+** or **AlmaLinux / Rocky 8+** server, as root:
+On a fresh server running **Ubuntu 22.04 or newer** (22.04, 24.04, 26.04), as root:
 
 ```bash
 bash <(curl -fsSL https://raw.githubusercontent.com/Erfan-XRay/Ovira/main/install.sh)

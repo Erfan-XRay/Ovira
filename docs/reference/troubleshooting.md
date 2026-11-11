@@ -38,7 +38,7 @@ The card's message and **seen …** time say how long this has lasted. See [A no
 ## The node install fails
 
 - Port 62060 is in use, for example by another panel's node. Install with `--port 62070` and use the same port when you connect the node.
-- The distribution is not supported. Ovira supports Debian, Ubuntu, AlmaLinux, Rocky and CentOS Stream.
+- The distribution is not supported. Ovira supports Ubuntu 22.04 or newer.
 - OpenSSL older than 3 is installed. The scripts need OpenSSL 3 or newer.
 - The server has no systemd, or no root access. Both are required.
 - The log of the attempt is in `/var/log/ovira-install.log`.

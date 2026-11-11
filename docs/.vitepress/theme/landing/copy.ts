@@ -57,7 +57,7 @@ export const EN = {
     copyLabel: "Copy install command",
     copyFailed: "Copy failed. Select the command and copy it manually.",
     copiedStatus: "Command copied.",
-    ticketNote: "Run as root on Debian 11+, Ubuntu 20.04+ or AlmaLinux / Rocky 8+, amd64 or arm64.",
+    ticketNote: "Run as root on Ubuntu 22.04 or newer, amd64 or arm64.",
   },
   map: {
     label: "Map of an example Ovira deployment: a panel, this server and five nodes, served by three protocol lines, with one relay between customers and a node.",
@@ -396,7 +396,7 @@ export const FA: Copy = {
     copyLabel: "کپی دستور نصب",
     copyFailed: "کپی انجام نشد؛ دستور را انتخاب و دستی کپی کنید.",
     copiedStatus: "دستور کپی شد.",
-    ticketNote: "با دسترسی root روی Debian 11، Ubuntu 20.04 یا AlmaLinux / Rocky 8 و جدیدتر (amd64 یا arm64) اجرا کنید.",
+    ticketNote: "با دسترسی root روی اوبونتو 22.04 یا جدیدتر (amd64 یا arm64) اجرا کنید.",
   },
   map: {
     label: "نقشهٔ یک استقرار نمونهٔ اویرا: یک پنل، همین سرور و پنج نود، با سه خط پروتکل و یک سرور واسط بین مشتری‌ها و یک نود.",

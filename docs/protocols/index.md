@@ -13,7 +13,7 @@ All of them are available on every plan, including Free. Clients, groups, traffi
 | Sign-in | Certificate, certificate and password, or password only | None; the device holds its own key | None; the device holds its own key | Client name and password | Client name and password | Shared key, then name and password |
 | What a client imports | A profile file | A `.conf` file or QR code, one per device | A `.conf` file or QR code, one per device | A server address, typed into the app | A setup file, or settings typed in | A setup file, or settings typed in |
 | Apps | OpenVPN Connect and other OpenVPN apps | WireGuard | AmneziaVPN, AmneziaWG | Cisco Secure Client, OpenConnect apps | Built into the device; strongSwan | Built into Apple devices and Windows |
-| Needs on the machine | OpenVPN 2.5 or newer | TUN (`/dev/net/tun`) | TUN (`/dev/net/tun`) | `ocserv`, installed from the panel | strongSwan on Debian/Ubuntu, installed from the panel | strongSwan and PPP, installed from the panel |
+| Needs on the machine | OpenVPN 2.5 or newer | TUN (`/dev/net/tun`) | TUN (`/dev/net/tun`) | `ocserv`, installed from the panel | strongSwan on Ubuntu, installed from the panel | strongSwan and PPP, installed from the panel |
 | Details | [OpenVPN](./openvpn) | [WireGuard and AmneziaWG](./wireguard) | [WireGuard and AmneziaWG](./wireguard) | [OpenConnect](./openconnect) | [IKEv2](./ipsec) | [L2TP/IPsec](./ipsec) |
 
 AmneziaWG is not a fourth protocol in the **New inbound** form. It is a WireGuard inbound with **Amnezia obfuscation** switched on, and it appears as its own tab on the subscription page.

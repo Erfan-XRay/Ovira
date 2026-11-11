@@ -17,7 +17,7 @@ Traffic that matches no rule follows the **Default for unmatched traffic**: **Di
 Some traffic never goes through an outbound: private addresses, your VPN subnets and DNS lookups always go direct, so a slow or UDP-less outbound cannot break name resolution. Domain rules still see the real site names.
 
 ::: tip Requirements
-The node runs Ubuntu or Debian on amd64 or arm64, and Ovira 1.0 or newer. The routing engine and the site lists (about 30 MB) are downloaded the first time they are needed and refreshed weekly.
+The node runs Ubuntu on amd64 or arm64, and Ovira 1.0 or newer. The routing engine and the site lists (about 30 MB) are downloaded the first time they are needed and refreshed weekly.
 :::
 
 ## 1. Add an outbound
@@ -71,7 +71,7 @@ Press **Save**. The node applies the policy within seconds and the status change
 ## If something goes wrong
 
 - **Sites stop opening after routing is on:** test the outbound from the same node. If the test fails, the outbound itself is down or blocked from that node.
-- **The node shows "Not supported":** it is not amd64/arm64, not Debian/Ubuntu, or needs an update.
+- **The node shows "Not supported":** it is not amd64/arm64, not Ubuntu, or needs an update.
 - **Turn routing off** on the node at any time. Clients then go out directly again; the engine also fails open, so if it stops, traffic leaves directly instead of being cut.
 
 ## Related pages
