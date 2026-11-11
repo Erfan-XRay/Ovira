@@ -944,7 +944,7 @@ detect_os() {
     OS_FAMILY=debian
   else
     # A server that already runs Ovira keeps working; only a new install is refused.
-    if (( IS_NODE )); then
+    if (( IS_PANEL || IS_NODE )); then
       warn "Ovira supports Ubuntu 22.04 or newer. This system is ${PRETTY_NAME:-${id:-unknown}}; continuing anyway."
     else
       die "Ovira supports Ubuntu 22.04 or newer. This system is ${PRETTY_NAME:-${id:-unknown}}."
@@ -1654,7 +1654,7 @@ case "$CMD" in
   install) do_install_node ;;
   uninstall) do_uninstall ;;
   menu|"")
-    if (( IS_NODE )); then
+    if (( IS_PANEL || IS_NODE )); then
       # An installation from before the menu existed gets it now.
       [[ -f "$LIBDIR/node.sh" ]] || { mktmp; install_manager 2>/dev/null || true; }
       main_menu
