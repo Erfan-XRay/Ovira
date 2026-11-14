@@ -2,7 +2,7 @@
 
 A group gives its inbounds to every client in it. A client in one or more groups gets the union of those groups' inbounds. These endpoints list, create, change and bulk-edit groups, and add or remove groups for clients.
 
-A group can also hold a speed limit template (`speedLimitDown`, `speedLimitUp`, kbit/s, `0` = none). It is only copied into new clients created without their own speed fields: the highest non-zero value among the chosen groups. Changing a group later does not change existing clients.
+From 1.1.0-beta.5, a group can also hold a speed limit template (`speedLimitDown`, `speedLimitUp`, kbit/s, `0` = none). It is only copied into new clients created without their own speed fields: the highest non-zero value among the chosen groups. Changing a group later does not change existing clients.
 
 A group with **All inbounds** (`allServers`) includes inbounds added later. A disabled group gives no access. Times are Unix seconds.
 

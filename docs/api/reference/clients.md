@@ -4,7 +4,7 @@ A client is one plan: a traffic allowance, an end date and a device cap. These e
 
 Traffic values are bytes and times are Unix seconds. `trafficLimit: 0` means unlimited and `expireAt: 0` means no end date.
 
-Speed limits are in kbit/s, per connected device (not shared by the client's devices): `speedLimitDown` is server to client, `speedLimitUp` is client to server, `0` means unlimited, the most is `10000000`. They apply to WireGuard, OpenVPN and OpenConnect; OpenConnect takes a change at the next connection. When you create a client without these fields, they are copied from its groups (see [Groups](/api/reference/groups)).
+Speed limits (from 1.1.0-beta.5) are in kbit/s, per connected device (not shared by the client's devices): `speedLimitDown` is server to client, `speedLimitUp` is client to server, `0` means unlimited, the most is `10000000`. They apply to WireGuard, OpenVPN and OpenConnect; OpenConnect takes a change at the next connection. When you create a client without these fields, they are copied from its groups (see [Groups](/api/reference/groups)).
 
 ## List and search clients
 
