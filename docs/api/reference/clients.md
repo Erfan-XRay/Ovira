@@ -4,6 +4,8 @@ A client is one plan: a traffic allowance, an end date and a device cap. These e
 
 Traffic values are bytes and times are Unix seconds. `trafficLimit: 0` means unlimited and `expireAt: 0` means no end date.
 
+Speed limits are in kbit/s, per connected device (not shared by the client's devices): `speedLimitDown` is server to client, `speedLimitUp` is client to server, `0` means unlimited, the most is `10000000`. They apply to WireGuard, OpenVPN and OpenConnect; OpenConnect takes a change at the next connection. When you create a client without these fields, they are copied from its groups (see [Groups](/api/reference/groups)).
+
 ## List and search clients
 
 <Endpoint method="GET" path="/api/clients" perm="clients.view" :token="true" />
@@ -37,6 +39,8 @@ curl -sS -H "Authorization: Bearer $OVIRA_TOKEN" \
       "contact": "@ali",
       "enabled": true,
       "trafficLimit": 53687091200,
+      "speedLimitDown": 20000,
+      "speedLimitUp": 5000,
       "usedUp": 1073741824,
       "usedDown": 6442450944,
       "expireAt": 1796000000,
@@ -78,6 +82,8 @@ Creates one client and returns it with `201`. The name is also the OpenVPN user 
 | `enabled` | boolean | no | `true` enables the client. Omitted or `false` creates it switched off. |
 | `password` | string | no | VPN password, 4-64 characters without spaces or quotes. Empty generates one. |
 | `trafficLimit` | integer | no | Traffic limit in bytes. `0` means unlimited. |
+| `speedLimitDown` | integer | no | Download cap per device in kbit/s. `0` means unlimited. If absent on create, the highest non-zero value of the chosen groups is used. On update, absent keeps the current value. |
+| `speedLimitUp` | integer | no | Upload cap per device in kbit/s, same rules. |
 | `expireAt` | integer | no | End date in Unix seconds. `0` means never. |
 | `expireAfterDays` | integer | no | Lifetime in days from the first connection, 0-3650. `0` means none. |
 | `maxDevices` | integer | no | Device cap, 0-1000. `0` means no cap. |
@@ -107,6 +113,8 @@ curl -sS -H "Authorization: Bearer $OVIRA_TOKEN" \
   "name": "ali-02",
   "enabled": true,
   "trafficLimit": 53687091200,
+  "speedLimitDown": 20000,
+  "speedLimitUp": 5000,
   "usedUp": 0,
   "usedDown": 0,
   "expireAt": 0,

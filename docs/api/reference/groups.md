@@ -2,6 +2,8 @@
 
 A group gives its inbounds to every client in it. A client in one or more groups gets the union of those groups' inbounds. These endpoints list, create, change and bulk-edit groups, and add or remove groups for clients.
 
+A group can also hold a speed limit template (`speedLimitDown`, `speedLimitUp`, kbit/s, `0` = none). It is only copied into new clients created without their own speed fields: the highest non-zero value among the chosen groups. Changing a group later does not change existing clients.
+
 A group with **All inbounds** (`allServers`) includes inbounds added later. A disabled group gives no access. Times are Unix seconds.
 
 ## List groups
@@ -25,6 +27,8 @@ curl -sS -H "Authorization: Bearer $OVIRA_TOKEN" "$BASE/groups"
       "allServers": false,
       "instances": [12, 21],
       "clients": 42,
+      "speedLimitDown": 20000,
+      "speedLimitUp": 5000,
       "createdAt": 1793000000
     }
   ]
@@ -42,6 +46,8 @@ curl -sS -H "Authorization: Bearer $OVIRA_TOKEN" "$BASE/groups"
 | `disabled` | boolean | no | `true` gives the group no access. |
 | `allServers` | boolean | no | `true` includes every inbound, even ones added later. |
 | `instances` | integer[] | no | Inbound ids the group grants. |
+| `speedLimitDown` | integer | no | Download cap template in kbit/s, 0-10000000. `0` means none. On change, absent keeps the current value. |
+| `speedLimitUp` | integer | no | Upload cap template in kbit/s, same rules. |
 
 ```bash
 curl -sS -H "Authorization: Bearer $OVIRA_TOKEN" \
@@ -58,6 +64,8 @@ curl -sS -H "Authorization: Bearer $OVIRA_TOKEN" \
   "allServers": false,
   "instances": [12, 21],
   "clients": 0,
+  "speedLimitDown": 0,
+  "speedLimitUp": 0,
   "createdAt": 1795919000
 }
 ```
