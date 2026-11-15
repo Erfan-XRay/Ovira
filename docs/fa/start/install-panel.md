@@ -57,7 +57,7 @@ bash <(curl -fsSL https://raw.githubusercontent.com/Erfan-XRay/Ovira/main/instal
 | `--domain NAME`، `--email ADDRESS` | دامنه و ایمیل اطلاع‌رسانی برای `--ssl domain`. |
 | `--user NAME` | نام اولین حساب. پیش‌فرض `admin`. |
 | `--beta` | به‌جای نسخهٔ پایدار، جدیدترین بتا نصب شود. |
-| `--binary FILE` | از فایلی که خودتان دانلود کرده‌اید استفاده کند. |
+| `--binary FILE` | نسخهٔ محلی را نصب می‌کند. فایل‌های رسمی `SHA256SUMS` و `SHA256SUMS.sig` همان انتشار را کنار باینری بگذارید. |
 | `--fresh` | بعد از حذفی که داده را نگه داشته، از صفر شروع کند. |
 | `--yes` | چیزی نپرسد. |
 

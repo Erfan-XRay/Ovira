@@ -8,7 +8,7 @@ The `ovira` command manages Ovira from the server's shell. Run it as root. Typed
 |---|---|
 | `ovira` | Opens the menu. |
 | `ovira status` | Shows the panel state, version, address, whether HTTPS is on, the license state, whether this server is a node, the machine ID and the running inbounds. It also says when a newer release exists. |
-| `ovira update` | Installs the newest release. `--beta` uses the beta channel, `--force` reinstalls the current version, `--binary FILE` installs a binary you supply. |
+| `ovira update` | Installs the newest release. `--beta` uses the beta channel, `--force` reinstalls the current version, and `--binary FILE` installs a signed local release. |
 | `ovira start`, `ovira stop`, `ovira restart` | Control the panel service. `stop` asks first. |
 | `ovira logs` | Shows the last 100 lines of the panel log. `-f` follows it. |
 | `ovira logs NAME` | Shows the log of one inbound by its name, for example `udp1194`. Works for OpenVPN, OpenConnect and WireGuard inbounds. |
@@ -82,7 +82,7 @@ bash <(curl -fsSL https://raw.githubusercontent.com/Erfan-XRay/Ovira/main/instal
 | `--local-node`, `--no-local-node` | Yes | | Whether this server is a node of its panel (default yes). `--with-openvpn` and `--panel-only` are older names. |
 | `--panel-ip IP` | | Yes | The node answers only this panel address. |
 | `--beta` | Yes | Yes | Use the newest beta instead of the stable release. |
-| `--binary FILE` | Yes | Yes | Use a local build instead of downloading. |
+| `--binary FILE` | Yes | Yes | Install a local release. Keep the official `SHA256SUMS` and `SHA256SUMS.sig` from the same release beside the binary. |
 | `--fresh` | Yes | Yes | After a removal that kept its data, start empty instead. A backup of the old data is saved in `/root`. |
 | `--purge` | Yes | Yes | With `uninstall`: delete the data too. |
 | `--force` | Yes | Yes | With `update`: reinstall even if the version matches. |

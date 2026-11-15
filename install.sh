@@ -31,7 +31,7 @@
 #   --domain panel.example.com   --email you@example.com
 #   --user admin            name of the first admin
 #   --beta                  use the newest beta instead of the stable release
-#   --binary ./ovira-linux-amd64   use a local build instead of downloading
+#   --binary ./ovira-linux-amd64   use a local release with SHA256SUMS and SHA256SUMS.sig
 #   --yes                   do not ask; use the options and defaults
 #   --fresh                 after a removal that kept its data: start empty instead
 #   --purge                 with uninstall: delete data too
@@ -840,8 +840,7 @@ fetch() { # fetch NAME: an asset of the chosen release, from GitHub or the mirro
     curl -fsSL --retry 2 --max-time 300 -o "$TMP/$1" "$MIRROR_BASE/$1"
 }
 
-verify_sums() { # the release signature, then the checksum of each given asset
-  fetch SHA256SUMS && fetch SHA256SUMS.sig || return 1
+verify_manifest() {
   SIGNED=0
   openssl version 2>/dev/null | grep -qE "^OpenSSL ([3-9]|[1-9][0-9]+)\." || {
     err "OpenSSL 3 or newer is required to verify releases. Upgrade OpenSSL before installing."; return 1; }
@@ -851,11 +850,18 @@ verify_sums() { # the release signature, then the checksum of each given asset
     openssl pkeyutl -verify -pubin -inkey "$TMP/pub.pem" -rawin -in "$TMP/SHA256SUMS" -sigfile "$TMP/sig.bin" >/dev/null 2>&1 || {
       err "The release signature could not be verified. Refusing to install."; return 1; }
   SIGNED=1
+}
+
+verify_assets() {
   local a
   for a in "$@"; do
     (cd "$TMP" && awk -v name="$a" 'length($1) == 64 && ($2 == name || $2 == "*" name) { print; found++ } END { if (found != 1) exit 1 }' SHA256SUMS > asset.sum &&
       test -s asset.sum && sha256sum -c --status asset.sum) || { err "$a does not match its checksum. Refusing to install."; return 1; }
   done
+}
+
+verify_sums() { # download and verify the release manifest and given assets
+  fetch SHA256SUMS && fetch SHA256SUMS.sig && verify_manifest && verify_assets "$@"
 }
 
 set_release_base() {
@@ -869,22 +875,30 @@ set_release_base() {
 
 # get_binary: leaves the verified new executable at $BIN.new.
 get_binary() {
-  local arch goarch
+  local arch goarch asset local_binary=$BINARY local_dir
   arch=$(uname -m)
   case "$arch" in x86_64) goarch=amd64 ;; aarch64|arm64) goarch=arm64 ;; *) die "Unsupported CPU: $arch" ;; esac
+  asset=ovira-linux-$goarch
   mktmp
-  if [[ -n "$BINARY" ]]; then
-    install -m 0755 "$BINARY" "$BIN.new"
-  elif [[ -f "$(dirname "$0")/ovira-linux-$goarch" ]]; then
-    install -m 0755 "$(dirname "$0")/ovira-linux-$goarch" "$BIN.new"
+  if [[ -z "$local_binary" && -f "$(dirname -- "$0")/$asset" ]]; then
+    local_binary="$(dirname -- "$0")/$asset"
+  fi
+  if [[ -n "$local_binary" ]]; then
+    local_dir=$(dirname -- "$local_binary")
+    [[ -f "$local_binary" && -f "$local_dir/SHA256SUMS" && -f "$local_dir/SHA256SUMS.sig" ]] ||
+      die "Keep the official binary, SHA256SUMS and SHA256SUMS.sig from the same release together."
+    install -m 0600 -- "$local_binary" "$TMP/$asset" &&
+      install -m 0600 -- "$local_dir/SHA256SUMS" "$local_dir/SHA256SUMS.sig" "$TMP/" ||
+      die "Could not stage the local release."
+    verify_manifest && verify_assets "$asset" || die "Could not verify the local release."
   else
     TAG=${TAG:-$(latest_tag)}
     set_release_base "$TAG"
-    run "Downloading Ovira ${TAG:-latest} for $goarch" fetch "ovira-linux-$goarch" || die "Download failed from GitHub and from the mirror."
-    verify_sums "ovira-linux-$goarch" || die "Could not verify the download."
-    ok "Signature verified"
-    install -m 0755 "$TMP/ovira-linux-$goarch" "$BIN.new"
+    run "Downloading Ovira ${TAG:-latest} for $goarch" fetch "$asset" || die "Download failed from GitHub and from the mirror."
+    verify_sums "$asset" || die "Could not verify the download."
   fi
+  ok "Signature verified"
+  install -m 0755 -- "$TMP/$asset" "$BIN.new" || die "Could not stage the verified binary."
   "$BIN.new" version >/dev/null || { rm -f "$BIN.new"; die "The binary does not run on this machine."; }
 }
 
@@ -1216,7 +1230,7 @@ while [[ $# -gt 0 ]]; do
     --ssl) SSL="${2:-}"; shift 2 || shift ;;
     --domain) DOMAIN="${2:-}"; shift 2 || shift ;;
     --email) EMAIL="${2:-}"; shift 2 || shift ;;
-    --binary) BINARY="${2:-}"; shift 2 || shift ;;
+    --binary) [[ -n "${2:-}" && $2 != -* ]] || die "--binary requires a file path."; BINARY=$2; shift 2 ;;
     --beta) BETA=1; shift ;;
     --yes|-y) YES=1; shift ;;
     --fresh) FRESH=1; shift ;;
@@ -1531,9 +1545,6 @@ do_install_panel() {
 
   if [[ $mode == install ]]; then
     panel_wizard || { info "Nothing was changed."; return 0; }
-    if (( wipe )); then
-      echo; remove_aux_units panel 1; backup_leftover "$SLUG" "$CONFDIR" "$DATA"
-    fi
   fi
 
   echo
@@ -1543,10 +1554,12 @@ do_install_panel() {
     *) section "INSTALLING OVIRA" ;;
   esac
 
-  if [[ $mode == keep ]]; then
-    ensure_base_tools
-  elif [[ "$OPENVPN_HERE" == 1 ]]; then ensure_openvpn; else ensure_base_tools; fi
+  ensure_base_tools
   get_binary
+  if (( wipe )); then
+    echo; remove_aux_units panel 1; backup_leftover "$SLUG" "$CONFDIR" "$DATA"
+  fi
+  if [[ $mode != keep && "$OPENVPN_HERE" == 1 ]]; then ensure_openvpn; fi
   place_binary
   ok "Installed $("$BIN" version)"
   if [[ $mode == keep ]]; then
@@ -1771,24 +1784,19 @@ cmd_logs() {
 
 cmd_update() {
   require_installed; need_root
+  if [[ -n "$BINARY" ]]; then
+    do_install_panel
+    return
+  fi
   local cur latest; cur=$(installed_version)
   latest=$(latest_tag)
-  if [[ -n "$latest" && "$latest" == "v$cur" && $FORCE -eq 0 && -z "$BINARY" ]]; then
+  if [[ -n "$latest" && "$latest" == "v$cur" && $FORCE -eq 0 ]]; then
     ui_header
     ok "Ovira $cur is the newest release."
     mktmp; [[ -f "$LIBDIR/panel.sh" ]] || { set_release_base "$latest"; install_manager; }
     return 0
   fi
-  local target=$latest
-  if [[ -n "$BINARY" ]]; then
-    # A copied or downloaded build is often not executable yet.
-    local local_version
-    mktmp; install -m 0755 "$BINARY" "$TMP/version-check"
-    local_version=$("$TMP/version-check" version 2>/dev/null | awk '{print $2}' || true)
-    rm -f "$TMP/version-check"
-    [[ -n "$local_version" ]] && target=$local_version
-  fi
-  [[ -n "$target" ]] && info "Installed $cur $G_FLOW $target"
+  [[ -n "$latest" ]] && info "Installed $cur $G_FLOW $latest"
   TAG=$latest
   do_install_panel
 }

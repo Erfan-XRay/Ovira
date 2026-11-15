@@ -57,7 +57,7 @@ bash <(curl -fsSL https://raw.githubusercontent.com/Erfan-XRay/Ovira/main/instal
 | `--domain NAME`, `--email ADDRESS` | The domain and the notice address for `--ssl domain`. |
 | `--user NAME` | Name of the first account. Default `admin`. |
 | `--beta` | Install the newest beta instead of the stable release. |
-| `--binary FILE` | Use a binary you already downloaded. |
+| `--binary FILE` | Install a local release. Keep the official `SHA256SUMS` and `SHA256SUMS.sig` from the same release beside the binary. |
 | `--fresh` | After a removal that kept its data, start empty instead of reusing the data. |
 | `--yes` | Do not ask anything. |
 
