@@ -1062,6 +1062,37 @@ restore_instances() {
   ok "VPN servers started again: $n"
 }
 
+# remove_aux_units panel|node PURGE: stop, disable and delete the units Ovira
+# creates while it runs (outbound routing and its Psiphon tunnels, IPsec, and
+# the Smart DNS and Telegram proxy units a panel and a node on one host share),
+# so none is left restarting against data that is gone. The shared units stay
+# while the other role (node or panel) is still installed. The data of a kept
+# install is not touched: the next start recreates the units from it. PURGE=1
+# also deletes the Telegram proxy runtime directory.
+remove_aux_units() {
+  local scope=$1 purge=${2:-0} pre=$SLUG other=$UNITDIR/$SLUG-node.service dir=$DATA f u net
+  if [[ $scope == node ]]; then pre=$SLUG-node; other=$UNITDIR/$SLUG.service; dir=$NDATA; fi
+  local -a units=()
+  units+=("$pre-egress.service" "$pre-ipsec.service")
+  for f in "$UNITDIR/$pre"-psiphon-*.service; do [[ -e $f ]] && units+=("${f##*/}"); done
+  if [[ ! -f $other ]]; then
+    units+=("$SLUG-smartdns.service")
+    while IFS= read -r u; do [[ -n "$u" ]] && units+=("$u"); done < <(instance_units "$SLUG-mtproto")
+    units+=("$SLUG-mtproto@.service")
+  fi
+  for u in "${units[@]}"; do
+    if [[ -e $UNITDIR/$u || -d $UNITDIR/$u.d ]] || systemctl is-enabled "$u" >/dev/null 2>&1 || systemctl is-active "$u" >/dev/null 2>&1; then
+      systemctl disable --now "$u" >/dev/null 2>&1 || true
+      systemctl reset-failed "$u" >/dev/null 2>&1 || true
+      rm -f "${UNITDIR:?}/$u"; rm -rf "${UNITDIR:?}/$u.d"
+    fi
+  done
+  net=$dir/egress/run/net.json
+  if [[ -x $BIN && -f $net ]]; then "$BIN" egress-net down "$net" >/dev/null 2>&1 || true; fi
+  if [[ $purge -eq 1 && ! -f $other ]]; then rm -rf "/var/lib/$SLUG-mtproto"; fi
+  systemctl daemon-reload >/dev/null 2>&1 || true
+}
+
 # backup_leftover LABEL DIR...: save the old settings and data in one private
 # tarball in /root, then delete them. Nothing is deleted unless the tarball exists.
 backup_leftover() {
@@ -1315,7 +1346,7 @@ do_install_node() {
 
   if [[ $mode == install ]]; then
     node_wizard || { info "Nothing was changed."; return 0; }
-    if (( wipe )); then echo; backup_leftover "$SLUG-node" "$NCONFDIR" "$NDATA"; fi
+    if (( wipe )); then echo; remove_aux_units node 1; backup_leftover "$SLUG-node" "$NCONFDIR" "$NDATA"; fi
   fi
 
   echo
@@ -1415,6 +1446,7 @@ do_uninstall() {
   stop_node_services() {
     stop_instances "$([[ $purge -eq 1 ]] && echo '' || echo "$NCONFDIR/restore-units")" "$SLUG-node-ovpn" "$SLUG-node-oc" "$SLUG-node-wg"
     systemctl disable --now "$SLUG-node.service" 2>/dev/null || true
+    remove_aux_units node "$purge"
   }
   mkdir -p "$NCONFDIR"
   run "Stopping node services" stop_node_services
