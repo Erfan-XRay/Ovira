@@ -24,6 +24,7 @@ Path parameters are written in braces, for example `{id}`. Query parameters go a
 | [Clients](/api/reference/clients) | Clients, bulk create and actions, usage, profiles, QR codes, WireGuard devices. |
 | [Connections](/api/reference/connections) | Live connections, history and closing one. |
 | [Inbounds](/api/reference/inbounds) | Inbounds, defaults, preflight, deployments, overrides, control and logs. |
+| [Xray](/api/reference/xray) | Xray scenarios, camouflage sites, client links and proxy-app settings. |
 | [Groups](/api/reference/groups) | Groups, bulk actions and assigning groups to clients. |
 | [Nodes](/api/reference/nodes) | Nodes, installation, actions, protocols and package removal. |
 | [Accounts and roles](/api/reference/admins) | Panel accounts, roles, plan actions and per-account usage. |

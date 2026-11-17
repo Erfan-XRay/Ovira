@@ -56,6 +56,12 @@ The support link is your contact for your clients. It is not a channel to the Ov
 - Write a **Guide note**, plain text up to 500 characters, shown at the top of the tab.
 - Edit **Recommended apps** per platform: Android, iPhone and iPad, and Windows, macOS and Linux. **Use recommended apps** keeps Ovira's own list. Turn it off to **Add app** with an **App name** and a **Download link** that must start with `https://`, reorder the apps, or remove one. The first app is shown as recommended. **Reset to recommended** restores the list.
 
+## Proxy apps
+
+A client with an Xray inbound copies the subscription link into a proxy app: Happ, v2rayNG, Hiddify, Streisand, v2Box, NapsternetV, Karing or Shadowrocket. The app then shows the client's traffic, expiry and a support button.
+
+The apps shown on the page are set under **Settings → Subscription page → Proxy apps**. See [Xray inbounds](/use/xray-inbounds).
+
 ## Related pages
 
 - [Clients](/use/clients): where the link and QR code are copied from.
