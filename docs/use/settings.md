@@ -7,11 +7,13 @@
 | Tab | Who sees it | What it holds |
 |---|---|---|
 | **General** | Owners | Addresses, language, colour, warning thresholds, history retention, version. |
-| **Subscription page** | Owners | The look of the client page. See [The subscription page](/use/subscription-page). |
+| **Subscription page** | Owners | The look of the client page, proxy apps and subscription domains. See [The subscription page](/use/subscription-page). |
 | **Panel access** | Owners | The panel's own address, secret path and HTTPS. |
 | **API** | Everyone | **API Tokens**, the **API base URL** and the **OpenAPI document**. See [API tokens](/api/tokens). |
 | **My account** | Everyone | Your password, two-factor sign-in and signed-in devices. See [Panel accounts](/use/admins). |
-| **Backup** | Owners | Download and restore. See [Back up and restore](/use/backup). |
+| **Webhooks** | Roles allowed to manage them | Calls to your own service. See [Notifications and webhooks](/use/notifications). |
+| **Telegram** | Owners | The bot used for backups and notifications. See [Notifications and webhooks](/use/notifications). |
+| **Backup** | Owners | Download, restore and scheduled backups. See [Back up and restore](/use/backup). |
 | **Activity log** | Owners and roles that see all clients | Who did what. See [Activity log](/use/audit). |
 
 The **API** tab shows the address to send API requests to, the OpenAPI document, and the tokens of the signed-in account. Create a token there and keep its secret; the panel does not show it again. How tokens work is on [API tokens](/api/tokens).
@@ -21,15 +23,19 @@ The **API** tab shows the address to send API requests to, the OpenAPI document,
 | Field | What it does |
 |---|---|
 | **Public address** | The domain or IP that client profiles connect to. The installer fills it. An inbound can override it with **Public address override**. |
+| **Panel address** | Where the panel is reached, with its secret path. Used for links in Telegram messages. It is filled in from the address you open. |
 | **Subscription link address** | Optional, for example `https://sub.example.com`. Empty uses the address you open the panel with. |
 | **Default language for client pages** | English or Persian. |
 | **Panel colour** | The accent colour of the panel for everyone who signs in: **Lime**, **Cyan**, **Mint**, **Amber**, **Coral**, **Rose**, **Violet** or **Sky**. It previews as you pick and is saved with **Save**. Client pages have their own colour. |
+| **Time zone** | Decides when daily, weekly, monthly and yearly traffic resets happen. Empty uses the server's zone. |
 | **Warn when a plan ends within** | Days. Clients closer than this to their end date appear under **Running out**. |
 | **Warn when traffic used reaches** | Percent. Clients above it appear under **Running out**. |
 | **Sign out after inactivity** | Hours. After this long without activity, a signed-in browser is signed out. |
 | **Traffic charts** | Days of usage history kept. |
 | **Connection log** | Days of finished connections kept. |
 | **Activity log** | Days of the audit log kept. |
+| **Notifications**, **Node health** | How long notifications and node health readings are kept. |
+| **Monitoring** | Prometheus figures at `/api/metrics`. See [Nodes](/use/nodes#health). |
 
 The section at the bottom shows the installed version of Ovira and OpenVPN, the operating system and the **Machine ID** of this server, with a copy button. You give it when you buy or renew a license outside the panel.
 

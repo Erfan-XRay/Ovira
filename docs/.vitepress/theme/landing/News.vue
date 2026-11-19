@@ -15,6 +15,12 @@ const ICON: Record<string, string> = {
   test: "M22 12h-4l-3 9L9 3l-3 9H2",
   ipsec: "M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10ZM9 12l2 2 4-4",
   certs: "M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM8.5 14 7 22l5-3 5 3-1.5-8M4 4h16v5H4z",
+  xray: "M13 2 3 14h9l-1 8 10-12h-9l1-8Z",
+  subs: "M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71",
+  notify: "M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10.3 21a1.94 1.94 0 0 0 3.4 0",
+  templates: "M4 3h16a1 1 0 0 1 1 1v4H3V4a1 1 0 0 1 1-1ZM3 12h8v9H3zM15 12h6v9h-6z",
+  backup: "M12 8c4.97 0 9-1.34 9-3s-4.03-3-9-3-9 1.34-9 3 4.03 3 9 3ZM3 5v14c0 1.66 4.03 3 9 3s9-1.34 9-3V5M3 12c0 1.66 4.03 3 9 3s9-1.34 9-3",
+  health: "M22 12h-4l-3 9L9 3l-3 9H2",
   ports: "M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83",
 };
 
@@ -158,6 +164,12 @@ h3 { margin: 0; font-family: var(--o-display); font-size: 21px; font-weight: 650
 .k-ipsec { --k: var(--o-ike); }
 .k-certs { --k: var(--o-wg); }
 .k-ports { --k: var(--o-l2tp); }
+.k-xray { --k: var(--vp-c-brand-1); }
+.k-subs { --k: var(--o-oc); }
+.k-notify { --k: var(--o-l2tp); }
+.k-templates { --k: var(--o-ike); }
+.k-backup { --k: var(--o-wg); }
+.k-health { --k: var(--o-good); }
 
 /* the wide card shows traffic splitting three ways */
 .flow { width: 100%; height: 70px; margin-top: auto; padding-top: 12px; overflow: visible; }

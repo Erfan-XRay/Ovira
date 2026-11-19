@@ -13,6 +13,7 @@ Open these in the server's firewall and in your provider's firewall or security 
 | TCP 62060 | Node | The node's API, which only the panel connects to. `--port` sets another. Clients never use it. |
 | UDP 1194 | Node | The port the form suggests for an OpenVPN inbound on UDP. Any port works. |
 | TCP and UDP of your choice | Node | An OpenVPN inbound uses the one protocol you chose on its port. |
+| TCP or UDP of your choice | Node | An Xray inbound uses the port and transport set in its form. |
 | UDP 51820 | Node | The port the form suggests for a WireGuard inbound. |
 | TCP 443, and UDP 443 with DTLS | Node | The port the form suggests for an OpenConnect inbound. |
 | UDP 500 and 4500 | Node | IKEv2 and L2TP/IPsec. Fixed and shared by every IPsec inbound on the node. |
@@ -25,7 +26,7 @@ The installer opens the panel or node port in `ufw` and in `firewalld` when eith
 
 Each inbound also has a management port on `127.0.0.1` that the panel or node uses to talk to it. It is not reachable from outside and needs no rule.
 
-The server also needs outbound HTTPS: to download releases, to get certificates from Let's Encrypt and, on a panel, for plan and license services.
+The server also needs outbound HTTPS: to download releases, to get certificates from Let's Encrypt and, on a panel, for plan and license services, and for scheduled backups to Telegram, S3 or SFTP when you use them.
 
 ## Services
 
@@ -37,6 +38,7 @@ Ovira runs plain systemd services. Inbounds are template units whose instance na
 | `ovira-ovpn@NAME` | An OpenVPN inbound on the panel's own server. |
 | `ovira-oc@NAME` | An OpenConnect inbound on the panel's own server. |
 | `ovira-wg@NAME` | A WireGuard inbound on the panel's own server. |
+| `ovira-xray@NAME` | An Xray inbound, on the panel's own server or on a node. |
 | `ovira-node` | The node service (the agent the panel connects to). |
 | `ovira-node-ovpn@NAME` | An OpenVPN inbound on a node. |
 | `ovira-node-oc@NAME` | An OpenConnect inbound on a node. |
@@ -62,6 +64,7 @@ The panel service restarts itself two seconds after a crash. `ovira logs` and `o
 | `/var/lib/ovira/openvpn/` | Generated OpenVPN server configuration, one file per inbound. |
 | `/var/lib/ovira/ocserv/NAME/` | Generated OpenConnect configuration and certificate of an inbound. |
 | `/var/lib/ovira/wireguard/NAME/` | Generated WireGuard server data of an inbound. |
+| `/var/lib/ovira-xray/NAME/` | Runtime files of an Xray inbound. |
 | `/var/lib/ovira/tls/` | The panel's HTTPS certificate. |
 | `/var/lib/ovira/updates/` | Releases downloaded by the updater. |
 | `/etc/sysctl.d/99-ovira.conf` | Turns on IPv4 forwarding. |
@@ -81,6 +84,8 @@ Do not edit generated files. The panel rewrites them from the database. Change i
 | `/var/lib/ovira-node/openvpn/`, `ocserv/NAME/`, `wireguard/NAME/`, `pki/` | Files the panel pushed. Rewritten whenever the panel resends the state. |
 
 Keep `node.json` private: anyone who holds the key can manage the node.
+
+The Xray engine runs as its own unprivileged account, `ovira-xray`, and is installed on a server when you attach the first Xray inbound to it.
 
 ## Environment
 

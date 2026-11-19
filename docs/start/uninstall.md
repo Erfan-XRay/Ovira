@@ -4,7 +4,7 @@ You can remove the panel, or a node, from a server with one command. By default 
 
 ## Before you remove the panel
 
-- If you want to use the license on another panel, open **License** and press **Remove license** first. See [License](/use/license).
+- Uninstalling frees the license, so you can activate it on another server at once. If the server cannot reach the license service, the command says so and carries on; the license then frees itself after 72 hours. See [License](/use/license).
 - Download a backup under **Settings → Backup** if you may need the data later. Deleting the data cannot be undone.
 - Clients lose their connection when the inbounds stop. Tell them first.
 
@@ -19,7 +19,7 @@ ovira uninstall --purge    # removes Ovira and deletes the data
 
 On a terminal, the command asks what to do: **Remove, keep data (recommended)**, **Remove and delete all data (clients, keys, certificates)**, or **Cancel**. Deleting asks you to type `delete` to confirm. Without a terminal, add `--yes`; `--purge` then deletes the data without asking.
 
-The command stops the panel and every inbound, removes the services, the `ovira` command and the management scripts, and leaves the data in `/var/lib/ovira` and `/etc/ovira` unless you purge.
+The command frees the license, stops the panel and every inbound, removes the services, the `ovira` command and the management scripts, and leaves the data in `/var/lib/ovira` and `/etc/ovira` unless you purge. If you keep the data, a later reinstall activates the license again by itself.
 
 ## Install again
 

@@ -1,26 +1,26 @@
 # License
 
-Ovira is free for small setups and paid beyond that. A license sets how many active clients, nodes and panel accounts you can have, and whether reseller accounts are available. The **License** page shows your plan and limits, sells and renews plans, and moves a license between servers. This page covers the plans, buying and renewing, moving a license, and what the panel does when a license ends.
+Ovira is free for small setups and paid beyond that. A license sets how many active clients, nodes and panel accounts you can have, and whether reseller accounts are available. Every license runs on one panel at a time, on every plan. The **License** page shows your plan and limits, sells and renews plans, and moves a license between servers. This page covers the plans, buying and renewing, moving a license, and what the panel does when a license ends.
 
 ## Plans
 
 Without a license the panel runs on the **Free plan**: 5 active clients, 2 nodes and one panel account. A paid plan raises those limits. The plans on offer, with their prices, are on the **License** page. At the time of writing they are:
 
-| Plan | Active clients | Nodes | Panels at once | Panel accounts | Reseller accounts |
-|---|---|---|---|---|---|
-| **Free** | 5 | 2 | 1 | 1 | no |
-| **Starter** | 200 | 3 | 1 | 2 | no |
-| **Pro** | 800 | 10 | 2 | 5 | yes |
-| **Business** | unlimited | unlimited | 3 | unlimited | yes |
+| Plan | Active clients | Nodes | Panel accounts | Reseller accounts |
+|---|---|---|---|---|
+| **Free** | 5 | 2 | 1 | no |
+| **Starter** | 200 | 3 | 2 | no |
+| **Pro** | 800 | 10 | 5 | yes |
+| **Business** | unlimited | unlimited | unlimited | yes |
 
-Plans and prices can change, so treat the **License** page as the current list. A plan includes all updates for as long as it runs.
+Every plan runs on **one panel**. Plans and prices can change, so treat the **License** page as the current list. A plan includes all updates for as long as it runs.
 
 What the limits count:
 
 - **Active clients** are clients that are enabled and not past their end date, including those waiting for their first connection. Disabled and expired clients kept for your records do not count. A client that has used all its traffic still counts until you disable it or it expires.
 - **Nodes** are the servers you connect. The panel's own server, **This server**, is not counted.
 - **Panel accounts** are the accounts under **Panel accounts**.
-- **Panels at once** is how many panels may use the same license key at the same time.
+- **One panel**: a license is active on one panel at a time. To use it on another server, move it first, see below.
 
 ## The License page
 
@@ -33,7 +33,7 @@ The card at the top shows:
 | **Licensed to** | The holder of the license. |
 | **Valid until** | The end date, with the days left. |
 | **Key** | The license key, partly hidden. |
-| **Limits** | **Active clients**, **Nodes** and **Panel accounts**, each as used and allowed, with a bar. |
+| **Limits** | **Active clients**, **Nodes** and **Panel accounts**, each as used and allowed, with a bar, and **One panel**. |
 
 `Last checked` and **Check now** appear for licenses bought online. **Check now** asks the license service for the current state. The page also shows **This server's machine ID**, which identifies the server a license is issued for.
 
@@ -58,14 +58,14 @@ Under **Enter a license key**, paste the key into **License key** and press **Ac
 
 ## Move a license to another server
 
-A license key can run on as many panels at once as its plan allows. To move it:
+Each license runs on one panel at a time, on every plan. To move it to another server, uninstall Ovira on the old server (`ovira uninstall`) or press **Remove license** there; the license is free at once. If the old server is gone, the license frees itself 72 hours after that panel last reached the license service.
 
-1. On the old panel, open **License** and press **Remove license**. The panel asks for confirmation, and the old panel falls back to the free plan. The freed place may not be usable by another panel straight away.
+1. On the old server, run `ovira uninstall`, or open **License** on the old panel, press **Remove license** and confirm. The license is free at once, and the old panel falls back to the free plan.
 2. On the new panel, open **License**, paste the key into **License key** and press **Activate**.
 
-If the key is already running on as many panels as it allows, **Activate** fails and lists those panels with the time each was last seen. Remove the license from one of them first, then try again later. If it still fails, contact support from the **License** page.
+If the key is still active on another panel, **Activate** fails and tells you when that panel was last seen and when the license frees itself. Remove the license there first. If you cannot reach that server, wait for the time shown, or contact support from the **License** page.
 
-Install each panel separately and activate it with the key.
+Reinstalling Ovira on the same server with its data kept brings the license back by itself.
 
 ## When a license ends
 

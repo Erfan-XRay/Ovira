@@ -12,9 +12,9 @@
 
 <br>
 
-**Ovira** is a self-hosted VPN panel for Linux servers: one binary with the web UI built in. Create clients with traffic and time limits, hand each one a single subscription link, and run **OpenVPN, WireGuard / AmneziaWG, OpenConnect, IKEv2 and L2TP/IPsec** on the panel's own server and on as many nodes as your plan allows. Send traffic out through other servers with **outbound routing**. No Docker, no database to set up, no config files to edit.
+**Ovira** is a self-hosted VPN panel for Linux servers: one binary with the web UI built in. Create clients with traffic and time limits, hand each one a single subscription link, and run **OpenVPN, WireGuard / AmneziaWG, OpenConnect, IKEv2, L2TP/IPsec and Xray (VLESS, VMess, Trojan, Shadowsocks)** on the panel's own server and on as many nodes as your plan allows. Send traffic out through other servers with **outbound routing**. No Docker, no database to set up, no config files to edit.
 
-> **Ovira 1.0 is out.** Outbound routing with Cloudflare WARP and NordVPN in one click, IKEv2 and L2TP/IPsec, Let's Encrypt certificates for every node, a choosable panel port and a separate subscription port. See [what's new](#whats-new-in-10).
+> **Ovira 2.0 is out.** Xray inbounds with VLESS, VMess, Trojan and Shadowsocks, subscription links for proxy apps, Telegram notifications and webhooks, client templates, scheduled backups to S3 and SFTP, and node health. See [what's new](#whats-new-in-20).
 
 <table>
 <tr>
@@ -77,19 +77,23 @@ The installer creates no inbounds; create them in the panel under **Inbounds** a
 
 </details>
 
-## What's new in 1.0
+## What's new in 2.0
 
 | | |
 |---|---|
-| **Outbound routing** | Send your VPN clients' traffic out through another server, per node, from the new **Routing** page. Add VLESS, VMess, Trojan, Shadowsocks, Hysteria2, WireGuard, SOCKS or HTTP outbounds field by field or from a link, then route by site lists (geosite / geoip), domains, IPs, ports or inbound, or send everything. |
-| **WARP and NordVPN** | Create a Cloudflare WARP (free or WARP+) or NordVPN (NordLynx) outbound in one click. |
-| **Outbound test** | Test any outbound from the main server or a node: whether it connects, its latency, and the exit IP and country. |
-| **IKEv2 and L2TP/IPsec** | Two new protocols for the VPN clients built into phones and computers, with downloadable setup files for iPhone, iPad, Mac, Android and Windows. |
-| **Certificates** | Request Let's Encrypt certificates for nodes and the main server from the **Certificates** page, use them in inbounds and for the panel's HTTPS. They renew on their own. |
-| **Nodes** | A simpler list with a details panel; install and remove protocols from the panel; update every node at once. |
-| **Panel and subscription ports** | Choose the panel port at install and change it later in **Settings**; serve subscription links on a separate port if you like. |
+| **Xray inbounds** | VLESS, VMess, Trojan and Shadowsocks with Reality, TLS and the common transports. Pick a scenario (direct, behind a CDN, behind a relay) or fill the full settings form, with several connect addresses per inbound and per-client speed and device limits. |
+| **Subscription for proxy apps** | The same subscription link works in Happ, v2rayNG, Hiddify and similar apps, with traffic, expiry and a support button. |
+| **Routing for Xray** | Xray inbounds work with outbounds and routing rules, like the other inbounds. |
+| **Notifications** | A bell in the panel, Telegram notifications for admins and resellers, and signed webhooks for your own bot or shop. |
+| **Templates and bulk actions** | Ready-made plans, template-only selling for resellers, moving clients, setting speed or devices in bulk, and a TXT download of links after bulk creation. |
+| **New reset cycles** | Yearly, every N days, and monthly or yearly by the Persian calendar, with a time zone setting. |
+| **Subscription domains** | Several domains for subscription links, a domain per reseller, and a panel address field. |
+| **Scheduled backups** | To Telegram, S3 or SFTP, with optional encryption and retention. |
+| **Node health** | Uptime bars and charts per node, and `/metrics` for Prometheus. |
+| **Command palette** | Press Ctrl+K to jump to any page, client or node. |
+| **One panel per license** | Every plan runs on one panel at a time. Uninstalling Ovira frees the license for another server. |
 
-Update the panel and its nodes together. The full notes are on the [releases page](https://github.com/Erfan-XRay/Ovira/releases/tag/v1.0.0).
+Update the panel and its nodes together. The full notes are on the [releases page](https://github.com/Erfan-XRay/Ovira/releases/tag/v2.0.0).
 
 ## The `ovira` command
 
@@ -114,9 +118,9 @@ After installing, `ovira` opens a menu on the server, and every entry is also a 
 <td width="50%" valign="top">
 
 ### 👥 Clients
-Traffic allowance, an end date or a clock that starts at first use, devices at once, periodic resets, fixed IPs and bulk creation. Put clients in **groups** to decide which inbounds they get.
+Traffic allowance, an end date or a clock that starts at first use, devices at once, speed limits, periodic resets (including Persian calendar cycles), fixed IPs, ready-made **templates** and bulk creation. Put clients in **groups** to decide which inbounds they get.
 
-### 🔐 Five protocols, one client
+### 🔐 Six protocols, one client
 | Protocol | Apps |
 |---|---|
 | **OpenVPN** (UDP / TCP) | OpenVPN Connect and other OpenVPN apps |
@@ -124,6 +128,7 @@ Traffic allowance, an end date or a clock that starts at first use, devices at o
 | **OpenConnect** | Cisco Secure Client, OpenConnect apps |
 | **IKEv2** | Built into iOS, macOS, Windows, Android 11+, strongSwan |
 | **L2TP/IPsec** | Built into iOS, macOS and Windows |
+| **Xray** (VLESS, VMess, Trojan, Shadowsocks) | Happ, v2rayNG, Hiddify and other proxy apps |
 
 </td>
 <td width="50%" valign="top">
@@ -146,7 +151,7 @@ The panel's HTTPS certificate and every OpenConnect and IKEv2 certificate on one
 A banner appears in the panel when a new version is out; one click installs it. Stable and beta channels, automatic updates, nodes updated together with the panel.
 
 ### 🧑‍💼 Panel accounts and resellers
-Give resellers their own login with a traffic pool, an end date and a client limit, and choose which groups and inbounds they can hand out.
+Give resellers their own login with a traffic pool, an end date and a client limit, and choose which groups, inbounds and templates they can hand out.
 
 </td>
 <td valign="top">
@@ -155,7 +160,21 @@ Give resellers their own login with a traffic pool, an end date and a client lim
 Your own name and accent colour, a support button, English and Persian, protocol tabs you can reorder or rename. Remaining traffic, days left, usage chart, one-tap import and setup files.
 
 ### 🛡️ Secure by default
-Argon2id passwords, two-factor sign-in, a secret panel path (everything else answers *404*), automatic HTTPS, signed releases, backups to Telegram and an API with scoped tokens.
+Argon2id passwords, two-factor sign-in, a secret panel path (everything else answers *404*), automatic HTTPS, signed releases, scheduled backups to Telegram, S3 or SFTP, and an API with scoped tokens.
+
+</td>
+</tr>
+<tr>
+<td valign="top">
+
+### 🔔 Notifications
+A bell in the panel, Telegram messages for admins and resellers, and webhooks for your own bot or shop.
+
+</td>
+<td valign="top">
+
+### 📈 Node health
+Uptime bars and charts for every node, Prometheus metrics, and a command palette on Ctrl+K.
 
 </td>
 </tr>
@@ -192,7 +211,7 @@ These screenshots are examples of the interface. Client data and branding are il
 
 ```mermaid
 flowchart LR
-    C["👤 Clients<br/>OpenVPN · WireGuard · Cisco · IKEv2 · L2TP"]
+    C["👤 Clients<br/>OpenVPN · WireGuard · Cisco · IKEv2 · L2TP · Xray"]
     P["🖥️ Panel<br/>web UI · clients · licenses"]
     subgraph S["Your servers"]
         direction TB
@@ -216,12 +235,14 @@ The panel never carries your clients' traffic unless you let its own server be a
 
 The free plan allows **5 active clients, 2 remote nodes and 1 panel account**. Paid plans add more clients, nodes and panel accounts for resellers. Default paid plans start at **$1 a month**. Buy inside the panel using a currently enabled payment method; activation follows confirmed payment.
 
-| Plan | Active clients | Nodes | Panel accounts | Panels at once | Monthly |
-|---|---|---|---|---|---|
-| **Free** | 5 | 2 | 1 | 1 | $0 |
-| **Starter** | 200 | 3 | 2 | 1 | $1 |
-| **Pro** | 800 | 10 | 5 | 2 | $3 |
-| **Business** | unlimited | unlimited | unlimited | 3 | $10 |
+| Plan | Active clients | Nodes | Panel accounts | Monthly |
+|---|---|---|---|---|
+| **Free** | 5 | 2 | 1 | $0 |
+| **Starter** | 200 | 3 | 2 | $1 |
+| **Pro** | 800 | 10 | 5 | $3 |
+| **Business** | unlimited | unlimited | unlimited | $10 |
+
+Each license runs on one panel at a time, on every plan. To move it to another server, uninstall Ovira on the old server (`ovira uninstall`) or press **Remove license** there; the license is free at once. If the old server is gone, the license frees itself 72 hours after that panel last reached the license service.
 
 Every protocol and outbound routing are on every plan, including Free. These are default plans; check **License** in the panel for current offers, payment methods and limits. See the [license guide](https://erfan-xray.github.io/Ovira/use/license).
 
@@ -231,7 +252,9 @@ Every protocol and outbound routing are on every plan, including Free. These are
 |---|---|
 | 🚀 [Install the panel](https://erfan-xray.github.io/Ovira/start/install-panel) | Requirements, options, ports, what the script does |
 | 🧭 [Your first client](https://erfan-xray.github.io/Ovira/start/first-client) | Your first client and subscription link |
-| 🔐 [Choosing a protocol](https://erfan-xray.github.io/Ovira/protocols/) | OpenVPN, WireGuard, OpenConnect, IKEv2, L2TP/IPsec |
+| 🔐 [Choosing a protocol](https://erfan-xray.github.io/Ovira/protocols/) | OpenVPN, WireGuard, OpenConnect, IKEv2, L2TP/IPsec, Xray |
+| 🛰️ [Xray inbounds](https://erfan-xray.github.io/Ovira/use/xray-inbounds) | VLESS, VMess, Trojan and Shadowsocks for proxy apps |
+| 🔔 [Notifications and webhooks](https://erfan-xray.github.io/Ovira/use/notifications) | The bell, Telegram messages and webhooks |
 | 🧭 [Outbound routing](https://erfan-xray.github.io/Ovira/use/routing) | Outbounds, WARP, NordVPN, rules and tests |
 | 🌍 [Nodes](https://erfan-xray.github.io/Ovira/use/nodes) | More servers, multipliers, connect addresses |
 | 🪪 [Certificates](https://erfan-xray.github.io/Ovira/use/certificates) | Let's Encrypt for nodes and the panel |

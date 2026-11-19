@@ -24,6 +24,20 @@ On restart the uploaded file replaces the current database. The previous databas
 Restoring replaces everything that changed after the backup was made: clients created, traffic used, accounts and settings.
 :::
 
+## Scheduled backups
+
+Under **Settings → Backup**, **Scheduled backups** sends a copy of the database on a schedule to **Telegram**, an **S3** bucket or an **SFTP** server. S3 works with AWS and other S3-compatible storage; for SFTP the panel shows the server's key once for you to trust.
+
+For each destination you choose:
+
+- the schedule, **Daily** at an hour or **Every N hours**;
+- **Retention**: keep the last N backups, or for at most N days;
+- **Encrypt backups**, with a passphrase. Keep the passphrase safe: without it nobody can restore the backups.
+
+**Test connection** checks the settings and **Send now** makes a backup at once. **Files** lists what is stored, and you can restore from there. A failed backup raises a [notification](/use/notifications).
+
+Telegram needs the bot set up under **Settings → Telegram**. See [Notifications and webhooks](/use/notifications).
+
 ## What a backup does not hold
 
 The database does not hold the files that decide how the panel is served: the port, the secret path and the HTTPS certificate files. After a restore on the same server these stay as they were. The license is tied to the server and is not moved by a backup, see [License](/use/license).

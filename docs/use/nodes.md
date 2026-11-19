@@ -4,7 +4,7 @@ A [node](/reference/glossary) is a server that runs inbounds for the panel, what
 
 ## New in 1.0
 
-- **Rows and a details panel.** Each node is one row; open it to see the **Overview**, **Protocols**, **Inbounds** and **Addresses** tabs.
+- **Rows and a details panel.** Each node is one row; open it to see the **Overview**, **Health**, **Protocols**, **Inbounds** and **Addresses** tabs.
 - **Protocols from the panel.** The **Protocols** tab shows OpenVPN, OpenConnect, IPsec and WireGuard on the node. **Install** puts a protocol on the node (it also installs itself when you attach the first inbound that needs it); owners can remove software Ovira installed once no inbound uses it.
 - **Update all.** When several nodes are behind the panel, a banner offers **Update all**, which updates them one by one.
 - **Routing.** A node's menu opens its [outbound routing](./routing).
@@ -12,6 +12,12 @@ A [node](/reference/glossary) is a server that runs inbounds for the panel, what
 - **This server can stop being a node.** **Remove node role from this server** stops its VPN services, optionally removes the software Ovira installed, and keeps the panel running.
 
 The sections below describe the information each node shows.
+
+## Health
+
+The **Health** tab shows how a node has been doing: an uptime bar for the last 90 days with one cell per day, and charts of CPU, memory, disk and traffic over 24 hours, 7, 30 or 90 days. Time when the panel itself was not running counts as unknown, not as down.
+
+For Prometheus, **Settings → General → Monitoring** explains how to read the same figures from `/api/metrics` with an API token. Only totals are reported, never anything per client.
 
 ## The cards
 

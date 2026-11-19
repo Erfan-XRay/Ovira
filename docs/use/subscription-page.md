@@ -62,6 +62,10 @@ A client with an Xray inbound copies the subscription link into a proxy app: Hap
 
 The apps shown on the page are set under **Settings → Subscription page → Proxy apps**. See [Xray inbounds](/use/xray-inbounds).
 
+## Subscription domains
+
+Under **Settings → Subscription page**, **Subscription addresses** lists the domains that links can use. All of them keep working, and the primary one goes into new links. Each shows whether its HTTPS is ready. A domain listed here serves only subscription pages, never the panel. An owner can also give a reseller account its own domains, and a reseller adds theirs under **Settings**.
+
 ## Related pages
 
 - [Clients](/use/clients): where the link and QR code are copied from.

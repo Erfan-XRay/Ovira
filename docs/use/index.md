@@ -13,11 +13,16 @@ The panel is a single web application. A menu on the side (a button at the top o
 | [Nodes](/use/nodes) | The servers that run the inbounds. | Roles that can view nodes |
 | [Groups](/use/groups) | Bundles of inbounds you give to clients. | Roles that manage groups or view them all |
 | [Panel accounts](/use/admins) | People who sign in to the panel, and their roles. | Owners |
+| [Templates](/use/templates) | Ready plans to pick when you create or renew clients. | Owners |
 | [Settings](/use/settings) | Addresses, history, look, HTTPS, backups. | Everyone, with different tabs |
 | [License](/use/license) | Your plan, its limits, buying and renewing. | Everyone |
 | [Updates](/use/updates) | The installed version and new releases. | Owners and roles that see all clients |
 
 Owners see everything. Admin accounts see the clients and infrastructure pages their role allows. Reseller accounts see only their own clients. [Panel accounts](/use/admins) and [Roles and resellers](/use/resellers) explain how to set this up.
+
+## Search and notifications
+
+Press **Ctrl+K** (or the **Search** button) for the command palette. It finds pages, actions, clients and nodes. The bell shows [notifications](/use/notifications).
 
 ## Language and theme
 

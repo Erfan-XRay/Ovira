@@ -64,7 +64,7 @@ One VPN server with a protocol, a port and a tunnel network. It is created in th
 
 ## License
 
-Decides the plan: how many active clients, nodes, panels and panel accounts you can have, and whether reseller accounts are available. See [License](/use/license).
+Decides the plan: how many active clients, nodes and panel accounts you can have, and whether reseller accounts are available. A license runs on one panel at a time. See [License](/use/license).
 
 ## Local node
 

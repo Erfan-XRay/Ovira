@@ -17,7 +17,7 @@ Tabs filter the list by state: **All**, **Online**, **Running out**, **Used up**
 
 Two buttons on a row copy the subscription link and download the client's profile file. The **⋯** menu offers **Extend**, **Edit**, **Disable** or **Enable**, **Reset traffic**, **Disconnect** and **Delete**, depending on your role.
 
-Tick rows to get a bar of bulk actions: **Extend…**, **Groups**, **Enable**, **Disable**, **Reset traffic**, **Disconnect** and **Delete**. Deleting asks for confirmation, since the profiles stop working immediately.
+Tick rows to get a bar of bulk actions: **Extend…**, **Renew…**, **Groups**, **Speed…**, **Devices…**, **Apply template…**, **Move to…**, **Enable**, **Disable**, **Reset traffic**, **Disconnect** and **Delete**. **Speed…** and **Devices…** set the limit on every selected client; **Move to…** gives them to another account, all or nothing. Deleting asks for confirmation, since the profiles stop working immediately.
 
 ## Create a client
 
@@ -30,7 +30,9 @@ Press **New client**.
 | **Duration** | Days of validity, with presets from 1 to 365. Leave empty for no end date. Starts at 30. |
 | **Start the clock** | **Now**, or **At first connection**. With the second, the days begin when the client first connects. |
 | **Devices at once** | How many tunnels may be open together, counted across all inbounds and nodes. `0` means no limit. Starts at 2. |
-| **Reset traffic** | **Never**, **Every day**, **Every week** or **Every month**: the used traffic returns to zero on that schedule. |
+| **Reset traffic** | **Never**, **Every day**, **Every week**, **Every month**, **Every year**, **Every N days** (1 to 365, counted from the day the client started), **Every Persian month** or **Every Persian year**. The used traffic returns to zero on that schedule. Monthly and yearly cycles can count from the calendar start (the 1st) or from the client's start day. The time of day follows the **Time zone** in [Settings](/use/settings). |
+| **Download speed**, **Upload speed** | Optional, in Mbps, per device. Empty or `0` means no limit. |
+| **Template** | Shown when [templates](/use/templates) exist. Picking one fills the plan fields; you can still change them. |
 | **Groups** | Shown when groups exist. A client in groups gets the inbounds of those groups. |
 | **Inbounds** | Shown when there is more than one inbound and no group is chosen. **All inbounds**, or a selection. |
 
@@ -49,7 +51,7 @@ When you edit a client, **Duration** is replaced by **Ends on**, with buttons fo
 
 ## Create several
 
-**Create several** makes clients that share one plan. Set **Name prefix**, **First number** and **How many**. The form previews the names, for example `Creates user-01 … user-10`. All the plan fields of the single form apply to every client.
+**Create several** makes clients that share one plan. Set **Name prefix**, **First number** and **How many**. The form previews the names, for example `Creates user-01 … user-10`. All the plan fields of the single form apply to every client. After the clients are created, **Download links (TXT)** saves every subscription link in one file.
 
 ## The client page
 

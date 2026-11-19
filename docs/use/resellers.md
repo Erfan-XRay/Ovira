@@ -64,7 +64,7 @@ When you create an account with a reseller role, the **Plan** section holds two 
 
 The pool counts the real traffic of all the account's clients, and a node with a multiplier counts more. Deleting a client does not give any back. When the pool is used up or the end date passes, all the clients of the account stop until you add traffic or extend it. The account page shows the state: **Active**, **Switched off**, **Expired** or **Out of traffic**.
 
-The **Access** section chooses the groups and inbounds the account may give to its clients. An account with nothing granted cannot create clients. The **Client rules** section sets the per-client limits. Every limit shows **From role:** with the role's value, and a switch **Set for this account** overrides it for this one account.
+The **Access** section chooses the groups and inbounds the account may give to its clients, and the **Allowed templates**. With **Sell from templates only**, the account creates and renews clients only from those [templates](/use/templates). An account with nothing granted cannot create clients. The **Client rules** section sets the per-client limits. Every limit shows **From role:** with the role's value, and a switch **Set for this account** overrides it for this one account.
 
 To top up a reseller, use **Add traffic…** (adds to the pool) or **Extend…** (adds days, sets a new pool, and optionally resets what is used) from the account's menu.
 

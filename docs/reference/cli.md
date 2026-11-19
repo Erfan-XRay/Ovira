@@ -11,14 +11,14 @@ The `ovira` command manages Ovira from the server's shell. Run it as root. Typed
 | `ovira update` | Installs the newest release. `--beta` uses the beta channel, `--force` reinstalls the current version, and `--binary FILE` installs a signed local release. |
 | `ovira start`, `ovira stop`, `ovira restart` | Control the panel service. `stop` asks first. |
 | `ovira logs` | Shows the last 100 lines of the panel log. `-f` follows it. |
-| `ovira logs NAME` | Shows the log of one inbound by its name, for example `udp1194`. Works for OpenVPN, OpenConnect and WireGuard inbounds. |
+| `ovira logs NAME` | Shows the log of one inbound by its name, for example `udp1194`. Works for OpenVPN, OpenConnect, WireGuard and Xray inbounds. |
 | `ovira password [USER]` | Sets a new password for a panel account. Type one, or press Enter for a strong random one, which is shown once. The account's other sessions are signed out. |
 | `ovira license` | Shows the machine ID and the license state. Activate or change a license in the panel under **License**. |
 | `ovira ssl [status\|domain\|ip\|off]` | Manages the panel's HTTPS certificate. See [HTTPS for the panel](/start/https). |
 | `ovira local-node enable\|disable\|status` | Makes the panel's own server a node too, or panel only. `disable` keeps its inbounds for later. See [This server as a node](/start/same-server). |
 | `ovira ocserv install` | Installs the OpenConnect server software on the panel's own server. `ovira ocserv status` shows the version found. |
 | `ovira backup [FILE]` | Saves the database and `config.json` into one private `.tar.gz`. The default is `/root/ovira-backup-DATE.tar.gz`. |
-| `ovira uninstall [--purge]` | Removes Ovira. It asks whether to keep the data. `--purge` deletes the data too. |
+| `ovira uninstall [--purge]` | Frees the license, then removes Ovira. It asks whether to keep the data. `--purge` deletes the data too. |
 | `ovira version` | Prints the installed version. |
 | `ovira help` | Prints a summary of these commands. |
 
