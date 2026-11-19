@@ -2,6 +2,10 @@
 
 What changed in each minor release, newest first. Patch releases are folded into the minor release they belong to. The full notes are on the [GitHub releases page](https://github.com/Erfan-XRay/Ovira/releases). Update from the panel or with `ovira update`; see [Update the panel and nodes](/start/update).
 
+## 2.0.1
+
+November 20, 2026. Each license runs on one panel at a time, on every plan. `ovira uninstall` now frees the license, so it can be activated on another server at once. The **License** page explains the rule and, when a key is active on another panel, shows when that panel was last seen and when the license frees itself. See [License](/use/license).
+
 ## 2.0
 
 November 19, 2026. **Xray inbounds** with VLESS, VMess, Trojan and Shadowsocks, Reality, TLS and the common transports, from a full settings form with templates; see [Xray inbounds](/use/xray-inbounds). Xray inbounds work with [outbound routing](/use/routing), and the same subscription link works in Happ, v2rayNG, Hiddify and similar apps. [Notifications](/use/notifications): a bell in the panel, Telegram messages for admins and resellers, and webhooks. [Templates](/use/templates) and more bulk actions, speed and device limits per client, new reset cycles (yearly, every N days, and by the Persian calendar) with a time zone setting, several subscription domains, scheduled [backups](/use/backup) to S3 and SFTP, node health with uptime and Prometheus metrics, and a command palette on Ctrl+K. Every license now runs on one panel at a time; see [License](/use/license). Update the panel and its nodes together. Once these features are in use, the panel cannot be downgraded below 1.3.0.

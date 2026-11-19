@@ -58,14 +58,14 @@ Under **Enter a license key**, paste the key into **License key** and press **Ac
 
 ## Move a license to another server
 
-Each license runs on one panel at a time, on every plan. To move it to another server, press **Remove license** on the old panel's License page first; the license is free at once. Uninstalling alone does not free it. If the old server is gone, the license frees itself 72 hours after that panel last reached the license service.
+Each license runs on one panel at a time, on every plan. To move it to another server, uninstall Ovira on the old server (`ovira uninstall`) or press **Remove license** there; the license is free at once. If the old server is gone, the license frees itself 72 hours after that panel last reached the license service.
 
-1. On the old panel, open **License**, press **Remove license** and confirm. The license is free at once, and the old panel falls back to the free plan. Do this before you uninstall.
+1. On the old server, run `ovira uninstall`, or open **License** on the old panel, press **Remove license** and confirm. The license is free at once, and the old panel falls back to the free plan.
 2. On the new panel, open **License**, paste the key into **License key** and press **Activate**.
 
-If the key is still active on another panel, **Activate** fails. Remove the license there first. If you cannot reach that server, wait 72 hours after that panel last reached the license service, or contact support from the **License** page.
+If the key is still active on another panel, **Activate** fails and tells you when that panel was last seen and when the license frees itself. Remove the license there first. If you cannot reach that server, wait for the time shown, or contact support from the **License** page.
 
-Uninstalling does not free the license. After **Remove license**, reinstalling on the same server works by pasting the key again.
+Reinstalling Ovira on the same server with its data kept brings the license back by itself.
 
 ## When a license ends
 

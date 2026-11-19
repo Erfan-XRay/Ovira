@@ -1649,6 +1649,26 @@ after_install() {
 
 # ------------------------------------------------------------------ uninstall
 
+# Free the license on the license service so it can run on another server at
+# once. The panel is stopped first so nothing renews it meanwhile. When the
+# license service cannot be reached the uninstall goes on: the license frees
+# itself 72 hours after this panel last reached it.
+release_license_for_uninstall() {
+  local keep_flag=$1 out rc=0
+  (( IS_PANEL )) && [[ -x $BIN ]] || return 0
+  systemctl stop "$SLUG.service" 2>/dev/null || true
+  out=$(OVIRA_CONFIG=$CONFIG timeout 45 "$BIN" license-release $keep_flag 2>&1) || rc=$?
+  echo "== releasing the license (rc=$rc): $out" >> "$LOGFILE" 2>/dev/null || true
+  if [[ $rc -eq 0 ]]; then
+    case "$out" in
+      "license released") ok "License released: it can be activated on another server now." ;;
+    esac
+  else
+    warn "Could not release the license: ${out##*$'\n'}"
+    info "The license service could not be reached. The license frees itself 72 hours after this panel last reached it."
+  fi
+}
+
 do_uninstall() {
   need_root; need_systemd
   detect_state
@@ -1681,6 +1701,7 @@ do_uninstall() {
     remove_aux_units panel "$purge"
   }
   mkdir -p "$CONFDIR"
+  release_license_for_uninstall "$([[ $purge -eq 1 ]] && echo "" || echo --keep-key)"
   run "Stopping services" stop_panel_services
   rm -f "$UNITDIR/${SLUG}.service" "$UNITDIR/${SLUG}-ovpn@.service" "$UNITDIR/${SLUG}-oc@.service" "$UNITDIR/${SLUG}-wg@.service"
   if [[ ! -f $UNITDIR/${SLUG}-node.service ]]; then
