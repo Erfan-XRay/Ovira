@@ -17,7 +17,7 @@ export const LINKS = {
   changelog: "/reference/changelog",
 };
 
-export const RELEASE_URL = "https://github.com/Erfan-XRay/Ovira/releases/tag/v2.0.0";
+export const RELEASE_URL = "https://github.com/Erfan-XRay/Ovira/releases/latest";
 
 const PD = "۰۱۲۳۴۵۶۷۸۹";
 /** Latin digits to Persian digits, for prose only (never for code). */
