@@ -7,6 +7,9 @@
   --o-oc: #9a4d00;
   --o-ike: #6a3fd0;
   --o-l2tp: #b0206a;
+  --o-xray: #7a6200;
+  --o-tg: #1b61c9;
+  --o-dns: #4b5a78;
   --o-bad: #b3261e;
   --o-warn: #8a5a00;
   --o-map-bg: rgba(246, 245, 238, 0.6);
@@ -20,6 +23,9 @@
   --o-oc: #ffb454;
   --o-ike: #b79cff;
   --o-l2tp: #ff7eb8;
+  --o-xray: #f2d34b;
+  --o-tg: #6fb1ff;
+  --o-dns: #aab8d6;
   --o-bad: #ff7b72;
   --o-warn: #ffc15a;
   --o-map-bg: rgba(10, 17, 18, 0.55);
@@ -193,6 +199,9 @@
 .c-oc { color: var(--o-oc); }
 .c-ike { color: var(--o-ike); }
 .c-l2tp { color: var(--o-l2tp); }
+.c-xray { color: var(--o-xray); }
+.c-tg { color: var(--o-tg); }
+.c-dns { color: var(--o-dns); }
 
 .ov-sr {
   position: absolute;

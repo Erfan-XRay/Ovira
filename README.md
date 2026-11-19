@@ -120,7 +120,7 @@ After installing, `ovira` opens a menu on the server, and every entry is also a 
 ### 👥 Clients
 Traffic allowance, an end date or a clock that starts at first use, devices at once, speed limits, periodic resets (including Persian calendar cycles), fixed IPs, ready-made **templates** and bulk creation. Put clients in **groups** to decide which inbounds they get.
 
-### 🔐 Six protocols, one client
+### 🔐 Eight inbound types, one client
 | Protocol | Apps |
 |---|---|
 | **OpenVPN** (UDP / TCP) | OpenVPN Connect and other OpenVPN apps |
@@ -129,6 +129,8 @@ Traffic allowance, an end date or a clock that starts at first use, devices at o
 | **IKEv2** | Built into iOS, macOS, Windows, Android 11+, strongSwan |
 | **L2TP/IPsec** | Built into iOS, macOS and Windows |
 | **Xray** (VLESS, VMess, Trojan, Shadowsocks) | Happ, v2rayNG, Hiddify and other proxy apps |
+| **Telegram proxy** (MTProto) | Telegram itself, with a personal link and QR code |
+| **Smart DNS** | No app: set the node's address as the device's DNS for services that block Iranian addresses |
 
 </td>
 <td width="50%" valign="top">
@@ -211,7 +213,7 @@ These screenshots are examples of the interface. Client data and branding are il
 
 ```mermaid
 flowchart LR
-    C["👤 Clients<br/>OpenVPN · WireGuard · Cisco · IKEv2 · L2TP · Xray"]
+    C["👤 Clients<br/>OpenVPN · WireGuard · Cisco · IKEv2 · L2TP · Xray · Telegram · DNS"]
     P["🖥️ Panel<br/>web UI · clients · licenses"]
     subgraph S["Your servers"]
         direction TB
@@ -252,7 +254,7 @@ Every protocol and outbound routing are on every plan, including Free. These are
 |---|---|
 | 🚀 [Install the panel](https://erfan-xray.github.io/Ovira/start/install-panel) | Requirements, options, ports, what the script does |
 | 🧭 [Your first client](https://erfan-xray.github.io/Ovira/start/first-client) | Your first client and subscription link |
-| 🔐 [Choosing a protocol](https://erfan-xray.github.io/Ovira/protocols/) | OpenVPN, WireGuard, OpenConnect, IKEv2, L2TP/IPsec, Xray |
+| 🔐 [Choosing a protocol](https://erfan-xray.github.io/Ovira/protocols/) | OpenVPN, WireGuard, OpenConnect, IKEv2, L2TP/IPsec, Xray, Telegram proxy, Smart DNS |
 | 🛰️ [Xray inbounds](https://erfan-xray.github.io/Ovira/use/xray-inbounds) | VLESS, VMess, Trojan and Shadowsocks for proxy apps |
 | 🔔 [Notifications and webhooks](https://erfan-xray.github.io/Ovira/use/notifications) | The bell, Telegram messages and webhooks |
 | 🧭 [Outbound routing](https://erfan-xray.github.io/Ovira/use/routing) | Outbounds, WARP, NordVPN, rules and tests |

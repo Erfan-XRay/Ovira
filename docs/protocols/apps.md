@@ -44,6 +44,10 @@ No app to install on most devices. On the **IKEv2** or **L2TP/IPsec** tab, downl
 
 Cisco Secure Client refuses a self-signed server unless **Block untrusted servers** is off in its settings. See [OpenConnect](./openconnect#certificate) for the alternatives.
 
+### Telegram proxy and Smart DNS
+
+No extra app. For a Telegram proxy, tap **Open in Telegram** (or scan the QR code) in the **Telegram proxy** section and confirm in Telegram. For Smart DNS, set the DNS shown in the **Smart DNS** section as the device's DNS and press **Register this IP**. See [Telegram proxy](./mtproto) and [Smart DNS](./smart-dns).
+
 ## Related pages
 
 - [Choosing a protocol](./index): which protocol suits which network.

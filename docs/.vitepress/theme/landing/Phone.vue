@@ -132,6 +132,15 @@ const qr = Array.from({ length: 21 * 21 }, (_, i) => {
                   <div class="gl kv"><small>{{ p.ocUser }}</small><code dir="ltr">{{ p.name }}</code></div>
                 </div>
 
+                <div v-show="cur === 3" id="ph-panel-3" role="tabpanel" aria-labelledby="ph-tab-3" class="tp">
+                  <div class="gl note"><b>{{ p.xrayTitle }}</b><span>{{ p.xrayLede }}</span></div>
+                  <span class="b prime">{{ p.xrayCopy }}</span>
+                  <div class="gl kv"><code dir="ltr">https://vpn.example.com/sub/…</code></div>
+                </div>
+
+                <div class="gl note card"><b>{{ p.tgTitle }}</b><span>{{ p.tgLede }}</span><span class="b prime">{{ p.tgOpen }}</span></div>
+                <div class="gl note card"><b>{{ p.dnsTitle }}</b><span>{{ p.dnsLede }}</span><span class="b">{{ p.dnsRegister }}</span></div>
+
                 <p class="live"><i aria-hidden="true" />{{ p.online }}<span>{{ p.devices }}</span></p>
               </div>
             </div>
@@ -283,9 +292,10 @@ const qr = Array.from({ length: 21 * 21 }, (_, i) => {
 .lg .k1 { background: var(--pg-acc); }
 .lg .k2 { background: var(--pg-acc2); margin-inline-start: 8px; }
 
-.tabs { display: flex; gap: 4px; padding: 4px; border: 1px solid var(--pg-line); border-radius: 14px; background: var(--pg-card); }
+.tabs { display: flex; flex-wrap: wrap; gap: 4px; padding: 4px; border: 1px solid var(--pg-line); border-radius: 14px; background: var(--pg-card); }
 .tabs button {
-  flex: 1;
+  flex: 1 1 auto;
+  padding: 0 8px;
   min-height: 44px;
   border: 0;
   border-radius: 10px;
@@ -294,6 +304,9 @@ const qr = Array.from({ length: 21 * 21 }, (_, i) => {
   font-size: 13px;
   font-weight: 650;
   cursor: pointer;
+}
+@media (max-width: 420px) {
+  .tabs button { flex-basis: calc(50% - 4px); }
 }
 .tabs button.on { background: var(--pg-ink); color: var(--pg-bg); }
 .tabs button:focus-visible { outline: 2px solid var(--pg-acc); outline-offset: 2px; }
@@ -318,6 +331,8 @@ const qr = Array.from({ length: 21 * 21 }, (_, i) => {
 .qrrow > div { display: grid; gap: 8px; flex: 1; min-width: 0; }
 .qr { flex: none; width: 82px; height: 82px; padding: 5px; border-radius: 10px; background: #fff; }
 .kv { display: grid; gap: 2px; padding: 8px 12px; }
+.note.card { gap: 6px; padding: 12px; }
+.note.card .b { margin-top: 4px; }
 .kv small { font-size: 11px; color: var(--pg-dim); }
 .kv code { background: none; padding: 0; font-family: var(--vp-font-family-mono); font-size: 13px; color: var(--pg-ink); }
 

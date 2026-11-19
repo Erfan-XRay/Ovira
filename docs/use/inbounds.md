@@ -1,6 +1,6 @@
 # Inbounds
 
-An [inbound](/reference/glossary) is one protocol listening on one port, with its own tunnel network. The **Inbounds** page lists them, grouped by the node that runs each one. This page covers the list, creating an inbound, the tabs of an existing one and deleting it. The protocol-specific settings are on the [OpenVPN](/protocols/openvpn), [WireGuard and AmneziaWG](/protocols/wireguard) and [OpenConnect](/protocols/openconnect) pages.
+An [inbound](/reference/glossary) is one protocol listening on one port, with its own tunnel network. The **Inbounds** page lists them, grouped by the node that runs each one. This page covers the list, creating an inbound, the tabs of an existing one and deleting it. The protocol-specific settings are on the [OpenVPN](/protocols/openvpn), [WireGuard and AmneziaWG](/protocols/wireguard), [OpenConnect](/protocols/openconnect), [IKEv2 and L2TP/IPsec](/protocols/ipsec), [Xray](/use/xray-inbounds), [Telegram proxy](/protocols/mtproto) and [Smart DNS](/protocols/smart-dns) pages.
 
 ## The list
 
@@ -23,7 +23,7 @@ Press **New inbound**. The form starts with the protocol.
 
 | Field | What it does |
 |---|---|
-| **Protocol** | **OpenVPN**, **OpenConnect** or **WireGuard**. Fixed once the inbound exists. |
+| **Protocol** | **OpenVPN**, **OpenConnect**, **WireGuard**, **IKEv2**, **L2TP/IPsec**, **Xray**, **Telegram proxy** or **Smart DNS**. Fixed once the inbound exists. |
 | **Name** | Lowercase letters, digits and dashes. It cannot be changed later. |
 | **Protocol** (transport) | **UDP**, **TCP**, **UDP (IPv4 + IPv6)** or **TCP (IPv4 + IPv6)** for OpenVPN. WireGuard is UDP only. OpenConnect signs in over TCP, and offers faster DTLS over UDP on the same port. |
 | **Port** | The port clients connect to. It must be free on the node you attach the inbound to. |
@@ -32,7 +32,7 @@ Press **New inbound**. The form starts with the protocol.
 | **Public address override** | Leave empty to use the panel's **Public address**. |
 | **Run this inbound** | When off, the inbound is saved but does not start. |
 
-The form suggests a name, a port and a network. Settings you rarely change are folded away under **Customize**, with the recommended defaults in use.
+The form suggests a name, a port and a network. Telegram proxy and Smart DNS have no tunnel network, and Smart DNS has a fixed port. Settings you rarely change are folded away under **Customize**, with the recommended defaults in use.
 
 Below the basics, **Access** lists the groups and clients that will receive the new inbound. Groups that already include all inbounds are marked. Groups with a chosen list, and clients with their own list, can be ticked to include it. You can change this later in [Groups](/use/groups) and in the client form.
 
@@ -57,4 +57,5 @@ Press **Delete** at the top of the inbound. Ovira asks for confirmation, because
 - [Nodes](/use/nodes): attach, detach and move inbounds.
 - [Groups](/use/groups): decide which clients get which inbounds.
 - [Choosing a protocol](/protocols/): what each protocol is good for.
+- [Telegram proxy](/protocols/mtproto) and [Smart DNS](/protocols/smart-dns): the two inbounds that need no app.
 - [Your first client](/start/first-client): the whole path from inbound to connection.

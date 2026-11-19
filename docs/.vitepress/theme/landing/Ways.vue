@@ -40,17 +40,18 @@ const CODE = {
 
 const kind = (l: string) => (l.startsWith("[") || l.startsWith("<") ? "h" : l.startsWith("-") || l === "..." ? "d" : "");
 
-// mini map: the client on the left, three lines out to three servers
+// mini map: the client on the left, one line per way in out to its own server
+const KEY = ["ovpn", "wg", "oc", "ike", "l2tp", "xray", "tg", "dns"] as const;
 const MW = 360;
-const MH = 150;
+const MH = 200;
 type Pt = [number, number];
-const RAW: Pt[][] = [
-  [[50, 63], [150, 63], [195, 18], [316, 18]],
-  [[50, 69], [170, 69], [193, 46], [316, 46]],
-  [[50, 75], [316, 75]],
-  [[50, 81], [170, 81], [193, 104], [316, 104]],
-  [[50, 87], [150, 87], [195, 132], [316, 132]],
-];
+const RAW: Pt[][] = KEY.map((_, i) => {
+  const oy = 100 + (i - (KEY.length - 1) / 2) * 6;
+  const dy = 16 + i * ((MH - 32) / (KEY.length - 1));
+  const dx = Math.abs(dy - oy); // 45 degree bend
+  const x1 = 176 - dx / 3;
+  return [[50, oy], [x1, oy], [x1 + dx, dy], [316, dy]] as Pt[];
+});
 const mini = computed(() =>
   RAW.map((pts) => {
     const m = pts.map(([x, y]) => [mx(x, MW, fa.value), y] as Pt);
@@ -58,12 +59,12 @@ const mini = computed(() =>
   }),
 );
 const cx = computed(() => mx(30, MW, fa.value));
-const KEY = ["ovpn", "wg", "oc", "ike", "l2tp"] as const;
 const isFile = (k: string): k is keyof typeof CODE => k in CODE;
 const fields = computed(() => ({
   oc: [[w.value.ocAddress, "vpn.example.com"], [w.value.ocUser, w.value.client.name], [w.value.ocPass, w.value.ocPassVal, 1]],
   ike: [[w.value.ikeType, "IKEv2"], [w.value.ocAddress, "vpn.example.com"], [w.value.ikeRemote, "vpn.example.com"], [w.value.ocUser, w.value.client.name], [w.value.ocPass, w.value.ocPassVal, 1]],
   l2tp: [[w.value.ikeType, "L2TP/IPsec PSK"], [w.value.ocAddress, "vpn.example.com"], [w.value.psk, w.value.ocPassVal, 1], [w.value.ocUser, w.value.client.name], [w.value.ocPass, w.value.ocPassVal, 1]],
+  ...w.value.more,
 } as Record<string, (string | number)[][]>));
 const pick = (i: number) => (cur.value = i);
 </script>
@@ -95,8 +96,8 @@ const pick = (i: number) => (cur.value = i);
               <circle :cx="m.end[0]" :cy="m.end[1]" r="7" class="end" />
               <circle v-if="cur === i && live && !reduced" r="5" class="tr" :style="{ offsetPath: `path('${m.d}')` }" />
             </g>
-            <circle :cx="cx" cy="75" r="17" class="me" />
-            <text :x="cx" y="80" class="meT">{{ w.client.name[0] }}</text>
+            <circle :cx="cx" :cy="MH / 2" r="17" class="me" />
+            <text :x="cx" :y="MH / 2 + 5" class="meT">{{ w.client.name[0] }}</text>
           </svg>
           <p class="note">{{ w.note }}</p>
         </div>
@@ -149,6 +150,7 @@ const pick = (i: number) => (cur.value = i);
 <style scoped>
 .grid {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 28px;
 }
 
@@ -253,11 +255,17 @@ dd { margin: 0; font-weight: 650; }
 .tab.k-oc .ov-dot { color: var(--o-oc); }
 .tab.k-ike .ov-dot { color: var(--o-ike); }
 .tab.k-l2tp .ov-dot { color: var(--o-l2tp); }
+.tab.k-xray .ov-dot { color: var(--o-xray); }
+.tab.k-tg .ov-dot { color: var(--o-tg); }
+.tab.k-dns .ov-dot { color: var(--o-dns); }
 .tab.k-ovpn.on { border-color: var(--o-ovpn); background: color-mix(in srgb, var(--o-ovpn) 14%, transparent); }
 .tab.k-wg.on { border-color: var(--o-wg); background: color-mix(in srgb, var(--o-wg) 14%, transparent); }
 .tab.k-oc.on { border-color: var(--o-oc); background: color-mix(in srgb, var(--o-oc) 14%, transparent); }
 .tab.k-ike.on { border-color: var(--o-ike); background: color-mix(in srgb, var(--o-ike) 14%, transparent); }
 .tab.k-l2tp.on { border-color: var(--o-l2tp); background: color-mix(in srgb, var(--o-l2tp) 14%, transparent); }
+.tab.k-xray.on { border-color: var(--o-xray); background: color-mix(in srgb, var(--o-xray) 14%, transparent); }
+.tab.k-tg.on { border-color: var(--o-tg); background: color-mix(in srgb, var(--o-tg) 14%, transparent); }
+.tab.k-dns.on { border-color: var(--o-dns); background: color-mix(in srgb, var(--o-dns) 14%, transparent); }
 
 .panel { padding: 22px; }
 .text { margin: 0 0 16px; font-size: 16px; line-height: 1.75; }
@@ -309,6 +317,7 @@ pre .d { color: var(--vp-c-text-3); }
   color: var(--vp-c-text-1);
   font-family: var(--vp-font-family-mono);
   font-size: 14px;
+  overflow-wrap: anywhere;
 }
 .field.dim { font-family: var(--vp-font-family-base); color: var(--vp-c-text-2); }
 

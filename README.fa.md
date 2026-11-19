@@ -134,7 +134,7 @@ bash <(curl -fsSL https://raw.githubusercontent.com/Erfan-XRay/Ovira/main/instal
 ### 👥 کاربران
 سهمیهٔ حجم، تاریخ پایان یا ساعتی که از اولین استفاده شروع می‌شود، دستگاه هم‌زمان، محدودیت سرعت، ریست دوره‌ای (از جمله شمسی)، آی‌پی ثابت، **قالب**‌های آماده و ساخت گروهی. کاربران را در **گروه** بگذارید تا تعیین شود کدام اینباندها را می‌گیرند.
 
-### 🔐 شش پروتکل، یک کاربر
+### 🔐 هشت نوع اینباند، یک کاربر
 | پروتکل | برنامه‌ها |
 |---|---|
 | **OpenVPN** (UDP / TCP) | OpenVPN Connect و برنامه‌های OpenVPN |
@@ -143,6 +143,8 @@ bash <(curl -fsSL https://raw.githubusercontent.com/Erfan-XRay/Ovira/main/instal
 | **IKEv2** | داخلی در iOS، macOS، ویندوز، اندروید ۱۱ به بعد، strongSwan |
 | **L2TP/IPsec** | داخلی در iOS، macOS و ویندوز |
 | **Xray** (‏VLESS، VMess، Trojan، Shadowsocks) | Happ، v2rayNG، Hiddify و برنامه‌های پراکسی دیگر |
+| **پروکسی تلگرام** (MTProto) | خود تلگرام، با لینک اختصاصی و کد QR |
+| **Smart DNS** | بدون برنامه: آدرس نود را به‌عنوان DNS دستگاه وارد کنید تا سرویس‌هایی که IP ایران را می‌بندند باز شوند |
 
 </td>
 <td width="50%" valign="top">
@@ -231,7 +233,7 @@ bash <(curl -fsSL https://raw.githubusercontent.com/Erfan-XRay/Ovira/main/instal
 
 ```mermaid
 flowchart LR
-    C["👤 Clients<br/>OpenVPN · WireGuard · Cisco · IKEv2 · L2TP · Xray"]
+    C["👤 Clients<br/>OpenVPN · WireGuard · Cisco · IKEv2 · L2TP · Xray · Telegram · DNS"]
     P["🖥️ Panel<br/>web UI · clients · licenses"]
     subgraph S["Your servers"]
         direction TB
@@ -276,7 +278,7 @@ flowchart LR
 | 🧭 [اولین کاربر](https://erfan-xray.github.io/Ovira/fa/start/first-client) | اولین کاربر و لینک اشتراک |
 | 🛰️ [اینباندهای Xray](https://erfan-xray.github.io/Ovira/fa/use/xray-inbounds) | ‏VLESS، VMess، Trojan و Shadowsocks برای برنامه‌های پراکسی |
 | 🔔 [اعلان‌ها و وب‌هوک](https://erfan-xray.github.io/Ovira/fa/use/notifications) | زنگوله، پیام تلگرام و وب‌هوک |
-| 🔐 [انتخاب پروتکل](https://erfan-xray.github.io/Ovira/fa/protocols/) | OpenVPN، WireGuard، OpenConnect، IKEv2، L2TP/IPsec |
+| 🔐 [انتخاب پروتکل](https://erfan-xray.github.io/Ovira/fa/protocols/) | OpenVPN، WireGuard، OpenConnect، IKEv2، L2TP/IPsec، Xray، پروکسی تلگرام، Smart DNS |
 | 🧭 [مسیریابی خروجی](https://erfan-xray.github.io/Ovira/fa/use/routing) | خروجی‌ها، WARP، NordVPN، قوانین و تست |
 | 🌍 [نودها](https://erfan-xray.github.io/Ovira/fa/use/nodes) | سرورهای بیشتر، ضریب، آدرس‌های اتصال |
 | 🪪 [گواهی‌ها](https://erfan-xray.github.io/Ovira/fa/use/certificates) | Let's Encrypt برای نودها و پنل |

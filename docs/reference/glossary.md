@@ -108,7 +108,7 @@ The set of limits that comes with a license. The Free plan needs no license. See
 
 ## Protocol
 
-OpenVPN, WireGuard or OpenConnect. It is chosen when an inbound is created and cannot be changed. See [Choosing a protocol](/protocols/).
+OpenVPN, WireGuard, OpenConnect, IKEv2, L2TP/IPsec, Xray, Telegram proxy or Smart DNS. It is chosen when an inbound is created and cannot be changed. See [Choosing a protocol](/protocols/).
 
 ## Public address override
 
@@ -134,6 +134,10 @@ The part after the panel's address that opens the admin interface, for example `
 
 What a client's state is: **Active**, **Disabled**, **Expired**, **Used up** or **Not started**.
 
+## Smart DNS
+
+An inbound type that lets a client reach services that block Iranian addresses by setting the node's address as the device's DNS. No app or tunnel. The client registers their IP address on the subscription page. See [Smart DNS](/protocols/smart-dns).
+
 ## Subscription link
 
 The address of a client's subscription page, in the form `https://PANEL:PORT/sub/TOKEN`. Copy it from the client's row and send it to the customer.
@@ -145,6 +149,10 @@ The page a client opens to see its usage and get its profile, QR code or server 
 ## This server
 
 The panel's own machine, shown on **Nodes** as a node when it is allowed to run inbounds. If it is not, its card says **Panel only**. See [This server as a node](/start/same-server).
+
+## Telegram proxy
+
+An inbound type (MTProto) that gives each client a personal proxy link for Telegram, with an **Open in Telegram** button and a QR code on the subscription page. See [Telegram proxy](/protocols/mtproto).
 
 ## Traffic allowance
 

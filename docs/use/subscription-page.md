@@ -48,7 +48,7 @@ The support link is your contact for your clients. It is not a channel to the Ov
 
 ### Protocols
 
-**Protocols** lists the four tabs. For each you can:
+**Protocols** lists the protocol tabs. For each you can:
 
 - Move it up or down. The first one **Opens first**.
 - Switch it between **Shown** and **Hidden**. If you hide all of them, the page warns you that clients would have no way to connect.
@@ -61,6 +61,10 @@ The support link is your contact for your clients. It is not a channel to the Ov
 A client with an Xray inbound copies the subscription link into a proxy app: Happ, v2rayNG, Hiddify, Streisand, v2Box, NapsternetV, Karing or Shadowrocket. The app then shows the client's traffic, expiry and a support button.
 
 The apps shown on the page are set under **Settings → Subscription page → Proxy apps**. See [Xray inbounds](/use/xray-inbounds).
+
+## Telegram proxy and Smart DNS
+
+A client with a **Telegram proxy** inbound gets a section with **Open in Telegram** and a QR code. A client with a **Smart DNS** inbound gets a section with the DNS to set, a **Register this IP** button and setup steps for each platform. Neither needs an app. See [Telegram proxy](/protocols/mtproto) and [Smart DNS](/protocols/smart-dns).
 
 ## Subscription domains
 
