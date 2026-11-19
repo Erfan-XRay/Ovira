@@ -91,7 +91,7 @@ The installer creates no inbounds; create them in the panel under **Inbounds** a
 | **Scheduled backups** | To Telegram, S3 or SFTP, with optional encryption and retention. |
 | **Node health** | Uptime bars and charts per node, and `/metrics` for Prometheus. |
 | **Command palette** | Press Ctrl+K to jump to any page, client or node. |
-| **One panel per license** | Every plan runs on one panel at a time. Uninstalling Ovira frees the license for another server. |
+| **One panel per license** | Every plan runs on one panel at a time. Press **Remove license** to free it for another server. |
 
 Update the panel and its nodes together. The full notes are on the [releases page](https://github.com/Erfan-XRay/Ovira/releases/tag/v2.0.0).
 
@@ -242,7 +242,7 @@ The free plan allows **5 active clients, 2 remote nodes and 1 panel account**. P
 | **Pro** | 800 | 10 | 5 | $3 |
 | **Business** | unlimited | unlimited | unlimited | $10 |
 
-Each license runs on one panel at a time, on every plan. To move it to another server, uninstall Ovira on the old server (`ovira uninstall`) or press **Remove license** there; the license is free at once. If the old server is gone, the license frees itself 72 hours after that panel last reached the license service.
+Each license runs on one panel at a time, on every plan. To move it to another server, press **Remove license** on the old panel's License page first; the license is free at once. Uninstalling alone does not free it. If the old server is gone, the license frees itself 72 hours after that panel last reached the license service.
 
 Every protocol and outbound routing are on every plan, including Free. These are default plans; check **License** in the panel for current offers, payment methods and limits. See the [license guide](https://erfan-xray.github.io/Ovira/use/license).
 

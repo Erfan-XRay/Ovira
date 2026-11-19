@@ -18,7 +18,7 @@ The `ovira` command manages Ovira from the server's shell. Run it as root. Typed
 | `ovira local-node enable\|disable\|status` | Makes the panel's own server a node too, or panel only. `disable` keeps its inbounds for later. See [This server as a node](/start/same-server). |
 | `ovira ocserv install` | Installs the OpenConnect server software on the panel's own server. `ovira ocserv status` shows the version found. |
 | `ovira backup [FILE]` | Saves the database and `config.json` into one private `.tar.gz`. The default is `/root/ovira-backup-DATE.tar.gz`. |
-| `ovira uninstall [--purge]` | Frees the license, then removes Ovira. It asks whether to keep the data. `--purge` deletes the data too. |
+| `ovira uninstall [--purge]` | Removes Ovira. It does not free the license; press **Remove license** on the License page first if you will use it elsewhere. It asks whether to keep the data. `--purge` deletes the data too. |
 | `ovira version` | Prints the installed version. |
 | `ovira help` | Prints a summary of these commands. |
 
