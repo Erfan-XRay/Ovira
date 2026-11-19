@@ -14,6 +14,8 @@ Each node runs a small routing engine (Xray) next to its inbounds. Client traffi
 
 Traffic that matches no rule follows the **Default for unmatched traffic**: **Direct** or **Through an outbound**.
 
+Xray inbounds are supported in routing too, like any other inbound.
+
 Some traffic never goes through an outbound: private addresses, your VPN subnets and DNS lookups always go direct, so a slow or UDP-less outbound cannot break name resolution. Domain rules still see the real site names.
 
 ::: tip Requirements
